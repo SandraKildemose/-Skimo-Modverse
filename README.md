@@ -29,3 +29,4 @@ Projektet er bygget lokalt og har undervejs vaeret gemt paa en ekstern harddisk.
 Store app-builds, zip-filer, midlertidige videofiler og tredjeparts mod-pakker er ikke lagt i Git, fordi de enten er build-output, meget store filer eller eksternt materiale. Repository'et fokuserer paa kildekoden, hjemmesiden, dokumentationen og egne assets.
 
 .
+.
