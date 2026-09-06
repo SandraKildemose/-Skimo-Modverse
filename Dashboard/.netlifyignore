@@ -1,0 +1,12 @@
+.DS_Store
+.tmp_*
+Guide.zip
+Videoer.zip
+assets.zip
+NoCopyrightVid.zip
+Modguards/*.app
+Modguards/*.app/**
+Modguards/*.app.backup
+Modguards/*.app.backup/**
+Modguards/__orig_test
+Modguards/__orig_test/**

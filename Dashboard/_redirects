@@ -1,0 +1,8 @@
+/.tmp_* /404 404
+/.tmp_*/* /404 404
+/Modguards/*.app /404 404
+/Modguards/*.app/* /404 404
+/Modguards/*.app.backup /404 404
+/Modguards/*.app.backup/* /404 404
+/Modguards/__orig_test /404 404
+/Modguards/__orig_test/* /404 404

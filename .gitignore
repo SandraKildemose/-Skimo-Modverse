@@ -1,0 +1,25 @@
+.DS_Store
+Icon?
+node_modules/
+.env
+.env.*
+*.app/
+*.zip
+*.part
+*.mp3
+*.package
+*.ts4script
+app.asar
+asar_backups*/
+**/asar_backups*/
+skimo-modguard-build/
+Skimo 3/Dashboard/
+Skimo 3/Nyeste Modguards/Sims/
+Skimo 3/game-banners.png
+Skimo 3/logomodserve.png
+**/Downloads/
+**/Videoer/
+**/deploy/*.mp4
+**/deploy/*.webm
+**/deploy/*.part
+**/modguard_fabric_probe_env/

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Videresender…</title>
+    <script>
+        (function () {
+            try {
+                var lang = new URLSearchParams(window.location.search || '').get('lang');
+                var u = 'abonnement.html';
+                if (lang) u += '?lang=' + encodeURIComponent(lang);
+                u += '#subscription-terms';
+                location.replace(u);
+            } catch (e) {
+                window.location.href = 'abonnement.html#subscription-terms';
+            }
+        })();
+    </script>
+</head>
+<body style="font-family: system-ui, sans-serif; background: #0a0a0a; color: #eee; padding: 2rem;">
+    <p><a href="abonnement.html#subscription-terms" style="color: #9fd4ff;">Fortsæt til abonnement og vilkår</a></p>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sims ModGuard Scanner</title>
+    <style>
+      :root {
+        --accent: #52d6a3;
+        --bg: #101419;
+        --surface: #1d2730;
+        --text: #f5f8fb;
+        --muted: rgba(219, 228, 234, 0.84);
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        user-select: none;
+        box-sizing: border-box;
+        font-family: -apple-system, system-ui, Arial, sans-serif;
+        background: transparent;
+      }
+
+      .widget-shell {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 18px 18px 78px;
+        box-sizing: border-box;
+        border-radius: 14px;
+        overflow: visible;
+        background:
+          radial-gradient(circle at 82% 16%, rgba(93, 245, 255, 0.28), transparent 24%),
+          radial-gradient(circle at 18% 4%, rgba(151, 77, 255, 0.38), transparent 28%),
+          linear-gradient(150deg, #15082f 0%, #2b0f68 48%, #13051f 100%);
+        border: 1px solid rgba(169, 118, 255, 0.34);
+        box-shadow:
+          0 20px 58px rgba(0, 0, 0, 0.42),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      }
+
+      body[data-mode="scanner"] .widget-shell {
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        background:
+          radial-gradient(circle at 14% 34%, rgba(111, 255, 219, 0.28), transparent 42%),
+          linear-gradient(135deg, rgba(14, 20, 28, 0.96), rgba(36, 18, 73, 0.94));
+        border: 1px solid rgba(82, 214, 163, 0.32);
+      }
+
+      body[data-mode="scanner"] .panel-only,
+      body[data-mode="scanner"] .mg-char,
+      body[data-mode="scanner"] .settings-fab {
+        display: none !important;
+      }
+
+      body[data-mode="panel"] .scanner-row {
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .scanner-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .status {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .title {
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .panel-only {
+        display: block;
+      }
+
+      .panel-kicker {
+        color: rgba(130, 245, 255, 0.92);
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 12px;
+      }
+
+      .panel-card {
+        margin-top: 10px;
+        padding: 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .panel-card:hover {
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(82, 214, 163, 0.38);
+      }
+
+      .panel-card strong {
+        display: block;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 950;
+      }
+
+      .panel-card span {
+        display: block;
+        margin-top: 5px;
+        color: rgba(245, 248, 251, 0.78);
+        font-size: 11px;
+        font-weight: 750;
+        line-height: 1.35;
+        word-break: break-word;
+        white-space: normal;
+      }
+
+      .panel-grid {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .panel-mini {
+        min-height: 56px;
+        padding: 11px 12px;
+        border-radius: 13px;
+        background: rgba(0, 0, 0, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .panel-mini-btn {
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .panel-mini-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(82, 214, 163, 0.42);
+      }
+
+      .panel-mini small {
+        display: block;
+        color: rgba(245, 248, 251, 0.7);
+        font-size: 10px;
+        font-weight: 750;
+      }
+
+      .panel-mini b {
+        display: block;
+        margin-top: 4px;
+        color: #ffe95a;
+        font-size: 18px;
+        font-weight: 950;
+        line-height: 1.1;
+      }
+
+      .settings-fab {
+        position: absolute;
+        right: 14px;
+        bottom: 14px;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.28);
+        color: #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: background 0.15s ease, border-color 0.15s ease;
+        z-index: 25;
+      }
+
+      .settings-fab:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(82, 214, 163, 0.45);
+      }
+
+      /* ModGuard robot — står i bunden, stikker ud over kassen */
+      .mg-char {
+        position: absolute;
+        left: -6px;
+        bottom: -10px;
+        width: 96px;
+        height: 118px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        z-index: 30;
+        overflow: visible;
+      }
+
+      .mg-char svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        overflow: visible;
+        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+      }
+
+      .mg-char .mg-eye {
+        transform-origin: center;
+        animation: mgCharBlink 4.5s ease-in-out infinite;
+      }
+
+      .mg-char .mg-eye-r {
+        animation-delay: 0.06s;
+      }
+
+      .mg-char .mg-chest-glow {
+        animation: mgChestPulse 2.8s ease-in-out infinite;
+      }
+
+      .mg-char .mg-antenna-tip {
+        animation: mgAntennaBlink 3.2s ease-in-out infinite;
+      }
+
+      .mg-char:hover svg {
+        transform: scale(1.03);
+        transition: transform 0.2s ease;
+      }
+
+      .mg-char.is-busy .mg-chest-glow {
+        animation: mgChestPulseBusy 0.9s ease-in-out infinite;
+      }
+
+      .mg-char.is-busy .mg-antenna-tip {
+        animation: mgAntennaBlinkBusy 0.7s ease-in-out infinite;
+      }
+
+      @keyframes mgCharBlink {
+        0%,
+        42%,
+        46%,
+        100% {
+          transform: scaleY(1);
+        }
+        44% {
+          transform: scaleY(0.08);
+        }
+      }
+
+      @keyframes mgChestPulse {
+        0%,
+        100% {
+          opacity: 0.55;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes mgAntennaBlink {
+        0%,
+        100% {
+          opacity: 0.65;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes mgChestPulseBusy {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes mgAntennaBlinkBusy {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Overlay mini-app */
+      .widget-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        display: none;
+        padding: 12px;
+        box-sizing: border-box;
+        background: rgba(8, 10, 16, 0.55);
+        backdrop-filter: blur(6px);
+        border-radius: 14px;
+      }
+
+      .widget-overlay.is-open {
+        display: block;
+      }
+
+      .widget-overlay-card {
+        height: 100%;
+        border-radius: 12px;
+        background:
+          radial-gradient(circle at 80% 0%, rgba(93, 245, 255, 0.16), transparent 34%),
+          linear-gradient(155deg, rgba(21, 8, 47, 0.98), rgba(19, 5, 31, 0.98));
+        border: 1px solid rgba(169, 118, 255, 0.34);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .overlay-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 12px 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .overlay-back {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .overlay-title {
+        color: #fff;
+        font-size: 13px;
+        font-weight: 950;
+      }
+
+      .overlay-body {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 12px;
+      }
+
+      .overlay-stat {
+        margin-bottom: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .overlay-stat strong {
+        display: block;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .overlay-stat span {
+        display: block;
+        margin-top: 4px;
+        color: rgba(245, 248, 251, 0.76);
+        font-size: 11px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+
+      .overlay-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .overlay-list-item {
+        padding: 8px 10px;
+        border-radius: 9px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .overlay-list-item b {
+        display: block;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 850;
+        word-break: break-word;
+      }
+
+      .overlay-list-item small {
+        display: block;
+        margin-top: 3px;
+        color: rgba(245, 248, 251, 0.68);
+        font-size: 10px;
+      }
+
+      .overlay-empty {
+        color: rgba(245, 248, 251, 0.68);
+        font-size: 11px;
+        line-height: 1.4;
+        padding: 8px 2px;
+      }
+
+      .overlay-action {
+        margin-top: 10px;
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 9px;
+        border: 1px solid rgba(82, 214, 163, 0.35);
+        background: rgba(82, 214, 163, 0.18);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .overlay-toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 8px;
+      }
+
+      .overlay-toggle-row strong {
+        display: block;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .overlay-toggle-row span {
+        display: block;
+        margin-top: 3px;
+        color: rgba(245, 248, 251, 0.7);
+        font-size: 10px;
+      }
+
+      .overlay-switch {
+        width: 42px;
+        height: 24px;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .overlay-select {
+        width: 100%;
+        margin-top: 6px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="widget-shell">
+      <button type="button" class="mg-char" id="helpChar" aria-label="Hjælp">
+        <svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="mgBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7dffd9"/>
+              <stop offset="45%" stop-color="#2cb896"/>
+              <stop offset="100%" stop-color="#0f4f44"/>
+            </linearGradient>
+            <linearGradient id="mgArmorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#b388ff"/>
+              <stop offset="100%" stop-color="#5e35b1"/>
+            </linearGradient>
+            <linearGradient id="mgMetalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#dbe7ef"/>
+              <stop offset="100%" stop-color="#6b7f8d"/>
+            </linearGradient>
+            <radialGradient id="mgEyeGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#cffff3"/>
+              <stop offset="100%" stop-color="#35e8b8"/>
+            </radialGradient>
+            <filter id="mgSoftShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.35"/>
+            </filter>
+          </defs>
+          <!-- Ground shadow -->
+          <ellipse cx="58" cy="142" rx="34" ry="7" fill="rgba(0,0,0,0.35)"/>
+          <!-- Legs -->
+          <rect x="36" y="112" width="16" height="24" rx="6" fill="url(#mgMetalGrad)" filter="url(#mgSoftShadow)"/>
+          <rect x="64" y="112" width="16" height="24" rx="6" fill="url(#mgMetalGrad)" filter="url(#mgSoftShadow)"/>
+          <rect x="34" y="132" width="20" height="8" rx="4" fill="#2f3d46"/>
+          <rect x="62" y="132" width="20" height="8" rx="4" fill="#2f3d46"/>
+          <!-- Body -->
+          <path d="M28 58 L92 58 L98 108 L22 108 Z" fill="url(#mgBodyGrad)" filter="url(#mgSoftShadow)"/>
+          <path d="M34 64 L86 64 L90 102 L30 102 Z" fill="url(#mgArmorGrad)" opacity="0.92"/>
+          <rect class="mg-chest-glow" x="46" y="72" width="28" height="18" rx="6" fill="#6df4d2" opacity="0.75"/>
+          <text x="60" y="85" text-anchor="middle" font-size="11" font-weight="900" fill="#0b2f28" font-family="system-ui,sans-serif">MG</text>
+          <!-- Arms -->
+          <path d="M18 62 L28 58 L30 96 L16 98 Z" fill="url(#mgBodyGrad)"/>
+          <path d="M92 58 L102 62 L104 98 L90 96 Z" fill="url(#mgBodyGrad)"/>
+          <circle cx="14" cy="98" r="8" fill="url(#mgMetalGrad)"/>
+          <circle cx="106" cy="98" r="8" fill="url(#mgMetalGrad)"/>
+          <!-- Head -->
+          <rect x="34" y="18" width="52" height="44" rx="16" fill="url(#mgBodyGrad)" filter="url(#mgSoftShadow)"/>
+          <rect x="40" y="24" width="40" height="28" rx="12" fill="#081612"/>
+          <ellipse class="mg-eye" cx="52" cy="38" rx="5" ry="6" fill="url(#mgEyeGlow)"/>
+          <ellipse class="mg-eye mg-eye-r" cx="68" cy="38" rx="5" ry="6" fill="url(#mgEyeGlow)"/>
+          <rect x="48" y="46" width="24" height="4" rx="2" fill="#35e8b8" opacity="0.7"/>
+          <!-- Antenna -->
+          <rect x="57" y="8" width="6" height="12" rx="3" fill="url(#mgMetalGrad)"/>
+          <circle class="mg-antenna-tip" cx="60" cy="6" r="5" fill="#6df4d2"/>
+          <!-- Shoulder pads -->
+          <ellipse cx="30" cy="58" rx="10" ry="7" fill="#52d6a3"/>
+          <ellipse cx="90" cy="58" rx="10" ry="7" fill="#52d6a3"/>
+        </svg>
+      </button>
+
+      <div class="scanner-row">
+        <div class="status">
+          <div class="title">ModGuard scanner</div>
+          <div id="statusLine" class="subtitle">Modverse …</div>
+        </div>
+      </div>
+
+      <div class="panel-only">
+        <div class="panel-kicker" id="panelKicker">Sims protection</div>
+
+        <button type="button" class="panel-card" id="panelScannerBtn" data-panel="scanner">
+          <strong id="panelProtection">Real-time mod scanner ON</strong>
+          <span id="panelLastFile">Klar til at scanne nye downloads.</span>
+        </button>
+
+        <div class="panel-grid">
+          <button type="button" class="panel-mini panel-mini-btn" id="panelFolderBtn" data-panel="folder">
+            <small id="panelFolderLabel">Mods-mappe</small>
+            <b id="panelFolder">0</b>
+          </button>
+          <button type="button" class="panel-mini panel-mini-btn" id="panelOutdatedBtn" data-panel="outdated">
+            <small id="panelOutdatedLabel">Outdated</small>
+            <b id="panelOutdated">0</b>
+          </button>
+          <button type="button" class="panel-mini panel-mini-btn" id="panelDownloadedBtn" data-panel="downloaded">
+            <small id="panelDownloadedLabel">Downloadede mods</small>
+            <b id="panelDownloaded">0</b>
+          </button>
+          <button type="button" class="panel-mini panel-mini-btn" id="panelQuarantineBtn" data-panel="quarantine">
+            <small id="panelQuarantineLabel">Karantæne</small>
+            <b id="panelQuarantine">0</b>
+          </button>
+          <button type="button" class="panel-mini panel-mini-btn" id="panelLogsBtn" data-panel="logs">
+            <small id="panelLogsLabel">Logs</small>
+            <b id="panelLogs">0</b>
+          </button>
+          <button type="button" class="panel-mini panel-mini-btn" id="panelDuplicatesBtn" data-panel="duplicates">
+            <small id="panelDuplicatesLabel">Dubletter</small>
+            <b id="panelDuplicates">0</b>
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="settings-fab" id="settingsFab" aria-label="Indstillinger">⚙</button>
+
+      <div class="widget-overlay" id="widgetOverlay" hidden>
+        <div class="widget-overlay-card">
+          <div class="overlay-head">
+            <button type="button" class="overlay-back" id="overlayBack" aria-label="Tilbage">←</button>
+            <div class="overlay-title" id="overlayTitle">Detaljer</div>
+          </div>
+          <div class="overlay-body" id="overlayBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="widget.js"></script>
+  </body>
+</html>

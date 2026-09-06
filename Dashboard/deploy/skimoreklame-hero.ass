@@ -1,0 +1,20 @@
+[Script Info]
+Title: Skimo reklame hero
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Hero,Arial,78,&H00FFFFFF,&H000000FF,&H80000000,&H80000000,-1,0,0,0,0,100,100,0,0,1,3,2,5,80,80,30,1
+Style: Sub,Arial,38,&H00E8F5FC,&H000000FF,&H80000000,&H80000000,0,0,0,0,0,100,100,0,0,1,2,2,5,100,100,40,1
+Style: Fine,Arial,32,&H00B8D3DE,&H000000FF,&H80000000,&H80000000,0,0,0,0,0,100,100,0,0,1,2,2,5,120,120,50,1
+Style: Hint,Arial,28,&H00FFFFFF,&H000000FF,&H80000000,&H80000000,0,0,0,0,0,100,100,0,0,1,2,2,5,140,140,60,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.40,0:00:03.20,Hero,,0,0,0,,{\fad(200,0)\move(420,300,960,300)}Skimo
+Dialogue: 0,0:00:01.80,0:00:05.80,Sub,,0,0,0,,{\fad(250,0)\move(1480,400,960,400)}Dit kontrolpanel til spil, mods og tryghed
+Dialogue: 0,0:00:03.80,0:00:09.50,Fine,,0,0,0,,{\fad(300,0)\move(380,480,960,480)}ModGuard • spillerguides • ro til forældrene
+Dialogue: 0,0:00:06.80,0:00:15.80,Hint,,0,0,0,,{\fad(400,0)\an5\pos(960,620)}Ned gennem spiluniverset — samme rækkefølge som dit dashboard

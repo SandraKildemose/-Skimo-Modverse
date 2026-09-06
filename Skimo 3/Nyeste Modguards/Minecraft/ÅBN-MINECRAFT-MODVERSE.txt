@@ -1,0 +1,10 @@
+Minecraft Modverse
+
+Åbn denne app:
+  Minecraft Modverse.app
+
+(Den gamle mappe "Minecraft Modguard.app" er omdøbt.)
+
+Hvis macOS blokerer: højreklik → Åbn.
+
+Efter opdatering: Cmd+Q og åbn igen.

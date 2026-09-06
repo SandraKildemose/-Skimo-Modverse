@@ -1,0 +1,50 @@
+/* Kun aktiv når html[data-skimo-mobile-video="1"] sættes fra skimo-mobile-video.js */
+
+html[data-skimo-mobile-video="1"] video.skimo-mobile-ambient,
+html[data-skimo-mobile-video="1"] video.card-video-bg,
+html[data-skimo-mobile-video="1"] .game-media video,
+html[data-skimo-mobile-video="1"] .guide-screen--video-primary video,
+html[data-skimo-mobile-video="1"] .guide-screen--video-secondary video,
+html[data-skimo-mobile-video="1"] .page-hero-media video {
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Skjul Safari/Chrome store play-overlay og kontroller på dekorative autoplay-videoer */
+html[data-skimo-mobile-video="1"] video.card-video-bg::-webkit-media-controls,
+html[data-skimo-mobile-video="1"] video.card-video-bg::-webkit-media-controls-enclosure,
+html[data-skimo-mobile-video="1"] video.card-video-bg::-webkit-media-controls-panel,
+html[data-skimo-mobile-video="1"] video.card-video-bg::-webkit-media-controls-play-button,
+html[data-skimo-mobile-video="1"] video.card-video-bg::-webkit-media-controls-start-playback-button,
+html[data-skimo-mobile-video="1"] .game-media video::-webkit-media-controls,
+html[data-skimo-mobile-video="1"] .game-media video::-webkit-media-controls-enclosure,
+html[data-skimo-mobile-video="1"] .game-media video::-webkit-media-controls-panel,
+html[data-skimo-mobile-video="1"] .game-media video::-webkit-media-controls-play-button,
+html[data-skimo-mobile-video="1"] .game-media video::-webkit-media-controls-start-playback-button,
+html[data-skimo-mobile-video="1"] .guide-screen--video-primary video::-webkit-media-controls,
+html[data-skimo-mobile-video="1"] .guide-screen--video-primary video::-webkit-media-controls-enclosure,
+html[data-skimo-mobile-video="1"] .guide-screen--video-secondary video::-webkit-media-controls,
+html[data-skimo-mobile-video="1"] .guide-screen--video-secondary video::-webkit-media-controls-enclosure,
+html[data-skimo-mobile-video="1"] .page-hero-media video::-webkit-media-controls,
+html[data-skimo-mobile-video="1"] .page-hero-media video::-webkit-media-controls-enclosure {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+html[data-skimo-mobile-video="1"] video.card-video-bg,
+html[data-skimo-mobile-video="1"] .game-media video,
+html[data-skimo-mobile-video="1"] .guide-screen--video-primary video,
+html[data-skimo-mobile-video="1"] .guide-screen--video-secondary video {
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Dashboard: fuld højde som desktop-forhold (supplerer index media queries) */
+html[data-skimo-mobile-video="1"] .game-panel .card-video-bg {
+  object-fit: cover;
+  object-position: center center;
+}

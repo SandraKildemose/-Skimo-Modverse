@@ -1,0 +1,3828 @@
+<!DOCTYPE html>
+<html lang="da" class="dashboard-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/skimo-desktop-viewport.js?v=20260327-69"></script>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preload" href="assets/i18n.js?v=20260327-69" as="script">
+    <link rel="preload" href="assets/pro-polish.css?v=20260327-69" as="style">
+    <link rel="preload" href="assets/skimo-ai-assistant.css?v=20260327-69" as="style">
+    <link rel="preload" href="assets/hq-enhance.js?v=20260327-69" as="script">
+    <title data-i18n="title.dashboard">Skimo Kontrolpanel</title>
+    <link rel="preload" as="video" href="Videoer/dashboardcs.mp4" type="video/mp4">
+    <script>
+        try {
+            if (sessionStorage.getItem('showDashboardSplash') === '1') {
+                document.documentElement.classList.add('dashboard-splash-pending');
+            }
+        } catch (err) {}
+    </script>
+    <style>
+        /* Globale stilarter */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            color: #f8f8f8;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        html.dashboard-splash-pending body {
+            background: #000;
+        }
+
+        html.dashboard-splash-pending body > :not(#skimoAnimation) {
+            visibility: hidden;
+        }
+
+        html.dashboard-splash-pending .skimo-animation {
+            display: flex !important;
+        }
+
+        /* Splash animation */
+        .skimo-animation {
+            position: fixed;
+            inset: 0;
+            width: 100dvw;
+            height: 100dvh;
+            min-width: 100dvw;
+            min-height: 100dvh;
+            background: linear-gradient(145deg, rgba(29, 41, 49, 0.96), rgba(55, 74, 86, 0.92));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            overflow: hidden;
+        }
+
+        .skimo-animation::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 220%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(143, 180, 192, 0.08) 40%, rgba(203, 221, 230, 0.34) 50%, rgba(143, 180, 192, 0.08) 60%, transparent 100%);
+            animation: sweepGlow 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes sweepGlow {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.85;
+            }
+            55% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(60%);
+                opacity: 0.24;
+            }
+        }
+
+        /* Animeret baggrund */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                linear-gradient(45deg, rgba(22, 22, 23, 0.9), rgba(34, 34, 36, 0.78));
+            background-size: cover;
+            animation: backgroundShift 80s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .animated-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(220, 220, 220, 0.06), transparent 70%),
+                repeating-linear-gradient(45deg, 
+                    rgba(170, 170, 170, 0.02) 0px, 
+                    rgba(170, 170, 170, 0.02) 1px,
+                    transparent 1px, 
+                    transparent 10px);
+            animation: gridMove 70s linear infinite;
+        }
+
+        @keyframes backgroundShift {
+            0% { transform: scale(1.1) translate(-1%, -1%); }
+            100% { transform: scale(1.1) translate(1%, 1%); }
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* Header */
+        header:not(.highlighted-shell) {
+            background: #000;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            color: #fff;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        header::before {
+            content: none;
+            position: absolute;
+            inset: 0;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            opacity: 0;
+            pointer-events: none;
+            filter: none;
+            transform-origin: 50% 78%;
+            animation: topMenMotion 6s ease-in-out infinite;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+        }
+
+        header::after {
+            content: none;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            mix-blend-mode: screen;
+            opacity: 0;
+            filter: none;
+            transform-origin: 50% 78%;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            animation: topMenPulse 6s ease-in-out infinite, topMenMotion 6s ease-in-out infinite;
+        }
+        @keyframes topMenPulse {
+            0%, 100% {
+                opacity: 0.05;
+                filter: saturate(1.05) brightness(0.95) contrast(1.00);
+            }
+            50% {
+                opacity: 0.58;
+                filter: saturate(1.62) brightness(2.35) contrast(1.34);
+            }
+        }
+        @keyframes topMenMotion {
+            0%, 100% {
+                transform: translate3d(0, 0, 0) rotate(-0.4deg) scale(1.0);
+            }
+            25% {
+                transform: translate3d(-0.35%, 0.25%, 0) rotate(0.9deg) scale(1.012);
+            }
+            50% {
+                transform: translate3d(0.4%, 0.05%, 0) rotate(-0.8deg) scale(1.016);
+            }
+            75% {
+                transform: translate3d(-0.3%, 0.2%, 0) rotate(0.8deg) scale(1.01);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            header::before,
+            header::after {
+                animation: topMenPulse 8s ease-in-out infinite;
+            }
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header:not(.highlighted-shell) h1 {
+            font-size: 48px;
+            margin: 0;
+            text-shadow: 0 4px 10px rgba(0, 255, 255, 0.8);
+            animation: glow 3s infinite alternate;
+            visibility: hidden;
+        }
+
+        header:not(.highlighted-shell) p {
+            position: relative;
+            top: -22px;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(11px);
+        }
+
+        html[lang="fr"] header:not(.highlighted-shell) p[data-i18n="index.tagline"] {
+            transform: translateX(30px);
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 4px 10px rgba(0, 255, 255, 0.337); }
+            to { text-shadow: 0 4px 20px rgba(0, 255, 255, 1); }
+        }
+
+        /* Dashboard Container */
+        .dashboard {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px 20px 40px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            background: rgba(36, 36, 38, 0.2);
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            background: rgba(34, 34, 34, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.6);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.38);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.46);
+        }
+
+        .card.info-card {
+            width: min(640px, calc(100vw - 48px));
+            min-height: 400px;
+            height: auto;
+            cursor: default;
+        }
+
+        .card.info-card:hover {
+            transform: none;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.38);
+        }
+
+        .card.disabled {
+            background: rgba(22, 22, 22, 0.78);
+            border: 1px solid rgba(0, 0, 0, 0.58);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .card.disabled:hover {
+            transform: none;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
+        }
+
+        /* Unified dark edge style for all cards */
+        .modguard-container > .card {
+            border-color: rgba(0, 0, 0, 0.6) !important;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.38) !important;
+        }
+
+        .modguard-container > .card:hover {
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.46) !important;
+        }
+
+        .modguard-container > .card.disabled,
+        .modguard-container > .card.disabled:hover {
+            border-color: rgba(0, 0, 0, 0.58) !important;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32) !important;
+        }
+
+
+        /* White card descriptions on dashboard (Minecraft/Sims + all Coming Soon) */
+        .modguard-container > .card p,
+        .modguard-container > .card.disabled p {
+            color: #fff !important;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.11s ease;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Matrix canvas for each card */
+        .card-matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .card:hover .card-matrix {
+            opacity: 0.3;
+        }
+
+        .card-video-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.62;
+            pointer-events: none;
+            image-rendering: auto;
+            backface-visibility: hidden;
+            transform: translate3d(0, 0, 0);
+            filter: saturate(1.1) contrast(1.08) brightness(1.02);
+            will-change: transform, opacity;
+            contain: layout paint;
+        }
+
+        .card.disabled .card-video-bg {
+            opacity: 0.24;
+            filter: saturate(1.02) contrast(1.04) brightness(0.86);
+        }
+
+        .card.disabled .card-content {
+            opacity: 0.56;
+        }
+
+        .card.disabled .card-content h2,
+        .card.disabled .card-content p {
+            color: rgba(235, 245, 245, 0.66) !important;
+            text-shadow: none !important;
+        }
+
+        .card.disabled .card-content p {
+            display: none;
+        }
+
+        .card.info-card .card-video-bg {
+            opacity: 0.2;
+            filter: saturate(0.95) contrast(1.02) brightness(0.72);
+        }
+
+        .card.has-video .card-matrix {
+            display: none;
+        }
+
+        .card.disabled .card-matrix {
+            display: none;
+        }
+
+        .card.disabled .card-matrix.coming-soon-matrix {
+            display: none;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 6px 0;
+        }
+
+        .card.info-card .card-content {
+            align-items: flex-start;
+            justify-content: flex-end;
+            text-align: left;
+            gap: 14px;
+            padding: 22px 4px 8px;
+        }
+
+        .coming-soon-ribbon {
+            position: absolute;
+            top: 16px;
+            right: -78px;
+            z-index: 4;
+            width: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+            transform: rotate(35deg);
+            background: rgba(8, 12, 18, 0.9);
+            border: 1px solid rgba(154, 202, 202, 0.6);
+            color: #d9f3f3;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            padding: 5px 0;
+            pointer-events: none;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .coming-soon-ribbon-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding: 0 18px;
+            animation: comingSoonRibbonText 3.2s linear infinite alternate;
+            will-change: transform;
+        }
+
+        @keyframes comingSoonRibbonText {
+            0% { transform: translateX(-8px); }
+            100% { transform: translateX(8px); }
+        }
+
+        .card-icon {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .card-icon img {
+            width: 75%;
+            height: auto;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
+            transition: all 0.08s ease;
+        }
+
+        .card:hover .card-icon img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            font-size: 28px;
+            color: #0ff;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .card.info-card p {
+            font-size: 14px;
+            line-height: 1.72;
+            max-width: 100%;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #0ff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.08s ease;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        /* Header buttons styling */
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            color: #0ff;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.08s ease;
+        }
+
+        .header-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            text-shadow: 0 0 10px #0ff;
+        }
+
+
+        /* Wide card for Modguard */
+        .card.wide {
+            width: calc(80% - 8cm);
+            max-width: none;
+            grid-column: 1 / -1;
+        }
+
+        /* Fake cards for layout */
+        .fake-card {
+            width: calc(10% - 4cm);
+            height: 120px;
+            background: rgba(34, 34, 34, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            opacity: 0.3;
+        }
+
+        .fake-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.11s ease;
+        }
+
+        .fake-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .fake-card-content {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fake-card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .fake-card-icon img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.5;
+        }
+
+        .fake-card h3 {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+        /* Subscription Card Styles */
+        .subscription-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #0ff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subscription-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+            border-color: #0ff;
+        }
+
+        .subscription-card.popular {
+            border-color: #ff6b35;
+            background: linear-gradient(135deg, #2a1a2e 0%, #2e1621 100%);
+        }
+
+        .subscription-card.popular:hover {
+            border-color: #ff8c42;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .popular-badge {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .subscription-card h2 {
+            color: #0ff;
+            font-size: 1.4em;
+            margin: 0 0 15px 0;
+            font-weight: bold;
+        }
+
+        .subscription-card.popular h2 {
+            color: #ff6b35;
+        }
+
+        .price-section {
+            margin: 15px 0;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .discount {
+            background: #ff4444;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .current-price {
+            color: #0ff;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .subscription-card.popular .current-price {
+            color: #ff6b35;
+        }
+
+        .buy-now-btn {
+            background: linear-gradient(45deg, #0ff, #0ff);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .buy-now-btn:hover {
+            background: linear-gradient(45deg, #0ff, #0ff);
+            transform: scale(1.05);
+        }
+
+        .subscription-card.popular .buy-now-btn {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+        }
+
+        .subscription-card.popular .buy-now-btn:hover {
+            background: linear-gradient(45deg, #ff8c42, #ff6b35);
+        }
+
+        .features {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .feature {
+            color: #ccc;
+            font-size: 0.9em;
+            margin: 5px 0;
+            padding: 3px 0;
+        }
+
+        .modguard-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 8px 0 20px;
+        }
+
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        /* Make header wider */
+        header {
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        /* Navigation */
+        nav:not(.highlighted-shell) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #181818;
+            padding: 16.5px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(221, 221, 221, 0.72);
+            font-size: 16px;
+            margin: 0 10px;
+            padding: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0ff;
+            transition: width 0.09s ease;
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0ff;
+            text-shadow: none;
+        }
+
+        .language-selector select {
+            padding: 5px;
+            background: rgb(154, 202, 202);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        
+        /* Large screens (desktops, 1200px and up) */
+@media (pointer: coarse) and (min-width: 1200px) {
+            .cards-container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Medium screens (tablets, 768px to 1199px) */
+@media (pointer: coarse) and (max-width: 1199px) and (min-width: 768px) {
+            header h1 {
+                font-size: 36px;
+            }
+            
+            header p {
+                font-size: 14px;
+            }
+            
+            .dashboard-container {
+                padding: 30px 15px;
+            }
+            
+            .cards-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 500px;
+                padding: 20px;
+                margin: 0 auto;
+            }
+            
+            .card h2 {
+                font-size: 1.5em;
+            }
+            
+            .card p {
+                font-size: 0.9em;
+            }
+            
+            .modguard-container {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
+                justify-items: center;
+            }
+            
+            .subscription-card {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            nav {
+                padding: 12px 15px;
+            }
+            
+            nav a {
+                font-size: 14px;
+                margin: 0 8px;
+                padding: 8px;
+            }
+            
+            .header-buttons {
+                gap: 10px;
+            }
+            
+            .header-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+
+        /* Small screens (mobile landscape, 576px to 767px) */
+@media (pointer: coarse) and (max-width: 767px) and (min-width: 576px) {
+            header {
+                padding: 15px 0;
+            }
+            
+            header h1 {
+                font-size: 28px;
+            }
+            
+            header p {
+                font-size: 12px;
+                margin: 5px 0;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+            
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-right {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .language-selector {
+                margin-top: 10px;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 10px;
+            }
+            
+            .header-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .dashboard-container {
+                padding: 20px 10px;
+            }
+            
+            .cards-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 500px;
+                padding: 20px;
+                margin: 0 auto;
+            }
+            
+            .card h2 {
+                font-size: 1.3em;
+            }
+            
+            .card p {
+                font-size: 0.85em;
+                margin-bottom: 20px;
+            }
+            
+            .back-link {
+                font-size: 16px;
+            }
+            
+            .modguard-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .cards-row {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .subscription-card {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Extra small screens (mobile portrait, up to 575px) */
+@media (pointer: coarse) and (max-width: 575px) {
+            header {
+                padding: 10px 0;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+            
+            header p {
+                font-size: 11px;
+                margin: 3px 0;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px 10px;
+            }
+            
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-right {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            nav a {
+                font-size: 12px;
+                margin: 0 5px;
+                padding: 6px;
+            }
+            
+            .language-selector {
+                margin-top: 8px;
+            }
+            
+            .language-selector select {
+                padding: 3px;
+                font-size: 12px;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                gap: 6px;
+                margin-top: 8px;
+            }
+            
+            .header-btn {
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+            
+            .dashboard-container {
+                padding: 15px 5px;
+            }
+            
+            .cards-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 450px;
+                padding: 20px;
+                margin: 0 auto;
+            }
+            
+            .card-icon img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .card h2 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+            
+            .card p {
+                font-size: 0.8em;
+                margin-bottom: 15px;
+                line-height: 1.4;
+            }
+            
+            .back-link {
+                font-size: 14px;
+            }
+            
+            .modguard-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .cards-row {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .subscription-card {
+                width: 100%;
+                max-width: 450px;
+                padding: 20px;
+                margin: 0 auto;
+            }
+            
+            .subscription-card h2 {
+                font-size: 1.3em;
+            }
+            
+            .current-price {
+                font-size: 1.5em;
+            }
+            
+            .buy-now-btn {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .feature {
+                font-size: 0.9em;
+            }
+        }
+
+        /* Very small screens (very small phones, up to 360px) */
+@media (pointer: coarse) and (max-width: 360px) {
+            header h1 {
+                font-size: 20px;
+            }
+            
+            header p {
+                font-size: 10px;
+            }
+            
+            nav a {
+                font-size: 11px;
+                margin: 0 3px;
+                padding: 5px;
+            }
+            
+            .header-btn {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+            
+            .card {
+                padding: 10px;
+            }
+            
+            .card-icon img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .card h2 {
+                font-size: 1.1em;
+            }
+            
+            .card p {
+                font-size: 0.75em;
+            }
+            
+            .back-link {
+                font-size: 12px;
+            }
+            
+            .modguard-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .cards-row {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .subscription-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 12px;
+                margin: 0 auto;
+            }
+            
+            .subscription-card h2 {
+                font-size: 1.2em;
+            }
+            
+            .current-price {
+                font-size: 1.3em;
+            }
+            
+            .buy-now-btn {
+                padding: 8px;
+                font-size: 12px;
+            }
+            
+            .feature {
+                font-size: 0.8em;
+            }
+        }
+
+        /* Landscape orientation adjustments for mobile */
+@media (pointer: coarse) and (max-height: 500px) and (orientation: landscape) {
+            .dashboard-container {
+                padding: 10px 15px;
+            }
+            
+            .cards-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .card {
+                width: 250px;
+                padding: 10px;
+            }
+            
+            .card h2 {
+                font-size: 1.1em;
+                margin-bottom: 8px;
+            }
+            
+            .card p {
+                font-size: 0.8em;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Half-screen window adjustments */
+@media (pointer: coarse) and (max-width: 800px) and (min-width: 600px) {
+            .cards-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .modguard-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .subscription-card {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+        /* Layout stability fix: never-clump cards */
+        .dashboard {
+            align-items: flex-start;
+            padding: 32px 16px 56px;
+        }
+
+        .cards-container {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .modguard-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            align-items: stretch;
+            justify-items: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 340px;
+            min-height: 360px;
+            height: clamp(320px, 42vw, 400px);
+            box-sizing: border-box;
+            margin: 0;
+        }
+@media (pointer: coarse) and (max-width: 1199px) {
+            .cards-container {
+                width: min(980px, 100%);
+            }
+
+            .modguard-container {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 20px;
+            }
+
+            .card {
+                max-width: 100%;
+                min-height: 330px;
+                height: auto;
+            }
+        }
+@media (pointer: coarse) and (max-width: 767px) {
+            .dashboard {
+                padding: 20px 10px 40px;
+            }
+
+            .modguard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                max-width: 520px;
+                min-height: 300px;
+            }
+        }
+
+        .dashboard {
+            padding: 34px 24px 64px;
+            background: transparent;
+        }
+
+        .dashboard-stage {
+            width: min(1440px, 100%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .dashboard-panel {
+            position: sticky;
+            top: 118px;
+            padding: 22px;
+            border-radius: 16px;
+            background: rgba(11, 15, 20, 0.74);
+            border: 1px solid rgba(154, 202, 202, 0.08);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+            backdrop-filter: blur(5px);
+        }
+
+        .dashboard-eyebrow {
+            display: inline-block;
+            color: #bfd2d2;
+            font-size: 0.73rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .dashboard-title {
+            margin: 10px 0 10px;
+            font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+            line-height: 1.08;
+            color: #f3f8f8;
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-lead {
+            margin: 0;
+            color: rgba(223, 241, 241, 0.72);
+            line-height: 1.66;
+            font-size: 0.94rem;
+        }
+
+        .dashboard-stat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 22px 0 0;
+        }
+
+        .dashboard-stat {
+            padding: 14px 0;
+            border-radius: 0;
+            background: transparent;
+            border: none;
+            border-top: 1px solid rgba(154, 202, 202, 0.08);
+        }
+
+        .dashboard-stat:last-child {
+            border-bottom: 1px solid rgba(154, 202, 202, 0.08);
+        }
+
+        .dashboard-stat strong {
+            display: block;
+            font-size: 0.92rem;
+            color: #f5ffff;
+            margin-bottom: 3px;
+        }
+
+        .dashboard-stat span {
+            color: rgba(223, 241, 241, 0.64);
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+
+        .dashboard-panel-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .dashboard-panel-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #eff9f9;
+            background: rgba(154, 202, 202, 0.03);
+            border: 1px solid rgba(154, 202, 202, 0.08);
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .dashboard-panel-links a:hover {
+            background: rgba(154, 202, 202, 0.16);
+            border-color: rgba(154, 202, 202, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .dashboard-library-header {
+            margin-bottom: 18px;
+            padding: 4px 2px 0;
+        }
+
+        .dashboard-library-header span {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: rgba(210, 232, 232, 0.58);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.7rem;
+        }
+
+        .dashboard-library-header h2 {
+            margin: 0 0 8px;
+            color: #f2fbfb;
+            font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+            letter-spacing: -0.02em;
+        }
+
+        .dashboard-library-header p {
+            margin: 0;
+            color: rgba(218, 234, 234, 0.62);
+            line-height: 1.6;
+            max-width: 680px;
+        }
+
+        .cards-container {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modguard-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 22px;
+            align-items: stretch;
+            justify-items: stretch;
+        }
+
+        .modguard-container > .card {
+            grid-column: span 4;
+            width: 100%;
+            max-width: none;
+            min-height: 280px;
+            height: clamp(280px, 28vw, 340px);
+            padding: 24px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(13, 18, 25, 0.88), rgba(10, 14, 20, 0.78));
+            border: 1px solid rgba(154, 202, 202, 0.08) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16) !important;
+        }
+
+        .modguard-container > .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .modguard-container > .card .card-content {
+            align-items: flex-start;
+            justify-content: flex-end;
+            text-align: left;
+            padding: 0;
+            gap: 10px;
+        }
+
+        .modguard-container > .card h2 {
+            font-size: clamp(1.2rem, 1.6vw, 1.7rem);
+            color: #f5ffff;
+            text-shadow: none;
+        }
+
+        .modguard-container > .card p {
+            color: rgba(238, 248, 248, 0.82) !important;
+            font-size: 0.9rem;
+            line-height: 1.56;
+            max-width: 24ch;
+        }
+
+        .modguard-container > .card.info-card {
+            grid-column: span 8;
+            grid-row: span 2;
+            min-height: 500px;
+            height: auto;
+            padding: 24px;
+        }
+
+        .modguard-container > .card.info-card .card-content {
+            gap: 16px;
+            padding: 18px 0 0;
+        }
+
+        .modguard-container > .card.info-card h2 {
+            font-size: clamp(1.55rem, 2.1vw, 2rem);
+        }
+
+        .modguard-container > .card.info-card p {
+            max-width: 56ch;
+            font-size: 0.96rem;
+            line-height: 1.72;
+        }
+
+        .back-link {
+            position: static;
+            top: auto;
+            left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+            color: #dff0f0;
+            text-decoration: none;
+            font-size: 0.92rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover {
+            text-shadow: none;
+            color: #ffffff;
+        }
+
+        @media (max-width: 1180px) {
+            .dashboard-stage {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-panel {
+                position: relative;
+                top: auto;
+            }
+
+            .modguard-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .modguard-container > .card,
+            .modguard-container > .card.info-card {
+                grid-column: span 1;
+                grid-row: auto;
+                min-height: 320px;
+            }
+
+            .modguard-container > .card.info-card {
+                grid-column: 1 / -1;
+                min-height: 440px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .dashboard {
+                padding: 20px 12px 44px;
+            }
+
+            .dashboard-panel {
+                padding: 22px 20px;
+                border-radius: 24px;
+            }
+
+            .dashboard-stat-list {
+                grid-template-columns: 1fr;
+            }
+
+            .modguard-container {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .modguard-container > .card,
+            .modguard-container > .card.info-card {
+                grid-column: 1 / -1;
+                min-height: 280px;
+                height: auto;
+                padding: 22px;
+            }
+        }
+
+        /* Naturlig side-scroll: ingen JS-hjul-lås, ingen snap — momentum som på en normal webside */
+        html.dashboard-page {
+            scroll-snap-type: none;
+            scroll-padding-top: 0;
+            scroll-behavior: auto;
+            overscroll-behavior-y: auto;
+        }
+
+        body {
+            background: #020406;
+            color: #f5fbff;
+            overflow-x: hidden;
+            overscroll-behavior-y: contain;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(154, 202, 202, 0.25);
+            padding: 10px 0 8px;
+            z-index: 1400;
+            transition: opacity 0.07s ease, transform 0.07s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+        }
+
+        header h1 {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        header p {
+            position: relative;
+            top: -22px;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(221, 221, 221, 0.92);
+            font-size: 0.88rem;
+            letter-spacing: 0.04em;
+            text-align: center;
+            transform: translateX(11px);
+        }
+
+        html[lang="fr"] header p[data-i18n="index.tagline"] {
+            transform: translateX(30px);
+        }
+
+        nav {
+            position: fixed;
+            top: 34px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 22, 28, 0.9);
+            backdrop-filter: blur(18px);
+            padding: 16.5px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(154, 202, 202, 0.24);
+            border-bottom: 1px solid rgba(154, 202, 202, 0.24);
+            z-index: 1390;
+            transition: opacity 0.07s ease, transform 0.07s ease;
+            gap: 0;
+        }
+
+        nav:not(.highlighted-shell) .nav-left,
+        nav:not(.highlighted-shell) .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        nav:not(.highlighted-shell) .nav-left {
+            flex: 0 0 auto;
+            gap: 20px;
+        }
+
+        nav:not(.highlighted-shell) .nav-right {
+            flex: 0 0 auto;
+            gap: 0;
+            justify-content: flex-start;
+        }
+
+        nav:not(.highlighted-shell) .language-selector {
+            margin-left: 0;
+            flex: 0 0 auto;
+        }
+
+        nav:not(.highlighted-shell) .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #9acaca;
+            text-shadow: none;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        nav:not(.highlighted-shell) a {
+            text-decoration: none;
+            color: rgba(221, 221, 221, 0.72);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: normal;
+            text-transform: none;
+            margin: 0 10px;
+            padding: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        nav:not(.highlighted-shell) a:hover {
+            color: #ffffff;
+            text-shadow: none;
+        }
+
+        nav:not(.highlighted-shell) a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #9acaca;
+            transition: width 0.09s ease;
+        }
+
+        nav:not(.highlighted-shell) a:hover::before {
+            width: 100%;
+        }
+
+        header.highlighted-shell {
+            background: rgba(27, 39, 47, 0.94);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            color: var(--text);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+            border-bottom: 1px solid rgba(143, 180, 192, 0.2);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        header.highlighted-shell::before {
+            content: none;
+            position: absolute;
+            inset: 0;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            opacity: 0;
+            pointer-events: none;
+            filter: none;
+            transform-origin: 50% 78%;
+            animation: topMenMotion 6s ease-in-out infinite;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+        }
+
+        header.highlighted-shell::after {
+            content: none;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            mix-blend-mode: screen;
+            opacity: 0;
+            filter: none;
+            transform-origin: 50% 78%;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            animation: topMenPulse 6s ease-in-out infinite, topMenMotion 6s ease-in-out infinite;
+        }
+
+        header.highlighted-shell > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header.highlighted-shell h1 {
+            color: #fff;
+            text-shadow: 0 4px 10px rgba(143, 180, 192, 0.46);
+            animation: glow 3s infinite alternate;
+            visibility: hidden;
+        }
+
+        header.highlighted-shell p {
+            position: relative;
+            top: -22px;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(11px);
+        }
+
+        html[lang="fr"] header.highlighted-shell p[data-i18n="index.tagline"] {
+            transform: translateX(30px);
+        }
+
+        nav.highlighted-shell {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(31, 44, 52, 0.94);
+            padding: 16.5px 20px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+            border-top: 1px solid rgba(143, 180, 192, 0.14);
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14);
+        }
+
+        nav.highlighted-shell .logo {
+            color: var(--accent);
+            text-shadow: none;
+        }
+
+        nav.highlighted-shell a {
+            text-decoration: none;
+            color: rgba(245, 248, 251, 0.84) !important;
+            font-size: 16px;
+            margin: 0 10px;
+            padding: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+            text-shadow: none;
+        }
+
+        nav.highlighted-shell a:hover {
+            color: var(--accent) !important;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4);
+        }
+
+        nav.highlighted-shell a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.09s ease;
+        }
+
+        nav.highlighted-shell a:hover::before {
+            width: 100%;
+        }
+
+        body.ui-hidden header.highlighted-shell,
+        body.ui-hidden nav.highlighted-shell,
+        body.nav-intro-hidden header.highlighted-shell,
+        body.nav-intro-hidden nav.highlighted-shell {
+            display: none;
+        }
+
+        .dashboard {
+            display: block;
+            width: 100%;
+            padding: 0;
+            min-height: auto;
+            justify-content: initial;
+            align-items: initial;
+            opacity: 1;
+            background: #020406;
+        }
+
+        .dashboard-stage {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .game-panel {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(191, 222, 235, 0.08);
+            background: #05080d;
+        }
+
+        .game-panel .card-video-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            opacity: 1;
+            filter: saturate(1.12) contrast(1.08) brightness(0.88);
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform, opacity;
+            /* Glat afspilning: GPU-lag uden at ændre det visuelle udtryk */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .game-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background:
+                linear-gradient(180deg, rgba(2, 4, 6, 0.06) 0%, rgba(2, 4, 6, 0.22) 32%, rgba(2, 4, 6, 0.62) 78%, rgba(2, 4, 6, 0.82) 100%),
+                linear-gradient(90deg, rgba(2, 4, 6, 0.72) 0%, rgba(2, 4, 6, 0.42) 42%, rgba(2, 4, 6, 0.12) 100%);
+        }
+
+        .game-panel-inner {
+            position: relative;
+            z-index: 2;
+            width: min(1520px, calc(100% - 72px));
+            margin: 0 auto;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 0 clamp(44px, 7vh, 86px);
+        }
+
+        .game-panel-content {
+            display: grid;
+            width: min(1040px, 100%);
+            grid-template-columns: minmax(240px, 320px) minmax(360px, 620px);
+            gap: clamp(28px, 4vw, 76px);
+            align-items: end;
+            transform: translateY(-120px);
+        }
+        #skimoHeroPanel .game-panel-content {
+            transform: translate(2cm, calc(-72px + 2cm));
+        }
+        #skimoHeroPanel .game-logo {
+            transform: translateY(-2cm);
+        }
+        .dashboard-stage > .game-panel:nth-of-type(2) .game-logo {
+            transform: translateY(-1cm);
+        }
+        .game-panel:not(#skimoHeroPanel) .game-panel-content {
+            transform: translate(2cm, calc(-120px + 2.5cm));
+        }
+        #skimoHeroPanel .game-logo small {
+            color: #b8d3de !important;
+        }
+
+        .game-logo {
+            color: #f7fbfd;
+            font-weight: 800;
+            font-size: clamp(3rem, 6vw, 6.4rem);
+            line-height: 0.9;
+            letter-spacing: -0.06em;
+            text-transform: uppercase;
+            max-width: 6.3ch;
+            text-shadow: 0 18px 42px rgba(0, 0, 0, 0.38);
+        }
+
+        .game-logo-line {
+            display: block;
+        }
+        .game-logo-line.centered-line {
+            text-align: center;
+        }
+
+        /* Copyright over last panel video (ingen separat sidefod) */
+        .video-footer-overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 4;
+            padding: 18px 20px 26px;
+            text-align: center;
+            color: rgba(232, 245, 252, 0.82);
+            font-size: clamp(0.8rem, 1.8vw, 0.92rem);
+            letter-spacing: 0.01em;
+            line-height: 1.45;
+            pointer-events: none;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+            background: linear-gradient(180deg, transparent 0%, rgba(2, 4, 10, 0.45) 38%, rgba(2, 4, 10, 0.78) 100%);
+        }
+
+        .video-footer-overlay p {
+            margin: 0;
+        }
+        #panel-sims .game-panel-content,
+        #panel-minecraft .game-panel-content {
+            position: relative;
+        }
+        #panel-sims .inline-controller,
+        #panel-minecraft .inline-controller {
+            position: absolute;
+            left: 34%;
+            top: 56%;
+            width: 128px;
+            height: 128px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 2;
+            display: block;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
+        #panel-minecraft .game-copy .game-meta,
+        #panel-sims .game-copy .game-meta {
+            transform: translateY(0.5cm);
+        }
+        .dashboard-stage > .game-panel:nth-of-type(3) .game-logo,
+        .dashboard-stage > .game-panel:nth-of-type(5) .game-logo {
+            text-align: center;
+        }
+
+        .game-logo small {
+            display: block;
+            margin-top: 10px;
+            color: #b8d3de;
+            font-size: clamp(1rem, 1.8vw, 1.7rem);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .game-copy .game-meta {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 14px;
+            color: rgba(232, 239, 242, 0.8);
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+        }
+
+        .game-copy p {
+            margin: 0;
+            max-width: 40ch;
+            color: rgba(237, 243, 246, 0.86);
+            font-size: clamp(1.02rem, 1.8vw, 1.28rem);
+            line-height: 1.62;
+        }
+
+        .game-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .lang-switcher {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: -18px; /* ~0.5 cm mod venstre */
+        }
+
+        .game-utility {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex: 0 0 auto;
+            flex-wrap: nowrap;
+            margin-left: auto;
+        }
+
+        .game-exit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            min-height: 50px;
+            padding: 0 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(227, 238, 242, 0.34);
+            background: transparent;
+            color: #f5fbff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .game-exit:hover {
+            transform: translateY(-1px);
+            border-color: rgba(227, 238, 242, 0.52);
+            background: transparent;
+        }
+
+        .lang-current {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            min-height: 50px;
+            padding: 0 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(227, 238, 242, 0.34);
+            background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+            color: #f5fbff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            backdrop-filter: none;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .lang-current:hover {
+            transform: translateY(-1px);
+            background: transparent !important;
+            background-color: transparent !important;
+            border-color: rgba(227, 238, 242, 0.52);
+        }
+
+        .lang-current:focus,
+        .lang-current:focus-visible,
+        .lang-current:active {
+            background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+            box-shadow: none;
+            outline: none;
+            border-color: rgba(227, 238, 242, 0.52);
+        }
+
+        .lang-popover {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 222, 235, 0.1);
+            background: rgba(8, 12, 18, 0.34);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(8px);
+            z-index: 8;
+        }
+
+        .lang-popover[hidden] {
+            display: none;
+        }
+
+        .lang-choice {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(227, 238, 242, 0.14);
+            background: rgba(227, 238, 242, 0.01);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .lang-choice:hover,
+        .lang-choice.active {
+            transform: translateY(-1px);
+            background: rgba(227, 238, 242, 0.08);
+            border-color: rgba(227, 238, 242, 0.28);
+        }
+
+        .game-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .game-btn.primary {
+            background: #f3f8fb;
+            color: #071015;
+            border: 1px solid transparent;
+        }
+
+        .game-btn.ghost {
+            color: #f5fbff;
+            background: transparent;
+            border: 1px solid rgba(227, 238, 242, 0.34);
+        }
+
+
+        .game-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .game-note {
+            margin-top: 16px;
+            color: rgba(220, 235, 240, 0.6);
+            font-size: 0.84rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .game-panel.coming-soon .game-logo small {
+            color: #c5d8e0;
+        }
+
+        .game-panel.coming-soon .game-copy p {
+            color: rgba(231, 239, 242, 0.78);
+        }
+
+        .coming-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0 14px;
+            border-radius: 10px;
+            color: #f4fbff;
+            background: rgba(8, 12, 18, 0.82);
+            border: 1px solid rgba(191, 222, 235, 0.16);
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 1180px) {
+            .game-panel-content {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                width: min(720px, 100%);
+                transform: translateY(clamp(-4.5rem, -11svh, -1.5rem)) !important;
+            }
+
+            .game-logo {
+                max-width: none;
+            }
+
+            /* Mobil/tablet: samme visuelle balance som desktop — ingen vandret cm-forskydning, stabilt viewport */
+            .game-panel {
+                min-height: 100svh;
+                min-height: 100dvh;
+                min-height: 100vh;
+            }
+
+            .game-panel-inner {
+                min-height: 100svh;
+                min-height: 100dvh;
+                min-height: 100vh;
+                width: min(1520px, calc(100% - clamp(16px, 5vw, 40px)));
+                padding-left: env(safe-area-inset-left, 0px);
+                padding-right: env(safe-area-inset-right, 0px);
+            }
+
+            #skimoHeroPanel .game-panel-content {
+                transform: translate(0, clamp(-3.5rem, -9svh, -1rem)) !important;
+            }
+
+            .game-panel:not(#skimoHeroPanel) .game-panel-content {
+                transform: translate(0, clamp(-4.5rem, -11svh, -1.5rem)) !important;
+            }
+
+            #skimoHeroPanel .game-logo {
+                transform: translateY(0) !important;
+            }
+
+            .dashboard-stage > .game-panel:nth-of-type(2) .game-logo {
+                transform: translateY(0) !important;
+            }
+        }
+
+        @media (max-width: 760px) {
+            header:not(.highlighted-shell),
+            header.highlighted-shell {
+                padding: 10px 0 8px;
+            }
+
+            header:not(.highlighted-shell) p,
+            header.highlighted-shell p {
+                font-size: 11px;
+                margin: 3px 0;
+            }
+
+            nav:not(.highlighted-shell),
+            nav.highlighted-shell {
+                top: 42px;
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px 10px;
+                flex-wrap: wrap;
+            }
+
+            nav .nav-left,
+            nav .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            nav .nav-right {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            nav:not(.highlighted-shell) a,
+            nav.highlighted-shell a {
+                font-size: 12px;
+                margin: 0 5px;
+                padding: 6px;
+            }
+
+            nav .language-selector {
+                margin-top: 8px;
+            }
+
+            .game-panel-inner {
+                width: calc(100% - 32px);
+                padding: 0 0 max(34px, env(safe-area-inset-bottom, 0px));
+                min-height: 100svh;
+                min-height: 100dvh;
+                min-height: 100vh;
+            }
+
+            .game-copy p {
+                max-width: none;
+                font-size: 0.96rem;
+            }
+        }
+
+        .index-clone-header {
+            display: none !important;
+        }
+        .index-clone-nav {
+            display: none !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: rgba(31, 44, 52, 0.94) !important;
+            padding: 16.5px 20px !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+            border-top: 1px solid rgba(143, 180, 192, 0.14) !important;
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+        }
+        .index-clone-nav .nav-left,
+        .index-clone-nav .nav-right {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .index-clone-nav .nav-left {
+            gap: 20px !important;
+        }
+        .index-clone-nav .nav-right {
+            flex-wrap: wrap !important;
+        }
+        .index-clone-nav .logo {
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: #8fb4c0 !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a {
+            text-decoration: none !important;
+            color: rgba(245, 248, 251, 0.84) !important;
+            font-size: 16px !important;
+            margin: 0 10px !important;
+            padding: 10px !important;
+            transition: all 0.15s ease !important;
+            position: relative !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a:hover {
+            color: #8fb4c0 !important;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4) !important;
+        }
+        .index-clone-nav a::before {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 0 !important;
+            height: 2px !important;
+            background: #8fb4c0 !important;
+            transition: width 0.09s ease !important;
+        }
+        .index-clone-nav a:hover::before {
+            width: 100% !important;
+        }
+        .index-clone-nav .language-selector select {
+            padding: 5px !important;
+            background: rgba(168, 192, 202, 0.92) !important;
+            color: #000 !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+        }
+        #skimoHeroNav {
+            background: transparent !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            min-height: 74px;
+            gap: 18px;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 6 !important;
+            box-shadow: none !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        #skimoHeroNav .nav-left,
+        #skimoHeroNav .nav-right {
+            min-width: 160px;
+        }
+        #skimoHeroNav .nav-left {
+            position: relative;
+            isolation: isolate;
+        }
+        #skimoHeroNav .hero-logo-shine {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        #skimoHeroNav .hero-logo-shine::after {
+            content: none;
+        }
+        #skimoHeroNav .nav-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #skimoHeroNav .hero-brand {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.74);
+            overflow: visible;
+            margin-left: 4px;
+            padding: 0 10px;
+        }
+        #skimoHeroNav .hero-brand img {
+            display: block;
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+        #skimoHeroNav .hero-brand-name {
+            color: rgba(245, 248, 251, 0.95);
+            font-size: 13px;
+            line-height: 1;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            position: relative;
+            z-index: 2;
+        }
+        #skimoHeroNav .hero-brand-logo {
+            display: inline-block;
+            width: 173px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+            position: relative;
+            z-index: 2;
+        }
+        #skimoHeroNav .hero-brand-logo.shine-pass {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            filter: brightness(3.1) saturate(1.45);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            animation: skimoLogoShinePass 3.1s ease-in-out infinite;
+            z-index: 3;
+        }
+        @keyframes skimoLogoShine {
+            0%, 22% {
+                opacity: 0;
+                transform: translateX(-120%) skewX(-16deg);
+            }
+            30% {
+                opacity: 0.88;
+            }
+            46% {
+                opacity: 0;
+                transform: translateX(120%) skewX(-16deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(120%) skewX(-16deg);
+            }
+        }
+        @keyframes skimoLogoShinePass {
+            0%, 18% {
+                opacity: 0;
+                clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            }
+            24% {
+                opacity: 1;
+            }
+            38% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+            100% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+        }
+        #skimoHeroNav .hero-brand-fallback {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            align-items: center;
+            justify-content: center;
+            background: #6fd3ff;
+            color: #0d1a22;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+        }
+        #skimoHeroNav .hero-brand.logo-fallback .hero-brand-fallback {
+            display: inline-flex;
+        }
+        #skimoHeroNav .nav-center a {
+            font-size: 17px !important;
+            letter-spacing: 0.01em;
+            color: rgba(232, 245, 252, 0.95) !important;
+            padding: 10px 12px !important;
+            text-transform: none;
+            font-weight: 600;
+        }
+        #skimoHeroNav .hero-search {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(232, 245, 252, 0.96);
+            font-size: 16px;
+            background: transparent;
+        }
+        #skimoHeroNav a.nav-logo-link {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none;
+            text-decoration: none;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+        }
+        #skimoHeroNav a.nav-logo-link::before {
+            display: none !important;
+        }
+        #skimoHeroNav .hero-signin {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 9px 14px !important;
+            font-size: 13px !important;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .hero-info-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 8, 12, 0.64);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2400;
+            padding: 18px;
+        }
+        .hero-info-modal.is-open {
+            display: flex;
+        }
+        .hero-info-card {
+            width: min(760px, calc(100vw - 36px));
+            max-height: min(78vh, 860px);
+            overflow: auto;
+            background: #ffffff !important;
+            border: 1px solid rgba(7, 16, 21, 0.16) !important;
+            border-radius: 16px;
+            box-shadow: 0 24px 46px rgba(0, 0, 0, 0.34);
+            color: #071015 !important;
+            padding: 22px 22px 18px;
+        }
+        .hero-info-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .hero-info-title {
+            margin: 0;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            letter-spacing: 0.02em;
+            color: #071015 !important;
+        }
+        .hero-info-close {
+            border: 1px solid rgba(7, 16, 21, 0.22) !important;
+            background: #ffffff !important;
+            color: #071015 !important;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .hero-info-body p {
+            margin: 0 0 12px;
+            line-height: 1.6;
+            color: #071015 !important;
+        }
+        .hero-game-picker {
+            margin-top: 14px;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            display: block;
+        }
+        .hero-game-picker-label {
+            width: 100%;
+            color: #071015;
+            font-size: 0.84rem;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .hero-game-list {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+        }
+        .hero-game-choice {
+            -webkit-appearance: none;
+            appearance: none;
+            border: none !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            color: #071015 !important;
+            border-radius: 0;
+            padding: 0;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            text-shadow: none !important;
+            transition: opacity 0.08s ease;
+            display: inline;
+            margin: 0;
+            text-align: left;
+            outline: none !important;
+        }
+        .hero-game-choice:hover {
+            opacity: 0.72;
+            background: transparent !important;
+            background-color: transparent !important;
+        }
+        .hero-game-choice:focus,
+        .hero-game-choice:focus-visible,
+        .hero-game-choice:active {
+            outline: none !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            text-decoration: none !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            color: #071015 !important;
+        }
+        #skimoHeroPanel .card-video-bg {
+            opacity: 1;
+            filter: saturate(1.14) contrast(1.1) brightness(0.94);
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+        #skimoHeroPanel::before {
+            background:
+                linear-gradient(180deg, rgba(26, 95, 134, 0.18) 0%, rgba(14, 46, 71, 0.22) 32%, rgba(11, 24, 44, 0.54) 86%, rgba(8, 15, 30, 0.7) 100%),
+                linear-gradient(90deg, rgba(7, 25, 44, 0.6) 0%, rgba(8, 30, 56, 0.3) 40%, rgba(6, 19, 36, 0.08) 100%);
+        }
+        #skimoHeroPanel .game-logo,
+        #skimoHeroPanel .game-logo small,
+        #skimoHeroPanel .game-copy .game-meta,
+        #skimoHeroPanel .game-copy p,
+        #skimoHeroPanel .game-actions a,
+        #skimoHeroPanel .hero-top-link,
+        #skimoHeroPanel #skimoHeroNav .nav-center a,
+        #skimoHeroPanel #skimoHeroNav .hero-search,
+        #skimoHeroPanel #skimoHeroNav .hero-signin {
+            color: #ffffff !important;
+            text-shadow: none !important;
+        }
+        #skimoHeroNav .lang-current {
+            min-width: auto;
+            min-height: auto;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            color: rgba(232, 245, 252, 0.96) !important;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            box-shadow: none !important;
+        }
+        body.ui-hidden .index-clone-nav,
+        body.nav-intro-hidden .index-clone-nav {
+            display: none !important;
+        }
+    </style>
+    <link rel="stylesheet" href="assets/pro-polish.css?v=20260327-69">
+    <link rel="stylesheet" href="assets/skimo-ai-assistant.css?v=20260327-69">
+</head>
+<body>
+    <div class="skimo-animation" id="skimoAnimation" style="display:none;"></div>
+    <div class="animated-background"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-stage">
+            <section class="game-panel" id="skimoHeroPanel">
+                <video class="card-video-bg" src="Videoer/dashboardcs.mp4" autoplay muted loop playsinline preload="auto" fetchpriority="high"></video>
+
+                <nav class="index-clone-nav" id="skimoHeroNav" style="display:flex !important;">
+                    <div class="nav-left">
+                        <a href="index.html" class="nav-logo-link" data-i18n-aria-label="nav.logoHome">
+                            <span class="hero-logo-shine is-active">
+                                <img src="Logoer/logomodserve.png" class="hero-brand-logo" alt="Modverse">
+                                <img src="Logoer/logomodserve.png" class="hero-brand-logo shine-pass" alt="" aria-hidden="true">
+                            </span>
+                        </a>
+                    </div>
+                    <div class="nav-center">
+                        <a href="#" class="hero-nav-link" data-hero-topic="games" aria-label="Spilunivers" data-i18n="dashboard.hero.nav.games">Spilunivers</a>
+                        <a href="#" class="hero-nav-link" data-hero-topic="parents" aria-label="Forældre zone" data-i18n="dashboard.hero.nav.parents">Forældre zone</a>
+                        <a href="#" class="hero-nav-link" data-hero-topic="players" aria-label="Spillerguide" data-i18n="dashboard.hero.nav.players">Spillerguide</a>
+                        <a href="#" class="hero-nav-link" data-hero-topic="protect" aria-label="Sikkerhed" data-i18n="dashboard.hero.nav.protect">Sikkerhed</a>
+                        <a href="#" class="hero-nav-link" data-hero-topic="about" aria-label="Om Skimo" data-i18n="dashboard.hero.nav.about">Om Skimo</a>
+                    </div>
+                    <div class="nav-right" style="justify-content:flex-end; gap:10px;">
+                        <button type="button" class="hero-search skimo-ai-trigger" aria-label="Åbn Skimo chatbot"></button>
+                        <div class="lang-switcher" data-lang-switcher>
+                            <button type="button" class="lang-current" aria-label="Vælg sprog" aria-expanded="false">DA</button>
+                            <div class="lang-popover" hidden>
+                                <button type="button" class="lang-choice" data-lang="da" aria-label="Dansk">DA</button>
+                                <button type="button" class="lang-choice" data-lang="sv" aria-label="Svenska">SV</button>
+                                <button type="button" class="lang-choice" data-lang="no" aria-label="Norsk">NO</button>
+                                <button type="button" class="lang-choice" data-lang="en" aria-label="English">EN</button>
+                                <button type="button" class="lang-choice" data-lang="fr" aria-label="Français">FR</button>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Mod</span>
+                            <span class="game-logo-line">Guard</span>
+                            <small style="color:#b8d3de !important;" data-i18n="dashboard.hero.brandTag">Proaktiv mod-beskyttelse</small>
+                        </div>
+
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.hero.meta">Skimo | Om ModGuard</span>
+                            <p data-i18n="dashboard.hero.intro.p1">
+                                ModGuard fra Skimo beskytter din computer mod risikable mods — uanset om de kommer fra officielle eller uofficielle kilder. Løsningen er bygget til de særlige risici ved modding, så du kan downloade indhold med ro i maven.
+                            </p>
+                            <div class="game-actions">
+                                <div class="game-utility">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel" id="panel-minecraft">
+                <video class="card-video-bg" src="Videoer/Minecraft.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Mine</span>
+                            <span class="game-logo-line">craft</span>
+                            <small>Modguard</small>
+                        </div>
+                        <img class="inline-controller" src="Billeder/remotedrawing.png" alt="" aria-hidden="true">
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.minecraft.meta">ModGuard | Minecraft</span>
+                            <div class="game-actions">
+                                <a href="abonnement.html" class="game-btn primary" data-i18n="dashboard.subscriptionCta">Prøv gratis</a>
+                                <a href="guide.html" class="game-btn ghost" data-i18n="nav.guide">Guide</a>
+                                <a href="modguard-faq.html" class="game-btn ghost" data-i18n="common.faq">FAQ</a>
+                                <a href="contact.html" class="game-btn ghost" data-i18n="nav.contact">Kontakt</a>
+                                <div class="game-utility">
+                                </div>
+                            </div>
+                            <div class="game-note" data-i18n="dashboard.minecraft.ready">Minecraft-beskyttelse er klar nu.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel" id="panel-sims">
+                <video class="card-video-bg" src="Videoer/Sims.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Sims</span>
+                            <span class="game-logo-line centered-line">4</span>
+                            <small>Modguard</small>
+                        </div>
+                        <img class="inline-controller" src="Billeder/remotedrawing.png" alt="" aria-hidden="true">
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.sims.meta">ModGuard | Sims 4</span>
+                            <div class="game-actions">
+                                <a href="abonnement.html" class="game-btn primary" data-i18n="dashboard.subscriptionCta">Prøv gratis</a>
+                                <a href="guide.html" class="game-btn ghost" data-i18n="nav.guide">Guide</a>
+                                <a href="modguard-faq.html" class="game-btn ghost" data-i18n="common.faq">FAQ</a>
+                                <a href="contact.html" class="game-btn ghost" data-i18n="nav.contact">Kontakt</a>
+                                <div class="game-utility">
+                                </div>
+                            </div>
+                            <div class="game-note" data-i18n="dashboard.sims.ready">Sims 4-beskyttelse er klar nu.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-gta">
+                <video class="card-video-bg" src="Videoer/GTA.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">GTA V</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.gta.meta">ModGuard | GTA</span>
+                            <p data-i18n="dashboard.gta.desc">Vi gør GTA-filer og mods tryggere at bruge.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-fallout">
+                <video class="card-video-bg" src="Videoer/Fallout.mov" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Fall</span>
+                            <span class="game-logo-line">Out</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.fallout.meta">ModGuard | Fallout</span>
+                            <p data-i18n="dashboard.fallout.desc">Vi hjælper med at holde dine Fallout-filer sikre og spillet stabilt.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-stardew">
+                <video class="card-video-bg" src="Videoer/Stardew.mov" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Star</span>
+                            <span class="game-logo-line">Dew</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.stardew.meta">ModGuard | Stardew Valley</span>
+                            <p data-i18n="dashboard.stardew.desc">Vi gør det mere trygt og nemt at hente mods til Stardew Valley.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-bg3">
+                <video class="card-video-bg" src="Videoer/Baldurs%20gate.mov" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Bal</span>
+                            <span class="game-logo-line">Durs</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.bg3.meta">ModGuard | Baldur's Gate 3</span>
+                            <p data-i18n="dashboard.bg3.desc">Vi hjælper dig med at bruge BG3-mods sikkert og med mindre besvær.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-cities">
+                <video class="card-video-bg" src="Videoer/skylines.mov" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Citi</span>
+                            <span class="game-logo-line">es</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.cities.meta">ModGuard | Cities: Skylines</span>
+                            <p data-i18n="dashboard.cities.desc">Vi gør mods og assets til Cities tryggere at bruge.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="game-panel coming-soon" id="panel-skyrim">
+                <video class="card-video-bg" src="Videoer/Skyrim.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                <div class="game-panel-inner">
+                    <div class="game-panel-content">
+                        <div class="game-logo">
+                            <span class="game-logo-line">Sky</span>
+                            <span class="game-logo-line">Rim</span>
+                            <small data-i18n="comingSoon">Kommer snart</small>
+                        </div>
+                        <div class="game-copy">
+                            <span class="game-meta" data-i18n="dashboard.skyrim.meta">ModGuard | Skyrim</span>
+                            <p data-i18n="dashboard.skyrim.desc">Vi hjælper dig med at bruge Skyrim-mods sikkert.</p>
+                            <div class="game-actions">
+                                <span class="coming-pill" data-i18n="comingSoon">Kommer snart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-footer-overlay">
+                    <p data-i18n="footer.copyright">© 2026 Skimo. Alle rettigheder forbeholdes. | Privatlivspolitik | Servicevilkår</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="hero-info-modal" id="heroInfoModal" aria-hidden="true">
+        <div class="hero-info-card" role="dialog" aria-modal="true" aria-labelledby="heroInfoTitle">
+            <div class="hero-info-head">
+                <h3 class="hero-info-title" id="heroInfoTitle">Info</h3>
+                <button type="button" class="hero-info-close" id="heroInfoClose" aria-label="Luk">×</button>
+            </div>
+            <div class="hero-info-body" id="heroInfoBody"></div>
+        </div>
+    </div>
+
+    <script src="assets/i18n.js?v=20260327-69"></script>
+    <script src="assets/skimo-ai-assistant.js?v=20260327-69" defer></script>
+    <script>
+        // Reliable autoplay for all card videos.
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageLabelMap = { da: 'DA', sv: 'SV', no: 'NO', en: 'EN', fr: 'FR' };
+            const languageUiLabels = {
+                da: {
+                    toggle: 'Vælg sprog',
+                    da: 'Dansk',
+                    sv: 'Svensk',
+                    no: 'Norsk',
+                    en: 'Engelsk',
+                    fr: 'Fransk'
+                },
+                sv: {
+                    toggle: 'Välj språk',
+                    da: 'Danska',
+                    sv: 'Svenska',
+                    no: 'Norska',
+                    en: 'Engelska',
+                    fr: 'Franska'
+                },
+                no: {
+                    toggle: 'Velg språk',
+                    da: 'Dansk',
+                    sv: 'Svensk',
+                    no: 'Norsk',
+                    en: 'Engelsk',
+                    fr: 'Fransk'
+                },
+                en: {
+                    toggle: 'Choose language',
+                    da: 'Danish',
+                    sv: 'Swedish',
+                    no: 'Norwegian',
+                    en: 'English',
+                    fr: 'French'
+                },
+                fr: {
+                    toggle: 'Choisir la langue',
+                    da: 'Danois',
+                    sv: 'Suédois',
+                    no: 'Norvégien',
+                    en: 'Anglais',
+                    fr: 'Français'
+                }
+            };
+
+            function getCurrentDashboardLanguage() {
+                if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+                    return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+                }
+                return String(document.documentElement.lang || 'da').toLowerCase();
+            }
+
+            function closeLanguagePopovers() {
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    const popover = switcher.querySelector('.lang-popover');
+                    if (popover) popover.hidden = true;
+                    if (current) current.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            function syncLanguageSwitchers() {
+                const currentLang = getCurrentDashboardLanguage();
+                const currentLabel = languageLabelMap[currentLang] || languageLabelMap.da;
+                const labels = languageUiLabels[currentLang] || languageUiLabels.da;
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    if (current) {
+                        current.textContent = currentLabel;
+                        current.setAttribute('aria-label', labels.toggle);
+                        current.setAttribute('title', labels.toggle);
+                    }
+                    switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                        const choiceLang = choice.getAttribute('data-lang') || 'da';
+                        const choiceLabel = labels[choiceLang] || choiceLang.toUpperCase();
+                        choice.classList.toggle('active', choiceLang === currentLang);
+                        choice.setAttribute('aria-label', choiceLabel);
+                        choice.setAttribute('title', choiceLabel);
+                    });
+                });
+            }
+
+            document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                const current = switcher.querySelector('.lang-current');
+                const popover = switcher.querySelector('.lang-popover');
+                if (!current || !popover) return;
+
+                current.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const shouldOpen = popover.hidden;
+                    closeLanguagePopovers();
+                    popover.hidden = !shouldOpen;
+                    current.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                });
+
+                switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                    choice.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const lang = choice.getAttribute('data-lang') || 'da';
+                        if (window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                            window.SkimoI18n.setLanguage(lang, { source: 'manual' });
+                            if (typeof window.SkimoI18n.applyTranslations === 'function') {
+                                window.SkimoI18n.applyTranslations(document);
+                            }
+                        } else {
+                            document.documentElement.lang = lang;
+                        }
+                        syncLanguageSwitchers();
+                        closeLanguagePopovers();
+                        requestAnimationFrame(() => {
+                            if (typeof schedulePlaybackUpdate === 'function') {
+                                schedulePlaybackUpdate();
+                            }
+                        });
+                    });
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.lang-switcher')) {
+                    closeLanguagePopovers();
+                }
+            });
+
+            if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+                window.SkimoI18n.applyTranslations(document);
+            }
+            syncLanguageSwitchers();
+
+            function wrapComingSoonRibbons() {
+                document.querySelectorAll('.coming-soon-ribbon').forEach((el) => {
+                    const text = String(el.textContent || '').trim();
+                    if (!text) return;
+                    const existing = el.querySelector('.coming-soon-ribbon-text');
+                    if (existing && existing.textContent === text) return;
+                    el.textContent = '';
+                    const span = document.createElement('span');
+                    span.className = 'coming-soon-ribbon-text';
+                    span.textContent = text;
+                    el.appendChild(span);
+                });
+            }
+
+            wrapComingSoonRibbons();
+
+            const ribbonObserver = new MutationObserver(() => {
+                requestAnimationFrame(wrapComingSoonRibbons);
+            });
+            document.querySelectorAll('.coming-soon-ribbon').forEach((el) => {
+                ribbonObserver.observe(el, { childList: true, characterData: true, subtree: true });
+            });
+
+            const cardVideos = Array.from(document.querySelectorAll('.card-video-bg'));
+            const syncedClipVideos = cardVideos.filter((video) => video.hasAttribute('data-sync-clip-start'));
+            const loopWindowVideos = cardVideos.filter((video) => video.hasAttribute('data-loop-end'));
+            const syncedClipStartOffset = 0.01;
+
+            const gamePanels = Array.from(document.querySelectorAll('.game-panel'));
+            let activePanelIndex = 0;
+
+            function getPanelIndexFromScrollY() {
+                if (!gamePanels.length) return 0;
+                const y = window.scrollY;
+                let idx = 0;
+                for (let i = 0; i < gamePanels.length; i += 1) {
+                    if (gamePanels[i].offsetTop <= y + 8) idx = i;
+                }
+                return idx;
+            }
+
+            function getVideoPanelIndex(video) {
+                const panel = video.closest('.game-panel');
+                if (!panel) return -1;
+                return gamePanels.indexOf(panel);
+            }
+
+            /** Synlig andel der tæller som “på skærmen”; panel-nærhed holder afspilning ved scroll mellem sektioner. */
+            const DASH_VIDEO_VISIBLE_MIN = 0.055;
+            const DASH_PANEL_PLAY_RADIUS = 3;
+
+            function prefetchNeighborPanels(centerIdx) {
+                const span = 4;
+                const from = Math.max(0, centerIdx - span);
+                const to = Math.min(gamePanels.length - 1, centerIdx + span);
+                for (let i = from; i <= to; i += 1) {
+                    const vid = gamePanels[i].querySelector('.card-video-bg');
+                    if (!vid || vid.hasAttribute('data-sync-clip-start')) continue;
+                    vid.preload = 'auto';
+                    if (vid.readyState === 0) {
+                        try {
+                            vid.load();
+                        } catch (err) {}
+                    }
+                }
+            }
+
+            function getSyncedClipWindow(video) {
+                const clipStart = Number(video.dataset.syncClipStart || 0);
+                const duration = Number(video.duration || 0);
+                if (!Number.isFinite(duration) || duration <= clipStart) return null;
+                const clipEnd = duration;
+                if (clipEnd <= clipStart) return null;
+                return { clipStart, clipEnd };
+            }
+
+            function markSyncedClipReady(video) {
+                video.dataset.syncClipReady = '1';
+                video.dataset.syncClipSeeking = '0';
+                video.style.opacity = '1';
+            }
+
+            function primeSyncedClipVideo(video, forceReset = false) {
+                const clip = getSyncedClipWindow(video);
+                if (!clip) return;
+                if (video.dataset.syncClipSeeking === '1') return;
+                if (!forceReset && video.dataset.syncClipReady === '1') return;
+
+                video.dataset.syncClipReady = '0';
+                video.dataset.syncClipSeeking = '1';
+                video.style.opacity = '0';
+                safePause(video);
+
+                const onSeeked = () => {
+                    markSyncedClipReady(video);
+                    if (!document.hidden) safePlay(video);
+                };
+
+                video.addEventListener('seeked', onSeeked, { once: true });
+                try {
+                    video.currentTime = Math.min(clip.clipEnd - 0.08, clip.clipStart + syncedClipStartOffset);
+                } catch {
+                    video.removeEventListener('seeked', onSeeked);
+                    markSyncedClipReady(video);
+                }
+            }
+
+            function restartSyncedClipVideo(video) {
+                if (document.hidden) return;
+                primeSyncedClipVideo(video, true);
+            }
+
+            function wireLoopWindowVideo(video) {
+                if (!video) return;
+                const loopStart = Number(video.dataset.loopStart || 0);
+                const loopEnd = Number(video.dataset.loopEnd || 0);
+                if (!Number.isFinite(loopEnd) || loopEnd <= loopStart) return;
+
+                const resetToLoopStart = () => {
+                    try {
+                        video.currentTime = loopStart;
+                    } catch {}
+                };
+
+                video.addEventListener('loadedmetadata', () => {
+                    resetToLoopStart();
+                });
+
+                video.addEventListener('timeupdate', () => {
+                    if (video.currentTime >= loopEnd) {
+                        resetToLoopStart();
+                        if (!document.hidden) safePlay(video);
+                    }
+                });
+            }
+
+            function safePlay(video) {
+                if (!video) return;
+                video.muted = true;
+                video.playsInline = true;
+                video.preload = 'auto';
+                const p = video.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+            }
+            function safePause(video) {
+                if (!video) return;
+                try { video.pause(); } catch {}
+            }
+
+            cardVideos.forEach((video) => {
+                video.muted = true;
+                video.playsInline = true;
+                try {
+                    video.disablePictureInPicture = true;
+                    if ('disableRemotePlayback' in video) video.disableRemotePlayback = true;
+                } catch (e) {}
+                try {
+                    video.playbackRate = 1;
+                } catch (e) {}
+                if (video.hasAttribute('data-sync-clip-start')) {
+                    video.preload = 'metadata';
+                } else if (video.closest('#skimoHeroPanel')) {
+                    video.preload = 'auto';
+                } else {
+                    video.preload = 'metadata';
+                }
+                video.loop = !video.hasAttribute('data-sync-clip-start') && !video.hasAttribute('data-loop-end');
+                if (video.hasAttribute('data-sync-clip-start')) {
+                    video.style.opacity = '0';
+                    video.dataset.syncClipReady = '0';
+                    video.dataset.syncClipSeeking = '0';
+                    video.addEventListener('loadedmetadata', () => {
+                        const sp = getPanelIndexFromScrollY();
+                        const pi = getVideoPanelIndex(video);
+                        const near = pi !== -1 && Math.abs(pi - sp) <= DASH_PANEL_PLAY_RADIUS;
+                        if (visibleScore(video) > 0.12 || near) {
+                            primeSyncedClipVideo(video, true);
+                        }
+                    });
+                    video.addEventListener('ended', () => restartSyncedClipVideo(video));
+                }
+                if (video.hasAttribute('data-loop-end')) {
+                    wireLoopWindowVideo(video);
+                }
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+            });
+
+            function visibleScore(video) {
+                const rect = video.getBoundingClientRect();
+                const vw = window.innerWidth || document.documentElement.clientWidth || 1;
+                const vh = window.innerHeight || document.documentElement.clientHeight || 1;
+                const iw = Math.max(0, Math.min(rect.right, vw) - Math.max(rect.left, 0));
+                const ih = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
+                const visibleArea = iw * ih;
+                const fullArea = Math.max(1, rect.width * rect.height);
+                return visibleArea / fullArea;
+            }
+
+            function shouldDashboardVideoRun(video, scrollPanel) {
+                // Hero-panelet skal altid kunne vise sin video med det samme.
+                if (video && video.closest && video.closest('#skimoHeroPanel')) return true;
+                const score = visibleScore(video);
+                if (score > DASH_VIDEO_VISIBLE_MIN) return true;
+                const pi = getVideoPanelIndex(video);
+                if (pi === -1) return false;
+                return Math.abs(pi - scrollPanel) <= DASH_PANEL_PLAY_RADIUS;
+            }
+
+            let rafId = 0;
+            function schedulePlaybackUpdate() {
+                if (rafId) return;
+                rafId = requestAnimationFrame(() => {
+                    rafId = 0;
+                    if (document.hidden) {
+                        cardVideos.forEach((video) => safePause(video));
+                        return;
+                    }
+
+                    const scrollPanel = getPanelIndexFromScrollY();
+                    activePanelIndex = scrollPanel;
+
+                    cardVideos.forEach((video) => {
+                        if (video.hasAttribute('data-sync-clip-start')) {
+                            const run = shouldDashboardVideoRun(video, scrollPanel);
+                            if (run) {
+                                video.preload = 'auto';
+                                if (video.readyState >= 1) {
+                                    primeSyncedClipVideo(video);
+                                    if (video.dataset.syncClipReady === '1') safePlay(video);
+                                }
+                            } else {
+                                safePause(video);
+                            }
+                            return;
+                        }
+                        const run = shouldDashboardVideoRun(video, scrollPanel);
+                        if (run) {
+                            video.preload = 'auto';
+                            safePlay(video);
+                        } else {
+                            safePause(video);
+                        }
+                    });
+                });
+            }
+
+            function nudgePausedVideos() {
+                if (document.hidden) return;
+                const scrollPanel = getPanelIndexFromScrollY();
+                cardVideos.forEach((video) => {
+                    if (video.hasAttribute('data-sync-clip-start')) return;
+                    if (!shouldDashboardVideoRun(video, scrollPanel)) return;
+                    if (video.paused && video.readyState >= 2) {
+                        safePlay(video);
+                    }
+                });
+            }
+
+            const visibilityObserver = new IntersectionObserver(
+                () => schedulePlaybackUpdate(),
+                { root: null, threshold: [0, 0.05, 0.15, 0.35, 0.6, 0.85], rootMargin: '52vh 0px 58vh 0px' }
+            );
+            cardVideos.forEach((video) => {
+                visibilityObserver.observe(video);
+                video.addEventListener('loadeddata', schedulePlaybackUpdate, { once: true });
+                video.addEventListener('stalled', () => {
+                    try {
+                        if (!document.hidden && shouldDashboardVideoRun(video, getPanelIndexFromScrollY())) {
+                            safePlay(video);
+                        }
+                    } catch (e) {}
+                }, { passive: true });
+                video.addEventListener('waiting', () => {
+                    requestAnimationFrame(() => {
+                        try {
+                            if (!document.hidden && shouldDashboardVideoRun(video, getPanelIndexFromScrollY())) {
+                                safePlay(video);
+                            }
+                        } catch (e) {}
+                    });
+                }, { passive: true });
+            });
+
+            // Prime playback immediately so the top-most hero video starts right away.
+            requestAnimationFrame(() => {
+                schedulePlaybackUpdate();
+                nudgePausedVideos();
+
+                // Hard prime: call play directly on the hero video (best-effort; muted autoplay).
+                try {
+                    const heroVideo = document.querySelector('#skimoHeroPanel .card-video-bg');
+                    if (heroVideo) safePlay(heroVideo);
+                } catch {}
+
+                // Second RAF retry for browsers that need an extra tick.
+                requestAnimationFrame(() => {
+                    try {
+                        const heroVideo = document.querySelector('#skimoHeroPanel .card-video-bg');
+                        if (heroVideo) safePlay(heroVideo);
+                    } catch {}
+                });
+            });
+
+            window.setInterval(nudgePausedVideos, 1200);
+
+            document.addEventListener('visibilitychange', () => {
+                schedulePlaybackUpdate();
+                if (!document.hidden) {
+                    const sp = getPanelIndexFromScrollY();
+                    syncedClipVideos.forEach((video) => {
+                        if (shouldDashboardVideoRun(video, sp)) {
+                            primeSyncedClipVideo(video, true);
+                        }
+                    });
+                    loopWindowVideos.forEach((video) => {
+                        if (shouldDashboardVideoRun(video, sp)) {
+                            try {
+                                const loopStart = Number(video.dataset.loopStart || 0);
+                                video.currentTime = loopStart;
+                            } catch {}
+                        }
+                    });
+                    nudgePausedVideos();
+                }
+            });
+
+            window.addEventListener('pageshow', (ev) => {
+                if (ev.persisted) {
+                    schedulePlaybackUpdate();
+                    nudgePausedVideos();
+                }
+            });
+
+            const finePointer = window.matchMedia('(pointer: fine)').matches;
+            let mouseIdleTimer = 0;
+            let pointerOverChrome = false;
+            const mouseIdleDelay = 900;
+            const scrollKeys = new Set(['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', 'Space']);
+            const chromeNodes = Array.from(document.querySelectorAll('.index-clone-nav'));
+            let scrollSettleTimer = 0;
+
+            function showScrollChrome() {
+                document.body.classList.remove('nav-intro-hidden');
+                document.body.classList.remove('ui-hidden');
+            }
+
+            function hideScrollChrome(force = false) {
+                if (!force && pointerOverChrome) return;
+                if (force || window.scrollY > 10) {
+                    document.body.classList.add('ui-hidden');
+                }
+            }
+
+            function scheduleMouseHide() {
+                if (!finePointer) return;
+                window.clearTimeout(mouseIdleTimer);
+                if (pointerOverChrome) return;
+                mouseIdleTimer = window.setTimeout(() => {
+                    hideScrollChrome(true);
+                }, mouseIdleDelay);
+            }
+
+            function handleMouseActivity() {
+                if (!finePointer) return;
+                showScrollChrome();
+                scheduleMouseHide();
+            }
+
+            function handleScrollActivity() {
+                hideScrollChrome(true);
+                schedulePlaybackUpdate();
+            }
+
+            function updateActivePanelIndex() {
+                const p = getPanelIndexFromScrollY();
+                activePanelIndex = p;
+                prefetchNeighborPanels(p);
+            }
+
+            function scheduleActivePanelSync() {
+                window.clearTimeout(scrollSettleTimer);
+                scrollSettleTimer = window.setTimeout(updateActivePanelIndex, 70);
+            }
+
+            /** @param {{ instant?: boolean }} [opts] — instant: præcis hop (fx efter resize); ellers blød scroll */
+            function scrollToPanel(index, opts) {
+                const targetPanel = gamePanels[index];
+                if (!targetPanel) return;
+                const instant = opts && opts.instant === true;
+                activePanelIndex = index;
+                prefetchNeighborPanels(index);
+                const top = targetPanel.offsetTop;
+                window.scrollTo({
+                    top,
+                    behavior: instant ? 'auto' : 'smooth'
+                });
+                requestAnimationFrame(() => {
+                    if (instant && Math.abs(window.scrollY - top) > 2) {
+                        window.scrollTo({ top, behavior: 'auto' });
+                    }
+                    activePanelIndex = index;
+                    schedulePlaybackUpdate();
+                });
+            }
+
+
+            // Hero CTA: scroll down to the next panel (minecraft and below)
+            const heroCta = document.getElementById('skimoHeroCta');
+            if (heroCta) {
+                heroCta.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const heroPanel = document.getElementById('skimoHeroPanel');
+                    const heroIndex = heroPanel ? gamePanels.indexOf(heroPanel) : 0;
+                    const targetIndex = Math.max(0, Math.min(gamePanels.length - 1, heroIndex + 1));
+                    scrollToPanel(targetIndex);
+                });
+            }
+
+            window.addEventListener('scroll', handleScrollActivity, { passive: true });
+            window.addEventListener('wheel', handleScrollActivity, { passive: true });
+            window.addEventListener('touchmove', handleScrollActivity, { passive: true });
+            window.addEventListener('mousemove', handleMouseActivity, { passive: true });
+            window.addEventListener('mouseleave', () => hideScrollChrome(true), { passive: true });
+            chromeNodes.forEach((node) => {
+                node.addEventListener('mouseenter', () => {
+                    pointerOverChrome = true;
+                    window.clearTimeout(mouseIdleTimer);
+                    showScrollChrome();
+                });
+                node.addEventListener('mouseleave', () => {
+                    pointerOverChrome = false;
+                    scheduleMouseHide();
+                });
+            });
+            window.addEventListener('keydown', (event) => {
+                if (scrollKeys.has(event.code)) {
+                    handleScrollActivity();
+                }
+            });
+            window.addEventListener('scroll', scheduleActivePanelSync, { passive: true });
+
+            window.addEventListener('resize', () => {
+                updateActivePanelIndex();
+                schedulePlaybackUpdate();
+            }, { passive: true });
+            activePanelIndex = getPanelIndexFromScrollY();
+            updateActivePanelIndex();
+            schedulePlaybackUpdate();
+
+            function warmAllDashboardVideos() {
+                cardVideos.forEach((v) => {
+                    if (v.hasAttribute('data-sync-clip-start')) return;
+                    v.preload = 'auto';
+                    if (v.readyState === 0) {
+                        try {
+                            v.load();
+                        } catch (e) {}
+                    }
+                });
+            }
+            if (typeof window.requestIdleCallback === 'function') {
+                window.requestIdleCallback(warmAllDashboardVideos, { timeout: 3200 });
+            } else {
+                window.setTimeout(warmAllDashboardVideos, 450);
+            }
+        });
+
+        // Navigation function - redirect to subscription page
+        function viewSubscriptions() {
+            if (window.SkimoI18n && typeof window.SkimoI18n.navigateWithReturn === 'function') {
+                window.SkimoI18n.navigateWithReturn('abonnement.html');
+                return;
+            }
+            window.location.href = 'abonnement.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const anim = document.getElementById('skimoAnimation');
+            if (!anim) return;
+        function sizeSplashToViewport() {
+            const bodyZoom = parseFloat(getComputedStyle(document.body).zoom);
+            const zoom = Number.isFinite(bodyZoom) && bodyZoom > 0 ? bodyZoom : 1;
+            anim.style.position = 'fixed';
+            anim.style.left = '0';
+            anim.style.top = '0';
+            anim.style.width = (window.innerWidth / zoom) + 'px';
+            anim.style.height = (window.innerHeight / zoom) + 'px';
+        }
+        sizeSplashToViewport();
+        window.addEventListener('resize', sizeSplashToViewport);
+        const dashboard = document.querySelector('.dashboard');
+        if (dashboard) {
+            dashboard.style.opacity = sessionStorage.getItem('showDashboardSplash') === '1' ? '0' : '1';
+        }
+
+            let shouldShow = false;
+            try {
+                if (sessionStorage.getItem('showDashboardSplash') === '1') {
+                    shouldShow = true;
+                    sessionStorage.removeItem('showDashboardSplash');
+                }
+            } catch (err) {}
+
+            if (!shouldShow) {
+                anim.style.display = 'none';
+                document.documentElement.classList.remove('dashboard-splash-pending');
+                return;
+            }
+
+            sizeSplashToViewport();
+            anim.style.display = 'flex';
+            setTimeout(function() {
+                anim.style.display = 'none';
+                document.documentElement.classList.remove('dashboard-splash-pending');
+                if (dashboard) {
+                    dashboard.style.transition = 'opacity 0.1s ease';
+                    requestAnimationFrame(() => {
+                        dashboard.style.opacity = '1';
+                    });
+                }
+            }, 1200);
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('heroInfoModal');
+            const titleEl = document.getElementById('heroInfoTitle');
+            const bodyEl = document.getElementById('heroInfoBody');
+            const closeBtn = document.getElementById('heroInfoClose');
+            if (!modal || !titleEl || !bodyEl || !closeBtn) return;
+
+            function tr(key, fallback) {
+                if (window.SkimoI18n && typeof window.SkimoI18n.t === 'function') {
+                    const value = window.SkimoI18n.t(key);
+                    if (value && value !== key) return value;
+                }
+                return fallback;
+            }
+
+            function buildGamesTopicHtml() {
+                const games = [
+                    { id: 'panel-minecraft', key: 'dashboard.minecraft.meta', fallback: 'ModGuard | Minecraft' },
+                    { id: 'panel-sims', key: 'dashboard.sims.meta', fallback: 'ModGuard | Sims 4' },
+                    { id: 'panel-gta', key: 'dashboard.gta.meta', fallback: 'ModGuard | GTA' },
+                    { id: 'panel-fallout', key: 'dashboard.fallout.meta', fallback: 'ModGuard | Fallout' },
+                    { id: 'panel-stardew', key: 'dashboard.stardew.meta', fallback: 'ModGuard | Stardew Valley' },
+                    { id: 'panel-bg3', key: 'dashboard.bg3.meta', fallback: "ModGuard | Baldur's Gate 3" },
+                    { id: 'panel-cities', key: 'dashboard.cities.meta', fallback: 'ModGuard | Cities: Skylines' },
+                    { id: 'panel-skyrim', key: 'dashboard.skyrim.meta', fallback: 'ModGuard | Skyrim' }
+                ];
+                const buttons = games.map((game) => {
+                    const text = tr(game.key, game.fallback);
+                    return `<button type="button" class="hero-game-choice" data-panel-id="${game.id}">${text}</button>`;
+                }).join('');
+                return `<p>${tr('dashboard.hero.games.p1', 'Her kan du se alle spil, som ModGuard understøtter lige nu og de næste spil på vej.')}</p>
+<p>${tr('dashboard.hero.games.p2', 'Vaelg dit foretrukne spil herunder for at hoppe direkte til det panel.')}</p>
+<div class="hero-game-picker">
+<div class="hero-game-picker-label">${tr('dashboard.hero.games.pick', 'Vælg dit foretrukne spil')}</div>
+<div class="hero-game-list">${buttons}</div>
+</div>`;
+            }
+
+            function getTopicContent() {
+                return {
+                    games: {
+                        title: tr('dashboard.hero.games.title', 'Spilunivers'),
+                        html: buildGamesTopicHtml()
+                    },
+                    parents: {
+                        title: tr('dashboard.hero.parents.title', 'Forældre zone'),
+                        html: `<p>${tr('dashboard.hero.parents.p1', 'ModGuard giver overblik og tryghed, når børn downloader mods.')}</p><p>${tr('dashboard.hero.parents.p2', 'Vi advarer om risikofiler, så du lettere kan hjælpe med sikre valg.')}</p>`
+                    },
+                    players: {
+                        title: tr('dashboard.hero.players.title', 'Spillerguide'),
+                        html: `<p>${tr('dashboard.hero.players.p1', 'Vi gør modding mere sikkert uden at gøre det besværligt.')}</p><p>${tr('dashboard.hero.players.p2', 'Du får hurtige advarsler og bedre kontrol over dine downloads.')}</p>`
+                    },
+                    protect: {
+                        title: tr('dashboard.hero.protect.title', 'Sikkerhed'),
+                        html: `<p>${tr('dashboard.hero.protect.p1', 'Vi scanner modfiler for malware, falske installere og skadelig kode.')}</p><p>${tr('dashboard.hero.protect.p2', 'Vi hjælper med at beskytte computer, konto og saves.')}</p>`
+                    },
+                    about: {
+                        title: tr('dashboard.hero.about.title', 'Om Skimo'),
+                        html: `<p>${tr('dashboard.hero.about.p1', 'Skimo er et dansk firma grundlagt af et team bestående af it-specialister, gamere og jurister. Vores mission er at skabe sikre og pålidelige løsninger til gamere, så de kan downloade mods og spilindhold uden bekymringer.')}</p><p>${tr('dashboard.hero.about.p2', 'Skimo blev til, fordi vi så et behov for at beskytte både gamere og forældre mod usikre filer og potentielle trusler fra uofficielle kilder. Vi vil gøre det nemt for alle, uanset om du er gamer eller forælder, og vores løsning er skabt med fokus på brugervenlighed og pålidelighed, så du kan nyde din spiloplevelse uden risiko.')}</p>`
+                    }
+                };
+            }
+
+            let activeTopicKey = '';
+
+            function openTopic(topicKey) {
+                const topicContent = getTopicContent();
+                const topic = topicContent[topicKey];
+                if (!topic) return;
+                activeTopicKey = topicKey;
+                titleEl.textContent = topic.title;
+                bodyEl.innerHTML = topic.html;
+                bodyEl.querySelectorAll('.hero-game-choice[data-panel-id]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const panelId = btn.getAttribute('data-panel-id');
+                        if (!panelId) return;
+                        const panel = document.getElementById(panelId);
+                        if (!panel) return;
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        closeModal();
+                    });
+                });
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            document.querySelectorAll('.hero-nav-link[data-hero-topic]').forEach((link) => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    openTopic(link.getAttribute('data-hero-topic') || '');
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) closeModal();
+            });
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+            });
+            document.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                choice.addEventListener('click', () => {
+                    if (modal.classList.contains('is-open') && activeTopicKey) {
+                        requestAnimationFrame(() => openTopic(activeTopicKey));
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script src="assets/hq-enhance.js?v=20260327-69" defer></script>
+    <script src="assets/skimo-mobile-video.js?v=20260327-69" defer></script>
+</body>
+</html> 

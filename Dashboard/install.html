@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="da" class="page-abonnement" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/skimo-desktop-viewport.js?v=20260327-69"></script>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preload" href="assets/i18n.js?v=20260327-69" as="script">
+    <link rel="preload" href="assets/skimo-ai-assistant.css?v=20260327-69" as="style">
+    <link rel="preload" href="assets/hq-enhance.js?v=20260327-69" as="script">
+    <title data-i18n="title.install">Installer Skimo</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            color: #f8f8f8;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: none;
+            z-index: -1;
+            opacity: 1;
+            animation: none;
+        }
+
+        /* Abonnement layout (kopieret struktur/stil fra abonnement.html) */
+        .sub-integrated {
+            width: 100%;
+            padding: 4px 0 36px;
+            border-top: 1px solid rgba(154, 202, 202, 0.16);
+            background: transparent;
+            box-shadow: none;
+        }
+        .sub-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 14px;
+            box-sizing: border-box;
+        }
+        .sub-two-col {
+            display: grid;
+            grid-template-columns: minmax(252px, 308px) minmax(0, 1fr);
+            gap: 28px 40px;
+            align-items: start;
+            margin-top: 2cm;
+        }
+        .sub-price-col {
+            position: sticky;
+            top: 86px;
+            text-align: left;
+            padding-top: 4px;
+        }
+        .sub-right-col {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .sub-block {
+            margin: 0;
+            padding: 0 0 18px;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid rgba(154, 202, 202, 0.12);
+            overflow: visible;
+        }
+        .sub-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .sub-block--price {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .page-hero-wrap { width: 100%; margin: 0; border-bottom: none; }
+        .page-hero {
+            position: relative;
+            min-height: min(54vh, 520px);
+            display: flex;
+            align-items: flex-end;
+            border-radius: 0;
+            overflow: hidden;
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            border-top: 1px solid rgba(154, 202, 202, 0.14);
+            border-bottom: none;
+            box-shadow: none;
+        }
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(90deg,
+                    rgba(28, 30, 33, 0.72) 0%,
+                    rgba(45, 47, 50, 0.38) 28%,
+                    rgba(78, 80, 82, 0.12) 58%,
+                    rgba(95, 98, 102, 0.04) 100%),
+                linear-gradient(180deg, rgba(40, 42, 45, 0.2) 0%, rgba(78, 80, 82, 0.18) 100%);
+        }
+        .page-hero-media { position: absolute; inset: 0; }
+        .page-hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: saturate(1.02) contrast(1.02) brightness(0.88);
+        }
+        .page-hero-inner {
+            position: relative;
+            z-index: 2;
+            width: min(1240px, calc(100% - 72px));
+            margin: 0 auto;
+            padding: 112px 0 28px;
+        }
+        .page-hero-copy { max-width: 740px; }
+        .page-hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(10, 18, 25, 0.62);
+            border: 1px solid rgba(211, 231, 239, 0.18);
+            color: rgba(232, 241, 245, 0.82);
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .page-hero h2 {
+            margin: 18px 0 14px;
+            font-size: clamp(2.9rem, 7vw, 5.9rem);
+            line-height: 0.94;
+            letter-spacing: -0.06em;
+            color: #f6fbfd;
+            max-width: 9ch;
+        }
+
+        /* Kommandolinje: samme CSS som abonnement.html (inkl. #skimoHeroNav) */
+        .index-clone-header {
+            display: none !important;
+        }
+        .index-clone-nav {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: rgba(31, 44, 52, 0.94) !important;
+            padding: 16.5px 20px !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+            border-top: 1px solid rgba(143, 180, 192, 0.14) !important;
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+        }
+        .index-clone-nav .nav-left,
+        .index-clone-nav .nav-right {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .index-clone-nav .nav-left {
+            gap: 20px !important;
+        }
+        .index-clone-nav .nav-right {
+            flex-wrap: wrap !important;
+        }
+        .index-clone-nav .logo {
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: #8fb4c0 !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a {
+            text-decoration: none !important;
+            color: rgba(245, 248, 251, 0.84) !important;
+            font-size: 16px !important;
+            margin: 0 10px !important;
+            padding: 10px !important;
+            transition: all 0.15s ease !important;
+            position: relative !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a:hover {
+            color: #8fb4c0 !important;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4) !important;
+        }
+        .index-clone-nav a::before {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 0 !important;
+            height: 2px !important;
+            background: #8fb4c0 !important;
+            transition: width 0.3s ease !important;
+        }
+        .index-clone-nav a:hover::before {
+            width: 100% !important;
+        }
+        .index-clone-nav .language-selector select {
+            padding: 5px !important;
+            background: rgba(168, 192, 202, 0.92) !important;
+            color: #000 !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+        }
+        body.nav-idle .index-clone-nav {
+            opacity: 0 !important;
+            transform: translateY(-120%) !important;
+            pointer-events: none !important;
+        }
+        #skimoHeroNav {
+            background: transparent !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            min-height: 74px;
+            gap: 18px;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1001 !important;
+            box-shadow: none !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        #skimoHeroNav .nav-left,
+        #skimoHeroNav .nav-right {
+            min-width: 160px;
+        }
+        #skimoHeroNav .nav-right {
+            gap: 12px !important;
+            flex-wrap: nowrap !important;
+        }
+        #skimoHeroNav .nav-left {
+            position: relative;
+            isolation: isolate;
+        }
+        #skimoHeroNav .hero-logo-shine {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        #skimoHeroNav .hero-logo-shine::after {
+            content: none;
+        }
+        #skimoHeroNav .nav-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #skimoHeroNav .hero-brand-logo {
+            display: inline-block;
+            width: 72px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+            position: relative;
+            z-index: 2;
+        }
+        #skimoHeroNav .hero-brand-logo.shine-pass {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            filter: brightness(3.1) saturate(1.45);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            animation: skimoLogoShinePass 3.1s ease-in-out infinite;
+            z-index: 3;
+        }
+        @keyframes skimoLogoShinePass {
+            0%, 18% {
+                opacity: 0;
+                clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            }
+            24% {
+                opacity: 1;
+            }
+            38% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+            100% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+        }
+        #skimoHeroNav .nav-center a {
+            font-size: 17px !important;
+            letter-spacing: 0.01em;
+            color: rgba(232, 245, 252, 0.95) !important;
+            padding: 10px 12px !important;
+            text-transform: none;
+            font-weight: 600;
+        }
+        #skimoHeroNav .hero-search {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(232, 245, 252, 0.96);
+            font-size: 16px;
+            background: transparent;
+        }
+        #skimoHeroNav .hero-search::before {
+            content: none !important;
+        }
+        #skimoHeroNav a.nav-logo-link {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none;
+            text-decoration: none;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+        }
+        #skimoHeroNav a.nav-logo-link::before {
+            display: none !important;
+        }
+        .lang-switcher {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 0 !important;
+        }
+        .lang-current {
+            border: none !important;
+            background: transparent !important;
+            color: rgba(232, 245, 252, 0.96) !important;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 0 !important;
+            cursor: pointer;
+        }
+        .lang-popover {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 222, 235, 0.1);
+            background: rgba(8, 12, 18, 0.34);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(8px);
+            z-index: 8;
+        }
+        .lang-popover[hidden] {
+            display: none;
+        }
+        .lang-choice {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(227, 238, 242, 0.14);
+            background: rgba(227, 238, 242, 0.01);
+            color: #fff;
+            cursor: pointer;
+        }
+        .lang-choice.active {
+            border-color: rgba(227, 238, 242, 0.48);
+            background: rgba(227, 238, 242, 0.14);
+        }
+        @media (max-width: 1100px) {
+            #skimoHeroNav {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px 12px !important;
+            }
+            #skimoHeroNav .nav-left,
+            #skimoHeroNav .nav-right,
+            #skimoHeroNav .nav-center {
+                width: 100%;
+                justify-content: center;
+            }
+            #skimoHeroNav .nav-right {
+                flex-wrap: wrap !important;
+            }
+        }
+
+        /* Install-specifikt, men samme “abonnement”-kortstil */
+        .install-step {
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.46) 0%, rgba(9, 14, 20, 0.34) 100%);
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+        .install-step.is-clickable {
+            cursor: pointer;
+            user-select: none;
+        }
+        .install-step.is-clickable:hover {
+            border-color: rgba(154, 202, 202, 0.4);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.12), 0 10px 24px rgba(0, 0, 0, 0.22);
+            transform: translateY(-1px);
+        }
+        .install-step strong { display: block; margin-bottom: 6px; }
+        .install-step p { margin: 0; color: rgba(232, 245, 252, 0.78); font-weight: 600; line-height: 1.45; }
+        .install-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+        .thanks {
+            margin-top: 12px;
+            color: rgba(232, 245, 252, 0.84);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .game-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .game-tile {
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.46) 0%, rgba(9, 14, 20, 0.34) 100%);
+            padding: 12px;
+            overflow: hidden;
+            position: relative;
+            width: 180px;
+            max-width: 45vw;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            opacity: 0.55;
+            filter: saturate(0.85) brightness(0.82);
+            transition: opacity 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
+        }
+
+        .game-tile.is-owned {
+            opacity: 1;
+            filter: saturate(1.06) brightness(0.98);
+            border-color: rgba(154, 202, 202, 0.62);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.22), 0 10px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        .game-media {
+            position: relative;
+            isolation: isolate;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            background: rgba(0, 0, 0, 0.28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .game-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 1;
+            background:
+                radial-gradient(ellipse 96% 88% at 50% 40%, transparent 26%, rgba(2, 8, 18, 0.4) 100%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 26%);
+        }
+
+        .game-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+            position: relative;
+            z-index: 0;
+            filter: saturate(1.16) contrast(1.1) brightness(0.91);
+            transform: translateZ(0);
+        }
+
+        .game-name {
+            margin-top: 10px;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+            color: rgba(245, 248, 251, 0.92);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .owned-pill {
+            font-size: 11px;
+            font-weight: 900;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(154, 202, 202, 0.32);
+            background: rgba(154, 202, 202, 0.14);
+            color: rgba(232, 245, 252, 0.92);
+        }
+        .owned-pill.is-muted {
+            opacity: 0.75;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+        .owned-pill.is-hidden {
+            display: none;
+        }
+
+        .download-card {
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.5) 0%, rgba(9, 14, 20, 0.38) 100%);
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .download-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .download-title { font-weight: 900; letter-spacing: 0.01em; }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(154, 202, 202, 0.36);
+            background: rgba(154, 202, 202, 0.14);
+            color: rgba(245, 248, 251, 0.92);
+            font-weight: 900;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .download-btn:hover { background: rgba(154, 202, 202, 0.22); }
+        .download-meta { margin-top: 8px; color: rgba(232, 245, 252, 0.78); font-size: 12px; font-weight: 600; line-height: 1.45; }
+        .download-status { margin-top: 10px; font-size: 12px; font-weight: 900; color: rgba(232, 245, 252, 0.88); }
+        .ok { color: rgba(80, 214, 172, 0.92); }
+
+        .wizard {
+            display: grid;
+            gap: 14px;
+        }
+
+        .wizard-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 14px;
+            align-items: start;
+        }
+
+        .wizard-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .wizard-label {
+            font-size: 12px;
+            font-weight: 900;
+            color: rgba(232, 245, 252, 0.78);
+            letter-spacing: 0.02em;
+        }
+
+        .seg {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .seg button {
+            appearance: none;
+            border: 1px solid rgba(154, 202, 202, 0.26);
+            background: rgba(10, 18, 25, 0.36);
+            color: rgba(245, 248, 251, 0.88);
+            padding: 9px 10px;
+            border-radius: 999px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .seg button.active {
+            border-color: rgba(154, 202, 202, 0.62);
+            background: rgba(154, 202, 202, 0.16);
+            color: rgba(245, 248, 251, 0.95);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.14);
+        }
+
+        .wizard-input,
+        .wizard-select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            background: rgba(10, 18, 25, 0.36);
+            color: rgba(245, 248, 251, 0.92);
+            outline: none;
+        }
+
+        .wizard-hint {
+            font-size: 12px;
+            color: rgba(232, 245, 252, 0.7);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .choice-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choice {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            background: rgba(10, 18, 25, 0.28);
+        }
+
+        .choice input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #9acaca;
+        }
+
+        .choice-title {
+            font-weight: 900;
+        }
+
+        .choice-sub {
+            font-size: 12px;
+            color: rgba(232, 245, 252, 0.72);
+            font-weight: 700;
+        }
+
+        @media (max-width: 980px) {
+            .sub-two-col { grid-template-columns: 1fr; margin-top: 18px; }
+            .sub-price-col { position: relative; top: 0; }
+            .install-grid { grid-template-columns: 1fr; }
+            .wizard-row { grid-template-columns: 1fr; }
+            .page-hero-inner { width: calc(100% - 28px); padding: 96px 0 20px; }
+            .page-hero h2 { font-size: clamp(2rem, 10vw, 3.4rem); max-width: 12ch; }
+            .sub-inner { padding: 0 10px; }
+        }
+        @media (max-width: 700px) {
+            #skimoHeroNav { gap: 6px !important; }
+            #skimoHeroNav .nav-center a { font-size: 14px !important; padding: 8px 8px !important; margin: 0 4px !important; }
+            #skimoHeroNav .nav-right { gap: 8px !important; }
+            #skimoHeroNav .hero-brand-logo { width: 62px; }
+            .game-tile { width: 100%; max-width: 100%; }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/theme-picker.css?v=20260506-dark-lightblue">
+    <link rel="stylesheet" href="assets/skimo-ai-assistant.css?v=20260327-69">
+    <script src="assets/i18n.js?v=20260327-69"></script>
+</head>
+<body>
+    <nav class="index-clone-nav" id="skimoHeroNav" style="display:flex !important;">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo-link" data-i18n-aria-label="nav.logoHome">
+                <span class="hero-logo-shine">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo" alt="Skimo">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo shine-pass" alt="" aria-hidden="true">
+                </span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="guide.html" data-i18n="nav.guide">Guide</a>
+            <a href="abonnement.html" data-i18n="nav.subscriptions">Abonnementer</a>
+            <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+            <a href="index.html" data-i18n="nav.dashboard">Hjem</a>
+        </div>
+        <div class="nav-right">
+            <button type="button" class="hero-search skimo-ai-trigger" aria-label="Åbn Skimo chatbot"></button>
+            <div class="lang-switcher" data-lang-switcher>
+                <button type="button" class="lang-current" aria-label="Vælg sprog" aria-expanded="false">DA</button>
+                <div class="lang-popover" hidden>
+                    <button type="button" class="lang-choice" data-lang="da" aria-label="Dansk">DA</button>
+                    <button type="button" class="lang-choice" data-lang="sv" aria-label="Svenska">SV</button>
+                    <button type="button" class="lang-choice" data-lang="no" aria-label="Norsk">NO</button>
+                    <button type="button" class="lang-choice" data-lang="en" aria-label="English">EN</button>
+                    <button type="button" class="lang-choice" data-lang="fr" aria-label="Français">FR</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-hero-wrap">
+        <section class="page-hero">
+            <div class="page-hero-media">
+                <img src="Billeder/Guide/8.png" alt="ModGuard preview">
+            </div>
+            <div class="page-hero-inner">
+                <div class="page-hero-copy">
+                    <span class="page-hero-kicker" data-i18n="install.page.kicker">Install / ModGuard / Beskyttelse</span>
+                    <h2 data-i18n="install.page.heroH2">Installer din beskyttelse</h2>
+                    <div class="thanks" data-i18n="install.page.thanks">
+                        Tak for at have hentet Skimo. Følg trinene herunder, så er du hurtigt beskyttet.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="sub-integrated" aria-label="Installation">
+            <div class="sub-inner">
+                <div class="sub-two-col">
+                    <aside class="sub-price-col sub-block sub-block--price">
+                        <p class="card-title" data-i18n="install.page.selectedTitle">Valgt beskyttelse</p>
+                        <p class="card-intro" data-i18n="install.page.selectedIntro">Vi har klargjort de produkter du valgte. Download i trin 3.</p>
+                        <div class="summary-selected" id="product-selected">
+                            <span class="summary-selected-label" id="selected-label-text" data-i18n="install.page.selectedLabel">Valgte produkter</span>
+                            <span class="summary-selected-value" id="selected-value-text">Afventer valg</span>
+                        </div>
+                        <div class="fineprint" style="margin-top: 12px;">
+                            <span data-i18n="install.page.tipMac">Tip: På Mac trækker du app’en til Programmer (Applications) efter du har åbnet zip-filen.</span>
+                        </div>
+                    </aside>
+
+                    <div class="sub-right-col">
+                        <div class="sub-block" id="stepBlock1">
+                            <p class="card-title" data-i18n="install.page.stepsTitle">1-2-3 installation</p>
+                            <div class="install-grid">
+                                <div class="install-step is-clickable" data-scroll-to="#downloadChoiceList">
+                                    <strong data-i18n="install.page.step1.title">Step 1</strong>
+                                    <p data-i18n="install.page.step1.body">Bekræft at det er de rigtige produkter du har valgt.</p>
+                                </div>
+                                <div class="install-step is-clickable" data-scroll-to="#osPickers">
+                                    <strong data-i18n="install.page.step2.title">Step 2</strong>
+                                    <p data-i18n="install.page.step2.body">Åbn zip-filen. På Mac: flyt app’en til Programmer (Applications).</p>
+                                </div>
+                                <div class="install-step is-clickable" data-scroll-to="#downloadsGrid">
+                                    <strong data-i18n="install.page.step3.title">Step 3</strong>
+                                    <p data-i18n="install.page.step3.body">Download zip-filen herunder. Når du har downloadet, står den som “Klar”.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-block" id="stepBlock2">
+                            <p class="card-title" data-i18n="install.page.videosTitle">Dine spil</p>
+                            <div class="game-strip" id="gameStrip"></div>
+                        </div>
+
+                        <div class="sub-block" id="stepBlock3">
+                            <p class="card-title" data-i18n="install.page.downloadsTitle">Downloads</p>
+                            <div class="wizard" id="installWizard">
+                                <div class="install-step">
+                                    <strong data-i18n="install.wizard.step1.title">Step 1 Vælg hvad du vil hente</strong>
+                                    <p>Du kan hente Minecraft eller Sims ModGuard gratis.</p>
+                                </div>
+                                <div class="choice-list" id="downloadChoiceList"></div>
+
+                                <div class="install-step">
+                                    <strong data-i18n="install.wizard.step2.title">Step 2 Vælg styresystem</strong>
+                                    <p data-i18n="install.wizard.step2.body">Tryk på den ModGuard du vil hente, og vælg styresystemet.</p>
+                                </div>
+                                <div id="osPickers" style="display:grid;gap:12px;"></div>
+                                <div class="install-step">
+                                    <strong data-i18n="install.wizard.step4.title">Step 3 Download</strong>
+                                    <p data-i18n="install.wizard.step4.body">Download for dine valgte spil, styresystemer og enheder.</p>
+                                </div>
+                                <div id="downloadsGrid" style="display:grid;gap:14px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      (function () {
+        const url = new URL(window.location.href);
+        const labelById = { 'minecraft-player': 'Minecraft', sims: 'Sims' };
+        const availableNow = new Set(['minecraft-player', 'sims']);
+        const storageKeys = [
+          'skimo_selected_products',
+          'skimo_selected_primary',
+          'skimo_selected_devices',
+          'skimo_selected_billing',
+          'skimo_selected_email',
+          'skimo_plan_tier'
+        ];
+
+        function readStorageValue(key) {
+          try {
+            const sessionValue = sessionStorage.getItem(key);
+            if (sessionValue !== null) return sessionValue;
+          } catch {}
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        }
+
+        function clearCheckoutStorage() {
+          storageKeys.forEach((key) => {
+            try { sessionStorage.removeItem(key); } catch {}
+            try { localStorage.removeItem(key); } catch {}
+          });
+        }
+
+        function normalizeProducts(list) {
+          return Array.from(new Set(list.map((value) => String(value || '').trim()).filter((value) => availableNow.has(value))));
+        }
+
+        const productsRaw = String(url.searchParams.get('products') || url.searchParams.get('product') || '').trim();
+        const products = normalizeProducts(productsRaw ? productsRaw.split(',') : []);
+        const artifactByIdAndOs = {
+          'minecraft-player': {
+            mac: 'Downloads/Minecraft%20Modverse%20Mac.app.zip',
+            windows: '',
+            linux: ''
+          },
+          sims: {
+            mac: 'Downloads/Sims%20Modverse%20Mac.app.zip',
+            windows: '',
+            linux: ''
+          }
+        };
+        const allGames = [
+          // Brug den samme Minecraft-video som findes lokalt under `Videoer/`.
+          { id: 'minecraft-player', label: 'Minecraft', video: 'Videoer/Minecraft.mp4' },
+          { id: 'sims', label: 'Sims', video: 'Videoer/Sims.mp4' }
+        ];
+
+        let resolved = products.length
+          ? products
+          : (function () {
+              // Fallback: brug checkout-state fra storage, så install stadig rammer korrekt produkt
+              // hvis URL-parametre fx mangler på produktion.
+              try {
+                const stored = JSON.parse(readStorageValue('skimo_selected_products') || '[]');
+                if (Array.isArray(stored)) {
+                  const normalized = normalizeProducts(stored);
+                  if (normalized.length) return normalized;
+                }
+              } catch {}
+
+              try {
+                const primary = String(readStorageValue('skimo_selected_primary') || '').trim();
+                if (primary) {
+                  const normalizedPrimary = normalizeProducts([primary]);
+                  if (normalizedPrimary.length) return normalizedPrimary;
+                }
+              } catch {}
+
+              return [];
+            })();
+
+        // Failsafe: hvis primary i checkout-state er fx `minecraft-player`, så sørg for at den også dukker op
+        // selvom URL-parametre kommer tomme/fejl.
+        try {
+          const primary = String(readStorageValue('skimo_selected_primary') || '').trim();
+          if (primary) {
+            const normalizedPrimary = normalizeProducts([primary]);
+            if (normalizedPrimary.length) {
+              const resolvedSet = new Set(resolved.map(String));
+              normalizedPrimary.forEach((id) => resolvedSet.add(id));
+              resolved = Array.from(resolvedSet);
+            }
+          }
+        } catch {}
+        clearCheckoutStorage();
+
+        // Strict connector: only show “owned/active + downloadable” for what the user selected on abonnement.html.
+        const owned = new Set(resolved.map(String));
+        const chosenText = Array.from(owned).map(id => (labelById[id] || id)).join(', ');
+        const selectedValue = document.getElementById('selected-value-text');
+        if (selectedValue) selectedValue.textContent = chosenText || 'Afventer valg';
+
+        // Default OS guess
+        function guessOs() {
+          const p = String(navigator.platform || '').toLowerCase();
+          if (p.includes('mac')) return 'mac';
+          if (p.includes('win')) return 'windows';
+          return 'linux';
+        }
+
+        const state = {
+          owned: new Set(Array.from(owned)),
+          download: new Set(Array.from(owned)),
+          osByGame: {}
+        };
+
+        Array.from(state.owned).forEach((id) => {
+          state.osByGame[id] = guessOs();
+        });
+
+        const gameStrip = document.getElementById('gameStrip');
+        if (gameStrip) {
+          gameStrip.textContent = '';
+          // Kun vis de spil/modguards brugeren valgte (ikke hele kataloget).
+          const selectedGames = allGames.filter(g => owned.has(g.id));
+          selectedGames.forEach((g) => {
+            const tile = document.createElement('div');
+            tile.className = 'game-tile is-owned';
+            const media = document.createElement('div');
+            media.className = 'game-media';
+            media.setAttribute('data-skimo-cinema-wired', '1');
+            const v = document.createElement('video');
+            // Nogle browsere er mere “picky” med autoplay hvis `src` kun er sat som property.
+            // Sæt derfor både attribute og property.
+            try { v.setAttribute('src', g.video); } catch {}
+            v.src = g.video;
+            // Sørg for at browseren får explicit autoplay/attrs (nogle kræver attributter fremfor kun properties).
+            v.autoplay = true;
+            v.muted = true;
+            v.loop = true;
+            v.playsInline = true;
+            v.preload = 'auto';
+            try {
+              v.setAttribute('autoplay', '');
+              v.setAttribute('muted', '');
+              v.setAttribute('playsinline', '');
+              v.setAttribute('preload', 'auto');
+            } catch {}
+            media.appendChild(v);
+            tile.appendChild(media);
+            // Prime playback med det samme (modsat hq-enhance's IntersectionObserver), så boksen viser motion straks.
+            const prime = () => {
+              try {
+                // load() hjælper især på nogle browsere når src sættes via JS.
+                v.load();
+              } catch {}
+              try {
+                const p = v.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+              } catch {}
+            };
+            prime();
+            v.addEventListener('loadeddata', prime, { once: true });
+            const name = document.createElement('div');
+            name.className = 'game-name';
+            const left = document.createElement('span');
+            left.textContent = g.label;
+            name.appendChild(left);
+            const pill = document.createElement('span');
+            pill.className = 'owned-pill';
+            pill.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.game.active')
+              : 'Aktiv';
+            name.appendChild(pill);
+            tile.appendChild(name);
+            gameStrip.appendChild(tile);
+          });
+        }
+
+        // Step 1: choose what to download (minecraft/sims or both)
+        const choiceList = document.getElementById('downloadChoiceList');
+        function renderChoices() {
+          if (!choiceList) return;
+          choiceList.textContent = '';
+          Array.from(state.owned).forEach((id) => {
+            const row = document.createElement('label');
+            row.className = 'choice';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = state.download.has(id);
+            cb.addEventListener('change', () => {
+              if (cb.checked) state.download.add(id);
+              else state.download.delete(id);
+              renderOsPickers();
+              renderDownloads();
+              renderHighlights();
+            });
+            row.appendChild(cb);
+            const text = document.createElement('div');
+            const title = document.createElement('div');
+            title.className = 'choice-title';
+            title.textContent = `${labelById[id] || id} ModGuard`;
+            const sub = document.createElement('div');
+            sub.className = 'choice-sub';
+            sub.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.game.active')
+              : 'Aktiv';
+            text.appendChild(title);
+            text.appendChild(sub);
+            row.appendChild(text);
+            choiceList.appendChild(row);
+          });
+        }
+
+        // Step 2: OS per game
+        const osPickers = document.getElementById('osPickers');
+        function osSeg(gameId) {
+          const wrap = document.createElement('div');
+          wrap.className = 'wizard-field';
+          const label = document.createElement('div');
+          label.className = 'wizard-label';
+          label.textContent = `${labelById[gameId] || gameId} OS`;
+          wrap.appendChild(label);
+          // Vis ModGuard “kort” for den valgte
+          const card = document.createElement('div');
+          card.className = 'download-card';
+          card.style.margin = '0 0 10px';
+          const head = document.createElement('div');
+          head.className = 'download-head';
+          const t = document.createElement('div');
+          t.className = 'download-title';
+          t.textContent = `${labelById[gameId] || gameId} ModGuard`;
+          head.appendChild(t);
+          const img = document.createElement('img');
+          img.src = 'Logoer/Skimo1logo.png';
+          img.alt = 'Skimo';
+          img.style.width = '34px';
+          img.style.height = '34px';
+          img.style.objectFit = 'contain';
+          img.style.opacity = '0.95';
+          head.appendChild(img);
+          card.appendChild(head);
+          wrap.appendChild(card);
+          const seg = document.createElement('div');
+          seg.className = 'seg';
+          const opts = [
+            { id: 'mac', label: 'Mac' },
+            { id: 'windows', label: 'Windows' },
+            { id: 'linux', label: 'Linux' }
+          ];
+          opts.forEach((o) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = o.label;
+            b.className = state.osByGame[gameId] === o.id ? 'active' : '';
+            b.addEventListener('click', () => {
+              state.osByGame[gameId] = o.id;
+              renderOsPickers();
+              renderDownloads();
+            });
+            seg.appendChild(b);
+          });
+          wrap.appendChild(seg);
+          return wrap;
+        }
+
+        function renderOsPickers() {
+          if (!osPickers) return;
+          osPickers.textContent = '';
+          Array.from(state.download).forEach((id) => {
+            osPickers.appendChild(osSeg(id));
+          });
+          if (state.download.size === 0) {
+            const hint = document.createElement('div');
+            hint.className = 'wizard-hint';
+            hint.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.wizard.pickOne')
+              : 'Vælg mindst ét spil i Step 1.';
+            osPickers.appendChild(hint);
+          }
+        }
+
+        function renderHighlights() {
+          // Re-highlight based on Step 1 selection (download set), not only owned.
+          const tiles = Array.from(document.querySelectorAll('.game-tile'));
+          tiles.forEach((tile) => {
+            const name = tile.querySelector('.game-name span');
+            if (!name) return;
+          });
+          // Simpel: CSS state styres allerede af is-owned; keep.
+        }
+
+        const grid = document.getElementById('downloadsGrid');
+        if (!grid) return;
+        const downloadLinks = [];
+
+        function renderDownloads() {
+          grid.textContent = '';
+          downloadLinks.length = 0;
+          Array.from(state.download).forEach((id) => {
+            const title = labelById[id] || id;
+            const os = state.osByGame[id] || guessOs();
+            const href = (artifactByIdAndOs[id] && artifactByIdAndOs[id][os]) || '';
+
+            const card = document.createElement('div');
+            card.className = 'download-card';
+
+            const head = document.createElement('div');
+            head.className = 'download-head';
+
+            const t = document.createElement('div');
+            t.className = 'download-title';
+            t.textContent = `${title} ${os.toUpperCase()}`;
+            head.appendChild(t);
+
+            const btn = document.createElement('a');
+            btn.className = 'download-btn';
+            btn.href = href || '#';
+            btn.setAttribute('download', '');
+            btn.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.download.cta')
+              : 'Download';
+            if (!href) {
+              btn.setAttribute('aria-disabled', 'true');
+              btn.style.opacity = '0.45';
+              btn.style.pointerEvents = 'none';
+            }
+            head.appendChild(btn);
+
+            const meta = document.createElement('div');
+            meta.className = 'download-meta';
+            meta.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.download.meta')
+              : 'Når filen er downloadet, åbner du filen og fortsætter.';
+
+            const status = document.createElement('div');
+            status.className = 'download-status';
+            status.textContent = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+              ? window.SkimoI18n.t('install.download.statusIdle')
+              : 'Status: Klar når download er færdig.';
+
+            btn.addEventListener('click', () => {
+              const started = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+                ? window.SkimoI18n.t('install.download.started')
+                : 'Download startet…';
+              const ready = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+                ? window.SkimoI18n.t('install.download.ready')
+                : 'Klar';
+              const statusPrefix = (window.SkimoI18n && typeof window.SkimoI18n.t === 'function')
+                ? window.SkimoI18n.t('install.download.statusPrefix')
+                : 'Status:';
+              const setStatus = (msg) => {
+                status.textContent = '';
+                const pre = document.createElement('span');
+                pre.textContent = statusPrefix + ' ';
+                const ok = document.createElement('span');
+                ok.className = 'ok';
+                ok.textContent = msg;
+                status.appendChild(pre);
+                status.appendChild(ok);
+              };
+              setStatus(started);
+              window.setTimeout(() => setStatus(ready), 2200);
+            });
+
+            card.appendChild(head);
+            card.appendChild(meta);
+            card.appendChild(status);
+            grid.appendChild(card);
+            downloadLinks.push(btn);
+          });
+        }
+
+        // Download-all fjernet (kun én download ad gangen)
+
+        renderChoices();
+        renderOsPickers();
+        renderDownloads();
+      })();
+    </script>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-scroll-to]').forEach((el) => {
+          el.addEventListener('click', () => {
+            const sel = el.getAttribute('data-scroll-to');
+            if (!sel) return;
+            const target = document.querySelector(sel);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+
+        const finePointer = window.matchMedia('(pointer: fine)').matches;
+        const nav = document.querySelector('.index-clone-nav');
+        if (finePointer && nav) {
+          let idleTimer = 0;
+          let hovering = false;
+          const delay = 900;
+          const showNav = () => document.body.classList.remove('nav-idle');
+          const hideNav = () => {
+            if (hovering) return;
+            document.body.classList.add('nav-idle');
+          };
+          const scheduleHide = () => {
+            window.clearTimeout(idleTimer);
+            if (hovering) return;
+            idleTimer = window.setTimeout(hideNav, delay);
+          };
+          window.addEventListener('mousemove', () => {
+            showNav();
+            scheduleHide();
+          }, { passive: true });
+          window.addEventListener('mouseleave', hideNav, { passive: true });
+          nav.addEventListener('mouseenter', () => {
+            hovering = true;
+            window.clearTimeout(idleTimer);
+            showNav();
+          });
+          nav.addEventListener('mouseleave', () => {
+            hovering = false;
+            scheduleHide();
+          });
+          scheduleHide();
+        }
+
+        const languageLabelMap = { da: 'DA', sv: 'SV', no: 'NO', en: 'EN', fr: 'FR' };
+        function getCurrentLanguage() {
+          if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+            return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+          }
+          return String(document.documentElement.lang || 'da').toLowerCase();
+        }
+        function closeLanguagePopovers() {
+          document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+            const current = switcher.querySelector('.lang-current');
+            const popover = switcher.querySelector('.lang-popover');
+            if (popover) popover.hidden = true;
+            if (current) current.setAttribute('aria-expanded', 'false');
+          });
+        }
+        function syncLanguageSwitchers() {
+          const currentLang = getCurrentLanguage();
+          const currentLabel = languageLabelMap[currentLang] || languageLabelMap.da;
+          document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+            const current = switcher.querySelector('.lang-current');
+            if (current) current.textContent = currentLabel;
+            switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+              choice.classList.toggle('active', choice.getAttribute('data-lang') === currentLang);
+            });
+          });
+        }
+        document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+          const current = switcher.querySelector('.lang-current');
+          const popover = switcher.querySelector('.lang-popover');
+          if (!current || !popover) return;
+          current.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const shouldOpen = popover.hidden;
+            closeLanguagePopovers();
+            popover.hidden = !shouldOpen;
+            current.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+          });
+          switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+            choice.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              const lang = choice.getAttribute('data-lang') || 'da';
+              if (window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                window.SkimoI18n.setLanguage(lang, { source: 'manual' });
+                if (typeof window.SkimoI18n.applyTranslations === 'function') {
+                  window.SkimoI18n.applyTranslations(document);
+                }
+              } else {
+                document.documentElement.lang = lang;
+              }
+              syncLanguageSwitchers();
+              closeLanguagePopovers();
+            });
+          });
+        });
+        document.addEventListener('click', (event) => {
+          if (!event.target.closest('.lang-switcher')) closeLanguagePopovers();
+        });
+        document.querySelectorAll('a[data-i18n="nav.return"], a[data-smart-back="true"], a.back-link').forEach((link) => {
+          if (link.dataset.installBackBound === '1') return;
+          link.dataset.installBackBound = '1';
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            let handled = false;
+            try {
+              if (window.SkimoI18n && typeof window.SkimoI18n.smartBack === 'function') {
+                handled = !!window.SkimoI18n.smartBack('index.html');
+              }
+            } catch {}
+            if (!handled) window.location.href = 'index.html';
+          });
+        });
+        syncLanguageSwitchers();
+        if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+          window.SkimoI18n.applyTranslations(document);
+        }
+      });
+    </script>
+    <script src="assets/skimo-ai-assistant.js?v=20260327-69" defer></script>
+    <script src="assets/hq-enhance.js?v=20260327-69" defer></script>
+    <script src="assets/skimo-mobile-video.js?v=20260327-69" defer></script>
+</body>
+</html>

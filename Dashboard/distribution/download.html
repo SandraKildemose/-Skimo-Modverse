@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ModGuard — Download</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #4ade80;
+      --pink:  #f472b6;
+      --bg:    #0a0a12;
+      --card:  #111120;
+      --border:#1e1e30;
+    }
+    body {
+      background: var(--bg);
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+    header h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--green), #22d3ee, var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p {
+      margin-top: 14px;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 520px;
+      margin-inline: auto;
+      line-height: 1.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: rgba(74,222,128,0.4); transform: translateY(-3px); }
+    .card-icon { font-size: 3rem; }
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+    .version-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(74,222,128,0.12);
+      color: var(--green);
+      width: fit-content;
+    }
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .features li {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .dl-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .dl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .dl-btn:hover { opacity: 0.85; }
+    .dl-btn-mac  { background: linear-gradient(135deg, #1a4040, #0d6060); color: var(--green); }
+    .dl-btn-win  { background: linear-gradient(135deg, #1a1a40, #0d0d60); color: #93c5fd; }
+    .dl-btn-auto {
+      background: linear-gradient(135deg, var(--green), #22d3ee);
+      color: #052e16;
+      font-size: 1rem;
+    }
+    .note {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+    }
+    .sims-card .card:hover  { border-color: rgba(244,114,182,0.5); }
+    .sims-card .version-badge { background: rgba(244,114,182,0.12); color: var(--pink); }
+    .sims-card .features li::before { color: var(--pink); }
+    .auto-detect {
+      text-align: center;
+      padding: 20px 20px 10px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+    }
+    footer {
+      text-align: center;
+      padding: 50px 20px 30px;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.8rem;
+    }
+    footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+
+    /* Auto-update info box */
+    .update-info {
+      max-width: 680px;
+      margin: 0 auto 50px;
+      padding: 20px 24px;
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 12px;
+      background: rgba(20,40,20,0.5);
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+    .update-info strong { color: var(--green); }
+    .update-info code {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.82rem;
+      background: rgba(0,0,0,0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛡 ModGuard</h1>
+  <p>Scan og find Minecraft & Sims 4 mods sikkert. Download den version der passer til dit spil.</p>
+</header>
+
+<div class="cards">
+  <!-- Minecraft ModGuard -->
+  <div>
+    <div class="card">
+      <div class="card-icon">⛏️</div>
+      <div>
+        <h2>Minecraft ModGuard</h2>
+        <span class="version-badge">v1.1.0 — nyeste</span>
+      </div>
+      <p>Find og scan Minecraft mods fra Modrinth, CurseForge, CurseForge, Hangar og mere. Quiz der finder den perfekte mod til din spillestil.</p>
+      <ul class="features">
+        <li>11 live mod-kilder i parallel søgning</li>
+        <li>«Find en mod der passer mig»-quiz med billeder</li>
+        <li>Shader, mod, plugin, modpack — adskilt</li>
+        <li>Automatisk opdatering når ny version frigives</li>
+      </ul>
+      <div class="dl-buttons">
+        <a href="/downloads/mc-modguard-1.1.0-arm64.dmg" class="dl-btn dl-btn-mac">🍎 Download til Mac (Apple Silicon)</a>
+        <a href="/downloads/mc-modguard-1.1.0-x64.dmg"   class="dl-btn dl-btn-mac">🍎 Download til Mac (Intel)</a>
+        <a href="/downloads/mc-modguard-1.1.0-setup.exe" class="dl-btn dl-btn-win">🪟 Download til Windows</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sims ModGuard -->
+  <div class="sims-card">
+    <div class="card">
+      <div class="card-icon">💎</div>
+      <div>
+        <h2>Sims 4 ModGuard</h2>
+        <span class="version-badge">v1.1.0 — nyeste</span>
+      </div>
+      <p>Find og scan Sims 4 CC & mods fra The Sims Resource, CurseForge, Patreon, Nexus og mange flere. Inkl. Wicked Whims-understøttelse.</p>
+      <ul class="features">
+        <li>13 kategori-knapper: Hår, Tøj, Makeup, Build…</li>
+        <li>Wicked Whims & WW CC — adskilt og gated</li>
+        <li>«Find en mod»-quiz med 3 personlige resultater</li>
+        <li>Automatisk opdatering når ny version frigives</li>
+      </ul>
+      <div class="dl-buttons">
+        <a href="/downloads/sims-modguard-1.1.0-arm64.dmg" class="dl-btn dl-btn-mac" style="background:linear-gradient(135deg,#3a1040,#6d0d6d);color:#f9a8d4">🍎 Download til Mac (Apple Silicon)</a>
+        <a href="/downloads/sims-modguard-1.1.0-x64.dmg"   class="dl-btn dl-btn-mac" style="background:linear-gradient(135deg,#3a1040,#6d0d6d);color:#f9a8d4">🍎 Download til Mac (Intel)</a>
+        <a href="/downloads/sims-modguard-1.1.0-setup.exe" class="dl-btn dl-btn-win" style="background:linear-gradient(135deg,#30102a,#5d0d55);color:#e9d5ff">🪟 Download til Windows</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Auto-update info -->
+<div class="update-info">
+  <strong>🔄 Automatiske opdateringer</strong><br />
+  Begge apps tjekker automatisk for opdateringer én gang i timen. Når en ny version er klar, downloader appen den i baggrunden og giver dig besked. Du behøver blot køre den downloadede installer for at opdatere.<br /><br />
+  <strong>For dig som udgiver opdateringer:</strong><br />
+  Upload nye installer-filer til <code>/downloads/</code> på dit domæne, og opdater <code>/api/updates/manifest</code> med ny version + filnavn. Alle installerede apps vil automatisk opdage og downloade den nye version.
+</div>
+
+<footer>
+  <p>ModGuard — lavet med ❤️ til Sims 4 og Minecraft spillere</p>
+  <p style="margin-top:8px"><a href="/privacy">Privatlivspolitik</a> · <a href="/support">Support</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+ModGuard (Minecraft Modguard.app) – ændringer i denne aflevering
+===============================================================
+
+1) MØRKE TAL-KORT (RENE / BLOKEREDE MODS)
+   Stat-kortene bruger nu mørk baggrund og lys tekst, så tallene er lettere at læse.
+
+1b) OUTDATED-MODS (MODGUARD + MINECRAFT)
+   "Outdatede mods" er rene filer som ModGuard sidst godkendte for 30+ dage siden — som
+   påmindelse om at tjekke modden mod din Minecraft-version og din modpakke (ny kilde
+   spiller ingen rolle; appen kalder ikke eksterne mod-kataloger for versionsnumre).
+
+1c) VIDEO PÅ STARTSKÆRM (AKTIVERING)
+   Før du indtaster kode vises en kort MP4 som introduktion til dashboardet.
+   Appen leder efter fil i denne rækkefølge: `dashboardcs.mp4` i app.asar,
+   derefter `dashboardcs.mp4` eller `Minecraft.mp4` i
+   `Minecraft Modguard.app/Contents/Resources/` (samme mappe som app.asar).
+   I denne levering ligger videoen som `Minecraft.mp4` i Resources.
+
+2) BATCH-SCAN AF EN MAPPE MED .JAR
+   Appen peger automatisk på Mods-mappen der ligger VED SIDEN AF Minecraft Modguard.app
+   (fx …/PROJEKTSANDRA2026 AFLEVERING/Mods) og bruger den som destinationsmappe.
+   Ca. 2 sekunder efter opstart kører den en fuld batch-scan af alle .jar i den mappe
+   (hvis du er aktiveret og abonnement tillader brug).
+   I appen: tryk på "Scan mods-mappe…" for at køre batch-scan igen uden dialog, når den
+   mappe findes; ellers åbnes mappevælger som før.
+   - Hver .jar kopieres til en sandbox, scannes og slettes der igen.
+   - Dine originale filer i mappen bliver IKKE flyttet eller slettet.
+   - Resultaterne lægges i historik (samme tal som på kortene).
+   - Kræver aktivt abonnement/aktivering (som resten af appen).
+   - Beskyttelse (Tænd) behøver ikke være slået til for batch-scan.
+
+3) VIRUSTOTAL (API — allerede i koden)
+   Appen bruger VirusTotal API v3 Public API når du har sat nøglen:
+   - Først SHA-256 opslag: GET /api/v3/files/{sha256}
+   - Hvis filen ikke findes hos VT og er under public upload-grænsen: upload til
+     POST /api/v3/files og poll /api/v3/analyses/{id}
+   VT bruges som supplement til den lokale heuristik. Automatisk blokering på VT kræver
+   flere motorer der markerer “malicious” (standard 4), men “suspicious”, threat labels
+   og timeouts lægges nu også oven i den lokale score.
+   Valgfrit: miljøvariabel SKIMO_VT_MALICIOUS_MIN=3..12 (standard 4).
+
+   Sæt nøglen på ÉN af disse måder:
+   A) Miljøvariabel: SKIMO_VT_API_KEY=fra_virustotal_com
+   B) Fil: læg en fil der hedder præcis
+      skimo_vt_api_key.txt
+      i mappen
+      Minecraft Modguard.app/Contents/Resources/
+      (samme mappe som app.asar). Første linje i filen = din API-nøgle.
+
+   ModGuard bruger KUN VirusTotals **Public API** (gratis community-nøgle), jf.
+   https://docs.virustotal.com/reference/public-vs-premium-api — typisk **500 opslag/dag**
+   og **højst 4 requests pr. minut**. Appen venter automatisk mellem VT-kald (ca. 16 s),
+   så minut-grænsen overholdes. Premium API bruges ikke.
+
+   Gratis API: batch-scan bruger nu også VT pr. mod når nøglen findes. Det er langsomt med
+   vilje, fordi public API typisk kun tillader ca. 4 requests/minut. Vil du midlertidigt
+   køre ren lokal batch uden VT, kan du starte appen med SKIMO_BATCH_SKIP_VT=1.
+
+4) KODESIGNERING (macOS)
+   app.asar er udskiftet. macOS kan advare første gang du åbner appen.
+   Hvis den blokerer: Systemindstillinger → Privatliv og sikkerhed → Tillad alligevel,
+   eller kør: xattr -cr "sti/til/Minecraft Modguard.app"
+   Finder kan vise en ældre “ændret”-dato på selve .app-mappen selv om `Contents/Resources/app.asar`
+   lige er opdateret — tjek i stedet version/build-linjen under titlen i appen efter genstart.
+
+5) SIKKERHEDSKOPI
+   Den gamle app.asar er gemt som app.asar.bak-YYYYMMDDtid i Resources-mappen.
+
+5b) MC LOAD-SIM (ekstra — udvider ikke VirusTotal)
+   Efter den sædvanlige heuristik kører appen en “load-sim”: fuld ZIP/CRC-test af JAR’en
+   (som når Minecrafts ClassLoader åbner arkivet). Det fanger korrupte pakker der ofte
+   giver crash ved start. Det erstatter IKKE at køre hele Minecraft; rigtig runtime-virus
+   uden ZIP-fejl kræver stadig heuristik + VT + kilde-tjek.
+
+5c) MC SPIL-PROBE + VirusTotal — **alt i én kæde før mod gemmes**
+   For **hver .jar** i auto-scan: filen ligger i **sandbox** (staging) mens denne rækkefølge kører —
+   den kopieres **ikke** til din Mods-mappe før til sidst, når alt er grønt:
+     1) Heuristik + load-sim (ZIP)  
+     2) **Spil-probe** — mod’en startes i Minecraft-miljø og lukkes igen (Prism-**klient** hvis
+        `modguard_prism_client_probe.txt` er sat op; ellers **Fabric-server** som standard så
+        mod’en stadig loades i JVM). Uden spil-probe: scan får høj score og mod gemmes ikke som ren.  
+     3) **VirusTotal** på mod-filens hash (+ evt. ekstra .jar i probe-mods efter kørsel)  
+     4) Først derefter: ren → kopi til Mods / virus → karantæne  
+   **Prism (fuld klient):** `modguard_prism_client_probe.txt` ud fra `.example` med instans-ID.  
+   **Fabric-server (standard fallback):** slå fra med `SKIMO_AUTO_FABRIC_PROBE=0` hvis du *kun* vil
+   have klient og selv sætter `SKIMO_MC_GAME_PROBE_CMD`. Slå al auto-probe fra: `SKIMO_AUTO_MINECRAFT_PROBE=0`
+
+5d) DYBERE JAR-HEURISTIK (lavere false-positive)
+   Appen scanner nu langt flere class-filer og metadatafiler pr. JAR og leder efter flere
+   footprints: Discord/Telegram exfil, credential/token access, browser databases,
+   Minecraft account files, ProcessBuilder/Runtime exec, shell/PowerShell, native library
+   loading, URLClassLoader/defineClass/reflection, ObjectInputStream/readObject
+   (BleedingPipe-lignende mønster), crypto/miner/ransomware og kendte Fractureiser-spor.
+   For at undgå falske positiver blokerer enkeltstående almindelig mod-adfærd ikke alene:
+   netværkskode, reflection, native libraries, ObjectInputStream, Fabric/Prism probe-fejl
+   og ukendt runtime-probe bliver kun advarsler. Blokering kræver nu stærke malware-spor,
+   kendte IoCs, høj samlet score eller VirusTotal-konsensus.
+   Valgfrit: miljøvariabel SKIMO_SCAN_BLOCK_SCORE=120..400 (standard 180).
+
+6) SCAN ALLE .JAR UDEN APP (hurtigt fra terminal)
+   I afleveringsmappen findes scriptet scan_alle_mods_i_mappe.py
+   Det bruger samme score-funktion som Api.py og skriver batch_mod_scan_result.json
+
+   Eksempler:
+     cd "…/PROJEKTSANDRA2026 AFLEVERING"
+     python3 scan_alle_mods_i_mappe.py
+     python3 scan_alle_mods_i_mappe.py "/fuld/sti/til/Mods"
+
+   Standard er undermappen ./Mods ud fra afleveringsmappen.

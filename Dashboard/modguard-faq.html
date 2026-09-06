@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="da" class="page-abonnement page-faq-hub" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/skimo-desktop-viewport.js?v=20260405-70"></script>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preload" href="assets/i18n.js?v=20260503-faq" as="script">
+    <link rel="preload" href="assets/skimo-ai-assistant.css?v=20260405-70" as="style">
+    <link rel="preload" href="assets/hq-enhance.js?v=20260405-70" as="script">
+    <title data-i18n="title.faq">Skimo ModGuard FAQ</title>
+    <link rel="stylesheet" href="assets/theme-picker.css?v=20260506-dark-lightblue">
+    <link rel="stylesheet" href="assets/skimo-ai-assistant.css?v=20260405-70">
+    <link rel="stylesheet" href="assets/modguard-faq-guide-shell.css?v=20260504-gray">
+    <link rel="stylesheet" href="assets/modguard-faq.css?v=20260504-faq-nav-light">
+</head>
+<body class="guide-page faq-hub-page faq-page">
+    <script>
+        (function () {
+            var map = { '#minecraft': 'modguard-faq.html', '#sims': 'modguard-faq.html', '#roblox': 'modguard-faq-roblox.html', '#flere-spil': 'modguard-faq-more.html' };
+            var h = (window.location.hash || '').toLowerCase();
+            var next = map[h];
+            if (!next) return;
+            var path = (window.location.pathname || '').split('/').pop() || '';
+            if (path !== 'modguard-faq.html') return;
+            var q = window.location.search || '';
+            window.location.replace(next + q);
+        })();
+    </script>
+    <nav class="index-clone-nav" id="skimoHeroNav" style="display:flex !important;">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo-link" data-i18n-aria-label="nav.logoHome">
+                <span class="hero-logo-shine">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo" alt="Skimo">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo shine-pass" alt="" aria-hidden="true">
+                </span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="guide.html" data-i18n="nav.guide">Guide</a>
+            <a href="abonnement.html" data-i18n="nav.subscriptions">Abonnementer</a>
+            <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+            <a href="index.html" data-i18n="nav.dashboard">Hjem</a>
+        </div>
+        <div class="nav-right">
+            <button type="button" class="hero-search skimo-ai-trigger" aria-label="Åbn Skimo chatbot"></button>
+            <div class="lang-switcher" data-lang-switcher>
+                <button type="button" class="lang-current" aria-label="Vælg sprog" aria-expanded="false">DA</button>
+                <div class="lang-popover" hidden>
+                    <button type="button" class="lang-choice" data-lang="da" aria-label="Dansk">DA</button>
+                    <button type="button" class="lang-choice" data-lang="sv" aria-label="Svenska">SV</button>
+                    <button type="button" class="lang-choice" data-lang="no" aria-label="Norsk">NO</button>
+                    <button type="button" class="lang-choice" data-lang="en" aria-label="English">EN</button>
+                    <button type="button" class="lang-choice" data-lang="fr" aria-label="Français">FR</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="guide-story" id="faqStoryRoot">
+        <section class="guide-screen guide-screen--text">
+            <div>
+                <h1 class="guide-story-title" data-i18n="faq.story.welcomeTitle">Velkommen til FAQ</h1>
+                <p class="guide-story-sub" data-i18n="faq.story.welcomeBody">Korte svar om ModGuard, installation, koder og support. Scroll ned til søgning og alle emner.</p>
+            </div>
+        </section>
+
+        <section class="faq-hub-lower" aria-labelledby="faqHubLowerHeading">
+            <div class="faq-hub-lower-inner">
+                <h2 id="faqHubLowerHeading" class="faq-visually-hidden" data-i18n="faq.page.commonHeading">Almindelige løsninger</h2>
+                <div class="faq-hub-search-wrap">
+                    <div class="faq-rstar-search">
+                        <span class="faq-rstar-search-mag" aria-hidden="true"></span>
+                        <input type="search" id="faqTileSearch" class="faq-rstar-search-input" autocomplete="off" data-i18n-placeholder="faq.page.searchPlaceholder" data-i18n-aria-label="faq.page.searchInputAria" placeholder="Søg…" aria-label="Søg i FAQ-emner">
+                    </div>
+                </div>
+                <div class="faq-tile-grid" id="faqTileGrid" data-i18n-aria-label="faq.page.hubTopicsAria" aria-label="Emner — åbn forklaring"></div>
+            </div>
+        </section>
+    </main>
+
+    <dialog class="faq-hub-dialog" id="faqHubDialog" aria-labelledby="faqHubDialogTitle">
+        <div class="faq-hub-dialog-panel">
+            <button type="button" class="faq-hub-dialog-close" id="faqHubDialogClose" data-i18n-aria-label="faq.page.modalClose" aria-label="Luk"><span aria-hidden="true">&times;</span></button>
+            <h3 class="faq-hub-dialog-title" id="faqHubDialogTitle"></h3>
+            <div class="faq-hub-dialog-body" id="faqHubDialogBody"></div>
+        </div>
+    </dialog>
+
+    <script src="assets/i18n.js?v=20260503-faq"></script>
+    <script src="assets/modguard-faq-tiles-bundle.js?v=20260503-faq"></script>
+    <script src="assets/skimo-ai-assistant.js?v=20260405-70" defer></script>
+    <script src="assets/hq-enhance.js?v=20260405-70" defer></script>
+    <script>
+        (function () {
+            function applyFromUrl() {
+                try {
+                    const url = new URL(window.location.href);
+                    const q = url.searchParams.get('lang');
+                    if (q && window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                        window.SkimoI18n.setLanguage(String(q).toLowerCase(), { source: 'manual' });
+                    }
+                } catch {}
+                if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+                    window.SkimoI18n.applyTranslations(document);
+                }
+            }
+
+            const languageLabelMap = { da: 'DA', sv: 'SV', no: 'NO', en: 'EN', fr: 'FR' };
+            const languageUiLabels = {
+                da: { toggle: 'Vælg sprog', da: 'Dansk', sv: 'Svenska', no: 'Norsk', en: 'English', fr: 'Français' },
+                sv: { toggle: 'Välj språk', da: 'Danska', sv: 'Svenska', no: 'Norska', en: 'Engelska', fr: 'Franska' },
+                no: { toggle: 'Velg språk', da: 'Dansk', sv: 'Svensk', no: 'Norsk', en: 'Engelsk', fr: 'Fransk' },
+                en: { toggle: 'Choose language', da: 'Danish', sv: 'Swedish', no: 'Norwegian', en: 'English', fr: 'French' },
+                fr: { toggle: 'Choisir la langue', da: 'Danois', sv: 'Suédois', no: 'Norvégien', en: 'Anglais', fr: 'Français' }
+            };
+
+            function getCurrentLanguage() {
+                if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+                    return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+                }
+                return String(document.documentElement.lang || 'da').toLowerCase();
+            }
+
+            function getTileList() {
+                const pack = window.SkimoFaqTilePack;
+                if (!pack || typeof pack !== 'object') return [];
+                const lang = getCurrentLanguage();
+                return pack[lang] || pack.en || pack.da || [];
+            }
+
+            function closeLanguagePopovers() {
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    const popover = switcher.querySelector('.lang-popover');
+                    if (popover) popover.hidden = true;
+                    if (current) current.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            function syncLanguageSwitchers() {
+                const currentLang = getCurrentLanguage();
+                const currentLabel = languageLabelMap[currentLang] || languageLabelMap.da;
+                const labels = languageUiLabels[currentLang] || languageUiLabels.da;
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    if (current) {
+                        current.textContent = currentLabel;
+                        current.setAttribute('aria-label', labels.toggle);
+                        current.setAttribute('title', labels.toggle);
+                    }
+                    switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                        const choiceLang = choice.getAttribute('data-lang') || 'da';
+                        const choiceLabel = labels[choiceLang] || choiceLang.toUpperCase();
+                        choice.classList.toggle('active', choiceLang === currentLang);
+                        choice.setAttribute('aria-label', choiceLabel);
+                        choice.setAttribute('title', choiceLabel);
+                    });
+                });
+            }
+
+            function applyTileSearchFilter() {
+                const grid = document.getElementById('faqTileGrid');
+                const searchInput = document.getElementById('faqTileSearch');
+                if (!grid || !searchInput) return;
+                const q = String(searchInput.value || '').trim().toLowerCase();
+                grid.querySelectorAll('.faq-tile-btn').forEach((btn) => {
+                    const t = (btn.querySelector('.faq-tile-title') && btn.querySelector('.faq-tile-title').textContent) || '';
+                    const s = (btn.querySelector('.faq-tile-sub') && btn.querySelector('.faq-tile-sub').textContent) || '';
+                    const hay = (t + ' ' + s).toLowerCase();
+                    btn.hidden = Boolean(q) && !hay.includes(q);
+                });
+            }
+
+            function renderFaqTiles() {
+                const grid = document.getElementById('faqTileGrid');
+                if (!grid) return;
+                const list = getTileList();
+                const prevSearch = document.getElementById('faqTileSearch');
+                const savedQ = prevSearch ? prevSearch.value : '';
+                grid.textContent = '';
+                list.forEach((item, idx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'faq-tile-btn';
+                    btn.dataset.tileIdx = String(idx);
+                    btn.setAttribute('aria-haspopup', 'dialog');
+                    const num = document.createElement('span');
+                    num.className = 'faq-tile-num';
+                    num.textContent = String(idx + 1);
+                    const title = document.createElement('span');
+                    title.className = 'faq-tile-title';
+                    title.textContent = item.t || '';
+                    const sub = document.createElement('span');
+                    sub.className = 'faq-tile-sub';
+                    sub.textContent = item.s || '';
+                    btn.appendChild(num);
+                    btn.appendChild(title);
+                    btn.appendChild(sub);
+                    grid.appendChild(btn);
+                });
+                const searchInput = document.getElementById('faqTileSearch');
+                if (searchInput && savedQ) searchInput.value = savedQ;
+                applyTileSearchFilter();
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                applyFromUrl();
+                syncLanguageSwitchers();
+                renderFaqTiles();
+
+                const finePointer = window.matchMedia('(pointer: fine)').matches;
+                const nav = document.querySelector('.index-clone-nav');
+                if (finePointer && nav) {
+                    let idleTimer = 0;
+                    let hovering = false;
+                    const delay = 900;
+                    const showNav = () => document.body.classList.remove('nav-idle');
+                    const hideNav = () => {
+                        if (hovering) return;
+                        document.body.classList.add('nav-idle');
+                    };
+                    const scheduleHide = () => {
+                        window.clearTimeout(idleTimer);
+                        if (hovering) return;
+                        idleTimer = window.setTimeout(hideNav, delay);
+                    };
+                    window.addEventListener('mousemove', () => {
+                        showNav();
+                        scheduleHide();
+                    }, { passive: true });
+                    window.addEventListener('mouseleave', hideNav, { passive: true });
+                    nav.addEventListener('mouseenter', () => {
+                        hovering = true;
+                        window.clearTimeout(idleTimer);
+                        showNav();
+                    });
+                    nav.addEventListener('mouseleave', () => {
+                        hovering = false;
+                        scheduleHide();
+                    });
+                    scheduleHide();
+                }
+
+                const dialogEl = document.getElementById('faqHubDialog');
+                const dialogTitleEl = document.getElementById('faqHubDialogTitle');
+                const dialogBodyEl = document.getElementById('faqHubDialogBody');
+                const dialogCloseBtn = document.getElementById('faqHubDialogClose');
+                const grid = document.getElementById('faqTileGrid');
+                const searchInput = document.getElementById('faqTileSearch');
+
+                function openTileModal(idx) {
+                    const list = getTileList();
+                    const item = list[+idx];
+                    if (!item || !dialogEl || !dialogTitleEl || !dialogBodyEl) return;
+                    dialogTitleEl.textContent = item.t || '';
+                    if (window.SkimoI18n && typeof window.SkimoI18n.sanitizeHtml === 'function') {
+                        dialogBodyEl.innerHTML = window.SkimoI18n.sanitizeHtml(item.b || '');
+                    } else {
+                        dialogBodyEl.textContent = item.b || '';
+                    }
+                    dialogEl.setAttribute('data-open-tile', String(idx));
+                    if (typeof dialogEl.showModal === 'function') dialogEl.showModal();
+                }
+
+                function closeFaqModal() {
+                    if (dialogEl) dialogEl.removeAttribute('data-open-tile');
+                    if (dialogEl && dialogEl.open) dialogEl.close();
+                }
+
+                if (grid) {
+                    grid.addEventListener('click', (e) => {
+                        const btn = e.target && e.target.closest && e.target.closest('.faq-tile-btn');
+                        if (!btn || !grid.contains(btn)) return;
+                        const idx = btn.getAttribute('data-tile-idx');
+                        if (idx != null) openTileModal(idx);
+                    });
+                }
+
+                if (searchInput) {
+                    searchInput.addEventListener('input', applyTileSearchFilter);
+                }
+
+                if (dialogCloseBtn) dialogCloseBtn.addEventListener('click', closeFaqModal);
+                if (dialogEl) {
+                    dialogEl.addEventListener('click', (e) => {
+                        if (e.target === dialogEl) closeFaqModal();
+                    });
+                    dialogEl.addEventListener('close', () => {
+                        if (dialogBodyEl) dialogBodyEl.innerHTML = '';
+                    });
+                }
+
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    const popover = switcher.querySelector('.lang-popover');
+                    if (!current || !popover) return;
+                    current.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const shouldOpen = popover.hidden;
+                        closeLanguagePopovers();
+                        popover.hidden = !shouldOpen;
+                        current.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                    });
+                    switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                        choice.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            const lang = choice.getAttribute('data-lang') || 'da';
+                            if (window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                                window.SkimoI18n.setLanguage(lang, { source: 'manual' });
+                            }
+                            document.documentElement.lang = lang;
+                            applyFromUrl();
+                            syncLanguageSwitchers();
+                            renderFaqTiles();
+                            closeLanguagePopovers();
+                        });
+                    });
+                });
+                document.addEventListener('click', () => closeLanguagePopovers());
+
+                document.addEventListener('skimo:languagechange', () => {
+                    applyFromUrl();
+                    syncLanguageSwitchers();
+                    renderFaqTiles();
+                    if (!dialogEl || !dialogEl.open) return;
+                    const openIdx = dialogEl.getAttribute('data-open-tile');
+                    if (openIdx != null) openTileModal(openIdx);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

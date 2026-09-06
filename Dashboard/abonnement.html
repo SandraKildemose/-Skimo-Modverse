@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="da" class="page-abonnement" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/skimo-desktop-viewport.js?v=20260327-69"></script>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preload" href="assets/i18n.js?v=20260327-69" as="script">
+    <link rel="preload" href="assets/skimo-ai-assistant.css?v=20260327-69" as="style">
+    <link rel="preload" href="assets/hq-enhance.js?v=20260327-69" as="script">
+    <title data-i18n="title.install">Hent Modverse | Skimo</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            color: #f8f8f8;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: none;
+            z-index: -1;
+            opacity: 1;
+            animation: none;
+        }
+
+        /* Abonnement layout (kopieret struktur/stil fra abonnement.html) */
+        .sub-integrated {
+            width: 100%;
+            padding: 4px 0 36px;
+            border-top: 1px solid rgba(154, 202, 202, 0.16);
+            background: transparent;
+            box-shadow: none;
+        }
+        .sub-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 14px;
+            box-sizing: border-box;
+        }
+        .sub-two-col {
+            display: grid;
+            grid-template-columns: minmax(252px, 308px) minmax(0, 1fr);
+            gap: 28px 40px;
+            align-items: start;
+            margin-top: 2cm;
+        }
+        .sub-price-col {
+            position: sticky;
+            top: 86px;
+            text-align: left;
+            padding-top: 4px;
+        }
+        .sub-right-col {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .sub-block {
+            margin: 0;
+            padding: 0 0 18px;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid rgba(154, 202, 202, 0.12);
+            overflow: visible;
+        }
+        .sub-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .sub-block--price {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .page-hero-wrap { width: 100%; margin: 0; border-bottom: none; }
+        .page-hero {
+            position: relative;
+            min-height: min(54vh, 520px);
+            display: flex;
+            align-items: flex-end;
+            border-radius: 0;
+            overflow: hidden;
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            border-top: 1px solid rgba(154, 202, 202, 0.14);
+            border-bottom: none;
+            box-shadow: none;
+        }
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(90deg,
+                    rgba(28, 30, 33, 0.72) 0%,
+                    rgba(45, 47, 50, 0.38) 28%,
+                    rgba(78, 80, 82, 0.12) 58%,
+                    rgba(95, 98, 102, 0.04) 100%),
+                linear-gradient(180deg, rgba(40, 42, 45, 0.2) 0%, rgba(78, 80, 82, 0.18) 100%);
+        }
+        .page-hero-media { position: absolute; inset: 0; }
+        .page-hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: saturate(1.02) contrast(1.02) brightness(0.88);
+        }
+        .page-hero-inner {
+            position: relative;
+            z-index: 2;
+            width: min(1240px, calc(100% - 72px));
+            margin: 0 auto;
+            padding: 112px 0 28px;
+        }
+        .page-hero-copy { max-width: 740px; }
+        .page-hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(10, 18, 25, 0.62);
+            border: 1px solid rgba(211, 231, 239, 0.18);
+            color: rgba(232, 241, 245, 0.82);
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .page-hero h2 {
+            margin: 18px 0 14px;
+            font-size: clamp(2.9rem, 7vw, 5.9rem);
+            line-height: 0.94;
+            letter-spacing: -0.06em;
+            color: #f6fbfd;
+            max-width: 9ch;
+        }
+
+        /* Kommandolinje: samme CSS som abonnement.html (inkl. #skimoHeroNav) */
+        .index-clone-header {
+            display: none !important;
+        }
+        .index-clone-nav {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: rgba(31, 44, 52, 0.94) !important;
+            padding: 16.5px 20px !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+            border-top: 1px solid rgba(143, 180, 192, 0.14) !important;
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+        }
+        .index-clone-nav .nav-left,
+        .index-clone-nav .nav-right {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .index-clone-nav .nav-left {
+            gap: 20px !important;
+        }
+        .index-clone-nav .nav-right {
+            flex-wrap: wrap !important;
+        }
+        .index-clone-nav .logo {
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: #8fb4c0 !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a {
+            text-decoration: none !important;
+            color: rgba(245, 248, 251, 0.84) !important;
+            font-size: 16px !important;
+            margin: 0 10px !important;
+            padding: 10px !important;
+            transition: all 0.15s ease !important;
+            position: relative !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a:hover {
+            color: #8fb4c0 !important;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4) !important;
+        }
+        .index-clone-nav a::before {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 0 !important;
+            height: 2px !important;
+            background: #8fb4c0 !important;
+            transition: width 0.3s ease !important;
+        }
+        .index-clone-nav a:hover::before {
+            width: 100% !important;
+        }
+        .index-clone-nav .language-selector select {
+            padding: 5px !important;
+            background: rgba(168, 192, 202, 0.92) !important;
+            color: #000 !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+        }
+        body.nav-idle .index-clone-nav {
+            opacity: 0 !important;
+            transform: translateY(-120%) !important;
+            pointer-events: none !important;
+        }
+        #skimoHeroNav {
+            background: transparent !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            min-height: 74px;
+            gap: 18px;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1001 !important;
+            box-shadow: none !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        #skimoHeroNav .nav-left,
+        #skimoHeroNav .nav-right {
+            min-width: 160px;
+        }
+        #skimoHeroNav .nav-right {
+            gap: 12px !important;
+            flex-wrap: nowrap !important;
+        }
+        #skimoHeroNav .nav-left {
+            position: relative;
+            isolation: isolate;
+        }
+        #skimoHeroNav .hero-logo-shine {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        #skimoHeroNav .hero-logo-shine::after {
+            content: none;
+        }
+        #skimoHeroNav .nav-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #skimoHeroNav .hero-brand-logo {
+            display: inline-block;
+            width: 72px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+            position: relative;
+            z-index: 2;
+        }
+        #skimoHeroNav .hero-brand-logo.shine-pass {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            filter: brightness(3.1) saturate(1.45);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            animation: skimoLogoShinePass 3.1s ease-in-out infinite;
+            z-index: 3;
+        }
+        @keyframes skimoLogoShinePass {
+            0%, 18% {
+                opacity: 0;
+                clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            }
+            24% {
+                opacity: 1;
+            }
+            38% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+            100% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+        }
+        #skimoHeroNav .nav-center a {
+            font-size: 17px !important;
+            letter-spacing: 0.01em;
+            color: rgba(232, 245, 252, 0.95) !important;
+            padding: 10px 12px !important;
+            text-transform: none;
+            font-weight: 600;
+        }
+        #skimoHeroNav .hero-search {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(232, 245, 252, 0.96);
+            font-size: 16px;
+            background: transparent;
+        }
+        #skimoHeroNav .hero-search::before {
+            content: none !important;
+        }
+        #skimoHeroNav a.nav-logo-link {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none;
+            text-decoration: none;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+        }
+        #skimoHeroNav a.nav-logo-link::before {
+            display: none !important;
+        }
+        .lang-switcher {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 0 !important;
+        }
+        .lang-current {
+            border: none !important;
+            background: transparent !important;
+            color: rgba(232, 245, 252, 0.96) !important;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 0 !important;
+            cursor: pointer;
+        }
+        .lang-popover {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 222, 235, 0.1);
+            background: rgba(8, 12, 18, 0.34);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(8px);
+            z-index: 8;
+        }
+        .lang-popover[hidden] {
+            display: none;
+        }
+        .lang-choice {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(227, 238, 242, 0.14);
+            background: rgba(227, 238, 242, 0.01);
+            color: #fff;
+            cursor: pointer;
+        }
+        .lang-choice.active {
+            border-color: rgba(227, 238, 242, 0.48);
+            background: rgba(227, 238, 242, 0.14);
+        }
+        @media (max-width: 1100px) {
+            #skimoHeroNav {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px 12px !important;
+            }
+            #skimoHeroNav .nav-left,
+            #skimoHeroNav .nav-right,
+            #skimoHeroNav .nav-center {
+                width: 100%;
+                justify-content: center;
+            }
+            #skimoHeroNav .nav-right {
+                flex-wrap: wrap !important;
+            }
+        }
+
+        /* Install-specifikt, men samme “abonnement”-kortstil */
+        .install-step {
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.46) 0%, rgba(9, 14, 20, 0.34) 100%);
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+        .install-step.is-clickable {
+            cursor: pointer;
+            user-select: none;
+        }
+        .install-step.is-clickable:hover {
+            border-color: rgba(154, 202, 202, 0.4);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.12), 0 10px 24px rgba(0, 0, 0, 0.22);
+            transform: translateY(-1px);
+        }
+        .install-step strong { display: block; margin-bottom: 6px; }
+        .install-step p { margin: 0; color: rgba(232, 245, 252, 0.78); font-weight: 600; line-height: 1.45; }
+        .install-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+        .thanks {
+            margin-top: 12px;
+            color: rgba(232, 245, 252, 0.84);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .game-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .game-tile {
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.46) 0%, rgba(9, 14, 20, 0.34) 100%);
+            padding: 12px;
+            overflow: hidden;
+            position: relative;
+            width: 180px;
+            max-width: 45vw;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            opacity: 0.55;
+            filter: saturate(0.85) brightness(0.82);
+            transition: opacity 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
+        }
+
+        .game-tile.is-owned {
+            opacity: 1;
+            filter: saturate(1.06) brightness(0.98);
+            border-color: rgba(154, 202, 202, 0.62);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.22), 0 10px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        .game-media {
+            position: relative;
+            isolation: isolate;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            background: rgba(0, 0, 0, 0.28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .game-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 1;
+            background:
+                radial-gradient(ellipse 96% 88% at 50% 40%, transparent 26%, rgba(2, 8, 18, 0.4) 100%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 26%);
+        }
+
+        .game-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+            position: relative;
+            z-index: 0;
+            filter: saturate(1.16) contrast(1.1) brightness(0.91);
+            transform: translateZ(0);
+        }
+
+        .game-name {
+            margin-top: 10px;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+            color: rgba(245, 248, 251, 0.92);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .owned-pill {
+            font-size: 11px;
+            font-weight: 900;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(154, 202, 202, 0.32);
+            background: rgba(154, 202, 202, 0.14);
+            color: rgba(232, 245, 252, 0.92);
+        }
+        .owned-pill.is-muted {
+            opacity: 0.75;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+        .owned-pill.is-hidden {
+            display: none;
+        }
+
+        .download-card {
+            border: 1px solid rgba(154, 202, 202, 0.22);
+            border-radius: 16px;
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.5) 0%, rgba(9, 14, 20, 0.38) 100%);
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .download-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .download-title { font-weight: 900; letter-spacing: 0.01em; }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(154, 202, 202, 0.36);
+            background: rgba(154, 202, 202, 0.14);
+            color: rgba(245, 248, 251, 0.92);
+            font-weight: 900;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .download-btn:hover { background: rgba(154, 202, 202, 0.22); }
+        .download-meta { margin-top: 8px; color: rgba(232, 245, 252, 0.78); font-size: 12px; font-weight: 600; line-height: 1.45; }
+        .download-status { margin-top: 10px; font-size: 12px; font-weight: 900; color: rgba(232, 245, 252, 0.88); }
+        .ok { color: rgba(80, 214, 172, 0.92); }
+
+        /* Download — samme scroll-flow som guide.html */
+        @keyframes installStoryFadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes installScrollBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+        body.install-page {
+            background: #45474b !important;
+            color: #f2f2f2;
+        }
+        body.install-page::before,
+        body.install-page::after {
+            display: none !important;
+        }
+        body.install-page .install-story {
+            width: 100%;
+        }
+        body.install-page .install-screen {
+            min-height: 100svh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 88px 22px 28px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        body.install-page .install-screen--welcome {
+            flex-direction: column;
+            gap: 20px;
+            background: #45474b;
+        }
+        body.install-page .install-story-title {
+            margin: 0 auto;
+            font-size: clamp(2.6rem, 9vw, 6.2rem);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            color: #f2f8fc;
+            text-shadow: 0 8px 28px rgba(0, 12, 28, 0.45);
+            max-width: 14ch;
+        }
+        body.install-page .install-story-title .mv-accent {
+            color: #84ff2e;
+        }
+        body.install-page .install-story-sub {
+            margin: 14px auto 0;
+            max-width: 52ch;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            line-height: 1.55;
+            color: rgba(232, 242, 252, 0.9);
+        }
+        body.install-page .install-scroll-hint {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 28px;
+            color: rgba(210, 216, 224, 0.95);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            animation: installScrollBounce 1.8s ease-in-out infinite;
+        }
+        body.install-page .install-scroll-hint::after {
+            content: "↓";
+            font-size: 20px;
+            line-height: 1;
+        }
+        body.install-page .install-screen--cards {
+            min-height: auto;
+            padding: 24px 16px 64px;
+            align-items: flex-start;
+            background: #45474b;
+        }
+        body.install-page .install-cards-inner {
+            width: min(1120px, 100%);
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+        body.install-page .install-cards-inner.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Proportioner låst til download.png (1536×1024) */
+        .mv-dl-board {
+            position: relative;
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            aspect-ratio: 1536 / 1024;
+            overflow: hidden;
+            box-shadow: none;
+            background: transparent;
+        }
+        .mv-dl-art {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            pointer-events: none;
+            user-select: none;
+        }
+        .mv-dl-ui {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .mv-dl-card {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 45.35%;
+            pointer-events: auto;
+            container-type: inline-size;
+        }
+        .mv-dl-card--mc {
+            left: 2.55%;
+        }
+        .mv-dl-card--sims {
+            left: 52.1%;
+        }
+        /* Skjul MODGUARD FOR-kicker + alt under titlen — kun MINECRAFT / the Sims 4 er synlig */
+        .mv-mask {
+            position: absolute;
+            left: 7.8%;
+            right: 7.8%;
+            background: #050505;
+            pointer-events: none;
+            z-index: 2;
+        }
+        /* Dækker shield-icon + "MODGUARD FOR"-teksten (ca. 37–44% af kortet) */
+        .mv-mask--kicker {
+            top: 36%;
+            height: 8%;
+        }
+        /* Stor maske der dækker ALT under titlen (beskrivelse, badges, knap, version, learn-more) */
+        .mv-mask--desc {
+            left: 0;
+            right: 0;
+            top: 50%;
+            bottom: 0;
+            height: auto;
+        }
+        /* Opslugt af --desc — skjules */
+        .mv-mask--version {
+            display: none;
+        }
+        .mv-box-tags,
+        .mv-box-download,
+        .mv-box-learn {
+            z-index: 3;
+        }
+        .mv-box-tags {
+            position: absolute;
+            left: 11.2%;
+            right: 11.2%;
+            top: 62.5%;
+            height: 6.5%;
+            display: flex;
+            gap: 1.8%;
+            align-items: stretch;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+        .mv-box-tag {
+            flex: 1 1 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(2px, 0.5cqw, 4px);
+            min-width: 0;
+            padding: 0 clamp(2px, 0.8cqw, 6px);
+            border: 1px solid #84ff2e;
+            border-radius: 999px;
+            background: rgba(6, 6, 6, 0.96);
+            color: #f4fff4;
+            font-size: clamp(6px, 2.45cqw, 10px);
+            font-weight: 700;
+            line-height: 1.05;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .mv-box-tag::before {
+            content: "";
+            width: clamp(4px, 1cqw, 6px);
+            height: clamp(4px, 1cqw, 6px);
+            border-radius: 50%;
+            background: #84ff2e;
+            box-shadow: 0 0 6px rgba(132, 255, 46, 0.65);
+            flex-shrink: 0;
+        }
+        .mv-box-download {
+            position: absolute;
+            left: 10.4%;
+            right: 10.4%;
+            top: 70%;
+            height: 10.5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(5px, 1.3cqw, 10px);
+            margin: 0;
+            padding: 0 clamp(8px, 1.8cqw, 14px);
+            border: 1px solid #1c1c1c;
+            border-radius: clamp(8px, 1.3cqw, 11px);
+            background: linear-gradient(180deg, #c4ff4e 0%, #8ef42e 46%, #6dd816 100%);
+            color: #0a0a0a;
+            font-size: clamp(8px, 3.35cqw, 14px);
+            font-weight: 800;
+            line-height: 1.1;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 2px 0 rgba(0, 0, 0, 0.45);
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .mv-win-icon {
+            width: clamp(11px, 3.4cqw, 18px);
+            height: clamp(11px, 3.4cqw, 18px);
+            flex-shrink: 0;
+        }
+        .mv-box-learn {
+            position: absolute;
+            left: 10.4%;
+            right: 10.4%;
+            top: 85.5%;
+            height: 7.5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0 clamp(8px, 1.6cqw, 12px);
+            border: 1px solid #84ff2e;
+            border-radius: clamp(8px, 1.3cqw, 11px);
+            background: rgba(6, 6, 6, 0.96);
+            color: #84ff2e;
+            font-size: clamp(6px, 2.55cqw, 11px);
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .mv-box-tag:hover,
+        .mv-box-tag:focus-visible,
+        .mv-box-download:hover,
+        .mv-box-download:focus-visible,
+        .mv-box-learn:hover,
+        .mv-box-learn:focus-visible {
+            filter: brightness(1.07);
+        }
+        .mv-box-download.is-active {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 0 0 2px rgba(255, 255, 255, 0.45);
+        }
+        /* ── Game Banner Cards ──────────────────────────────── */
+        .gc-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 20px 48px;
+        }
+        .gc-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 1;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-size: 100% 200%;
+            filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
+            transition:
+                transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                filter 0.45s ease;
+            outline: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .gc-card--mc  { background-image: url('Billeder/game-banners.png'); background-position: center 0%; }
+        .gc-card--sims { background-image: url('Billeder/game-banners.png'); background-position: center 100%; }
+        .gc-card:hover,
+        .gc-card:focus-visible {
+            transform: translateY(-16px) scale(1.025);
+            filter: drop-shadow(0 32px 64px rgba(0,0,0,0.6)) brightness(1.06);
+        }
+        .gc-card:active {
+            transform: translateY(-6px) scale(1.01);
+            transition-duration: 0.1s;
+        }
+        .gc-shine {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        /* ── Download Modal ─────────────────────────────────── */
+        .gc-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .gc-modal[hidden] { display: none; }
+        .gc-modal-bd {
+            position: absolute;
+            inset: 0;
+            background: rgba(5,8,12,0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            cursor: pointer;
+        }
+        .gc-modal-box {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(160deg, #1a1e24 0%, #111418 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 28px;
+            padding: 48px 44px 40px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 50px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+            opacity: 0;
+            transform: scale(0.78) translateY(28px);
+            transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .gc-modal.is-open .gc-modal-box {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .gc-modal-label {
+            display: block;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #84ff2e;
+            margin-bottom: 6px;
+        }
+        .gc-modal-title {
+            font-size: 30px;
+            font-weight: 900;
+            color: #f2f8fc;
+            margin: 0 0 6px;
+            line-height: 1.1;
+        }
+        .gc-modal-sub {
+            font-size: 13px;
+            color: rgba(232,245,252,0.5);
+            margin: 0 0 36px;
+            line-height: 1.5;
+        }
+        .gc-modal-platforms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .gc-plat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 24px 16px 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: rgba(232,245,252,0.9);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s,
+                        transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .gc-plat svg { width: 36px; height: 36px; }
+        .gc-plat--mac:hover, .gc-plat--mac:focus-visible {
+            background: rgba(132,255,46,0.1);
+            border-color: rgba(132,255,46,0.45);
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 14px 32px rgba(132,255,46,0.18);
+            outline: none;
+        }
+        .gc-plat--win:hover, .gc-plat--win:focus-visible {
+            background: rgba(0,120,212,0.12);
+            border-color: rgba(0,150,255,0.45);
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 14px 32px rgba(0,120,212,0.22);
+            outline: none;
+        }
+        .gc-modal-close {
+            background: none;
+            border: none;
+            color: rgba(232,245,252,0.3);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+            letter-spacing: 0.02em;
+            transition: color 0.15s;
+        }
+        .gc-modal-close:hover { color: rgba(232,245,252,0.65); }
+
+        body.install-page .install-screen--os {
+            min-height: auto;
+            padding: 12px 16px 72px;
+            display: none;
+        }
+        body.install-page .install-screen--os.is-open {
+            display: flex;
+        }
+        body.install-page .install-os-panel {
+            width: min(720px, 100%);
+            margin: 0 auto;
+            padding: 28px 24px 32px;
+            border-radius: 16px;
+            background: #52555a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        body.install-page .install-screen--os.is-open .install-os-panel {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.install-page .install-os-panel h2 {
+            margin: 0 0 8px;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 900;
+            color: #f2f8fc;
+        }
+        body.install-page .install-os-panel p {
+            margin: 0 0 20px;
+            color: rgba(232, 242, 252, 0.82);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        body.install-page .install-os-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+        body.install-page .install-os-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 56px;
+            padding: 14px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: linear-gradient(180deg, #b8bec6 0%, #7d868f 55%, #636b74 100%);
+            color: #0a0c0e;
+            font-weight: 900;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+        }
+        body.install-page .install-os-btn:hover,
+        body.install-page .install-os-btn:focus-visible {
+            transform: translateY(-3px);
+            filter: brightness(1.08);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+            outline: 2px solid rgba(255, 255, 255, 0.4);
+            outline-offset: 2px;
+        }
+        @media (max-width: 640px) {
+            body.install-page .install-os-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 820px) {
+            .mv-dl-board {
+                max-width: 100%;
+            }
+        }
+
+        .wizard {
+            display: grid;
+            gap: 14px;
+        }
+
+        .wizard-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 14px;
+            align-items: start;
+        }
+
+        .wizard-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .wizard-label {
+            font-size: 12px;
+            font-weight: 900;
+            color: rgba(232, 245, 252, 0.78);
+            letter-spacing: 0.02em;
+        }
+
+        .seg {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .seg button {
+            appearance: none;
+            border: 1px solid rgba(154, 202, 202, 0.26);
+            background: rgba(10, 18, 25, 0.36);
+            color: rgba(245, 248, 251, 0.88);
+            padding: 9px 10px;
+            border-radius: 999px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .seg button.active {
+            border-color: rgba(154, 202, 202, 0.62);
+            background: rgba(154, 202, 202, 0.16);
+            color: rgba(245, 248, 251, 0.95);
+            box-shadow: 0 0 0 2px rgba(154, 202, 202, 0.14);
+        }
+
+        .wizard-input,
+        .wizard-select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            background: rgba(10, 18, 25, 0.36);
+            color: rgba(245, 248, 251, 0.92);
+            outline: none;
+        }
+
+        .wizard-hint {
+            font-size: 12px;
+            color: rgba(232, 245, 252, 0.7);
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .choice-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choice {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            background: rgba(10, 18, 25, 0.28);
+        }
+
+        .choice input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #9acaca;
+        }
+
+        .choice-title {
+            font-weight: 900;
+        }
+
+        .choice-sub {
+            font-size: 12px;
+            color: rgba(232, 245, 252, 0.72);
+            font-weight: 700;
+        }
+
+        @media (max-width: 980px) {
+            .sub-two-col { grid-template-columns: 1fr; margin-top: 18px; }
+            .sub-price-col { position: relative; top: 0; }
+            .install-grid { grid-template-columns: 1fr; }
+            .wizard-row { grid-template-columns: 1fr; }
+            .page-hero-inner { width: calc(100% - 28px); padding: 96px 0 20px; }
+            .page-hero h2 { font-size: clamp(2rem, 10vw, 3.4rem); max-width: 12ch; }
+            .sub-inner { padding: 0 10px; }
+        }
+        @media (max-width: 700px) {
+            #skimoHeroNav { gap: 6px !important; }
+            #skimoHeroNav .nav-center a { font-size: 14px !important; padding: 8px 8px !important; margin: 0 4px !important; }
+            #skimoHeroNav .nav-right { gap: 8px !important; }
+            #skimoHeroNav .hero-brand-logo { width: 62px; }
+            .game-tile { width: 100%; max-width: 100%; }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/theme-picker.css?v=20260506-dark-lightblue">
+    <link rel="stylesheet" href="assets/skimo-ai-assistant.css?v=20260327-69">
+    <script src="assets/i18n.js?v=20260327-69"></script>
+</head>
+<body class="install-page">
+    <nav class="index-clone-nav" id="skimoHeroNav" style="display:flex !important;">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo-link" data-i18n-aria-label="nav.logoHome">
+                <span class="hero-logo-shine">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo" alt="Skimo">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo shine-pass" alt="" aria-hidden="true">
+                </span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="guide.html" data-i18n="nav.guide">Guide</a>
+            <a href="install.html" aria-current="page" data-i18n="nav.subscriptions">Installer</a>
+            <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+            <a href="index.html" data-i18n="nav.dashboard">Hjem</a>
+        </div>
+        <div class="nav-right">
+            <button type="button" class="hero-search skimo-ai-trigger" aria-label="Åbn Skimo chatbot"></button>
+            <div class="lang-switcher" data-lang-switcher>
+                <button type="button" class="lang-current" aria-label="Vælg sprog" aria-expanded="false">DA</button>
+                <div class="lang-popover" hidden>
+                    <button type="button" class="lang-choice" data-lang="da" aria-label="Dansk">DA</button>
+                    <button type="button" class="lang-choice" data-lang="sv" aria-label="Svenska">SV</button>
+                    <button type="button" class="lang-choice" data-lang="no" aria-label="Norsk">NO</button>
+                    <button type="button" class="lang-choice" data-lang="en" aria-label="English">EN</button>
+                    <button type="button" class="lang-choice" data-lang="fr" aria-label="Français">FR</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="install-story" id="installStoryRoot" aria-label="Download Modverse">
+        <section class="install-screen install-screen--welcome">
+            <div>
+                <h1 class="install-story-title" data-i18n="install.welcome.title">Velkommen til installer</h1>
+                <p class="install-story-sub" data-i18n="install.welcome.body">Scroll ned, vælg spil og tryk Download. Derefter vælger du Mac, Windows eller Linux.</p>
+                <a href="#install-cards" class="install-scroll-hint" data-i18n="install.welcome.scroll">Scroll ned</a>
+            </div>
+        </section>
+
+        <section class="install-screen install-screen--cards" id="install-cards">
+            <div class="gc-wrap" id="installCardsReveal">
+                <!-- Minecraft banner card -->
+                <div class="gc-card gc-card--mc" role="button" tabindex="0" data-game="mc"
+                     aria-label="Download ModGuard til Minecraft — klik for at vælge platform">
+                    <div class="gc-shine" aria-hidden="true"></div>
+                </div>
+                <!-- Sims 4 banner card -->
+                <div class="gc-card gc-card--sims" role="button" tabindex="0" data-game="sims"
+                     aria-label="Download ModGuard til The Sims 4 — klik for at vælge platform">
+                    <div class="gc-shine" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform download popup -->
+        <div class="gc-modal" id="gcModal" hidden aria-hidden="true">
+            <div class="gc-modal-bd" id="gcModalBd"></div>
+            <div class="gc-modal-box" role="dialog" aria-modal="true" aria-labelledby="gcModalTitle">
+                <span class="gc-modal-label">Download ModGuard</span>
+                <h2 class="gc-modal-title" id="gcModalTitle">Minecraft</h2>
+                <p class="gc-modal-sub">Vælg dit styresystem — download starter med det samme</p>
+                <div class="gc-modal-platforms">
+                    <button class="gc-plat gc-plat--mac" id="gcBtnMac" data-os="mac">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        macOS
+                    </button>
+                    <button class="gc-plat gc-plat--win" id="gcBtnWin" data-os="windows">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5h7.5V13H3zm8.5 0H21v7.5h-9.5zm-8.5 9h7.5V22H3zm8.5 0H21V22h-9.5z"/></svg>
+                        Windows
+                    </button>
+                </div>
+                <button class="gc-modal-close" id="gcModalClose">Nej tak — gå tilbage</button>
+            </div>
+        </div>
+
+        <section class="install-screen install-screen--os" id="install-os" aria-labelledby="install-os-title" hidden>
+            <div class="install-os-panel" id="installOsPanel">
+                <h2 id="install-os-title">Minecraft</h2>
+                <p data-i18n="install.os.pick">Vælg styresystem — filen hentes med det samme.</p>
+                <div class="install-os-grid" role="group" aria-label="Styresystem">
+                    <a class="install-os-btn" data-os="mac" href="#" data-i18n="install.os.mac">Mac</a>
+                    <a class="install-os-btn" data-os="windows" href="#" data-i18n="install.os.windows">Windows</a>
+                    <a class="install-os-btn" data-os="linux" href="#" data-i18n="install.os.linux">Linux</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+      (function () {
+        const artifacts = {
+          mc: {
+            windows: "Modguards/Modguard%20Windows.exe",
+            mac: "Downloads/Minecraft%20Modverse%20Mac.app.zip",
+            linux: "Modguards/Modguard%20Ubuntu.AppImage",
+          },
+          sims: {
+            windows: "Virker/Sims%204%20Modguard%20Windows.exe",
+            mac: "Downloads/Sims%20Modverse%20Mac.app.zip",
+            linux: "Virker/Sims%204%20Modguard%20Linux.tar.gz",
+          },
+        };
+        const gameTitles = {
+          mc: { da: "Minecraft", en: "Minecraft" },
+          sims: { da: "The Sims 4", en: "The Sims 4" },
+        };
+        function currentLang() {
+          try {
+            if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === "function") {
+              return String(window.SkimoI18n.getLanguage() || "da").toLowerCase();
+            }
+          } catch {}
+          return String(document.documentElement.lang || "da").toLowerCase();
+        }
+        // ── Game card modal ──────────────────────────────────────────────
+        const gcModal   = document.getElementById("gcModal");
+        const gcModalBd = document.getElementById("gcModalBd");
+        const gcTitle   = document.getElementById("gcModalTitle");
+        const gcBtnMac  = document.getElementById("gcBtnMac");
+        const gcBtnWin  = document.getElementById("gcBtnWin");
+        const gcClose   = document.getElementById("gcModalClose");
+        let   activeGame = null;
+
+        function openGcModal(game) {
+          if (!gcModal) return;
+          activeGame = game;
+          const lang = currentLang();
+          const titles = gameTitles[game] || gameTitles.mc;
+          if (gcTitle) gcTitle.textContent = titles[lang] || titles.da;
+          gcModal.removeAttribute("hidden");
+          gcModal.setAttribute("aria-hidden", "false");
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            gcModal.classList.add("is-open");
+          }));
+          if (gcBtnMac) gcBtnMac.focus();
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeGcModal() {
+          if (!gcModal) return;
+          gcModal.classList.remove("is-open");
+          document.body.style.overflow = "";
+          setTimeout(() => {
+            if (!gcModal.classList.contains("is-open")) {
+              gcModal.setAttribute("hidden", "");
+              gcModal.setAttribute("aria-hidden", "true");
+              activeGame = null;
+            }
+          }, 450);
+        }
+
+        function triggerDownload(os) {
+          if (!activeGame) return;
+          const href = artifacts[activeGame] && artifacts[activeGame][os];
+          if (href) window.location.href = href;
+          closeGcModal();
+        }
+
+        document.querySelectorAll(".gc-card[data-game]").forEach((card) => {
+          card.addEventListener("click", () => openGcModal(card.dataset.game));
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openGcModal(card.dataset.game); }
+          });
+        });
+        if (gcModalBd) gcModalBd.addEventListener("click", closeGcModal);
+        if (gcClose)   gcClose.addEventListener("click", closeGcModal);
+        if (gcBtnMac)  gcBtnMac.addEventListener("click", () => triggerDownload("mac"));
+        if (gcBtnWin)  gcBtnWin.addEventListener("click", () => triggerDownload("windows"));
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && gcModal && !gcModal.hasAttribute("hidden")) closeGcModal();
+        });
+
+        const reveal = document.getElementById("installCardsReveal");
+        if (reveal && "IntersectionObserver" in window) {
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+          io.observe(reveal);
+        } else if (reveal) {
+          reveal.classList.add("is-visible");
+        }
+
+        document.querySelectorAll(".install-scroll-hint").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            const target = document.getElementById("install-cards");
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+      })();
+    </script>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-scroll-to]').forEach((el) => {
+          el.addEventListener('click', () => {
+            const sel = el.getAttribute('data-scroll-to');
+            if (!sel) return;
+            const target = document.querySelector(sel);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+
+        const finePointer = window.matchMedia('(pointer: fine)').matches;
+        const nav = document.querySelector('.index-clone-nav');
+        if (finePointer && nav) {
+          let idleTimer = 0;
+          let hovering = false;
+          const delay = 900;
+          const showNav = () => document.body.classList.remove('nav-idle');
+          const hideNav = () => {
+            if (hovering) return;
+            document.body.classList.add('nav-idle');
+          };
+          const scheduleHide = () => {
+            window.clearTimeout(idleTimer);
+            if (hovering) return;
+            idleTimer = window.setTimeout(hideNav, delay);
+          };
+          window.addEventListener('mousemove', () => {
+            showNav();
+            scheduleHide();
+          }, { passive: true });
+          window.addEventListener('mouseleave', hideNav, { passive: true });
+          nav.addEventListener('mouseenter', () => {
+            hovering = true;
+            window.clearTimeout(idleTimer);
+            showNav();
+          });
+          nav.addEventListener('mouseleave', () => {
+            hovering = false;
+            scheduleHide();
+          });
+          scheduleHide();
+        }
+
+        const languageLabelMap = { da: 'DA', sv: 'SV', no: 'NO', en: 'EN', fr: 'FR' };
+        function getCurrentLanguage() {
+          if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+            return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+          }
+          return String(document.documentElement.lang || 'da').toLowerCase();
+        }
+        function closeLanguagePopovers() {
+          document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+            const current = switcher.querySelector('.lang-current');
+            const popover = switcher.querySelector('.lang-popover');
+            if (popover) popover.hidden = true;
+            if (current) current.setAttribute('aria-expanded', 'false');
+          });
+        }
+        function syncLanguageSwitchers() {
+          const currentLang = getCurrentLanguage();
+          const currentLabel = languageLabelMap[currentLang] || languageLabelMap.da;
+          document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+            const current = switcher.querySelector('.lang-current');
+            if (current) current.textContent = currentLabel;
+            switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+              choice.classList.toggle('active', choice.getAttribute('data-lang') === currentLang);
+            });
+          });
+        }
+        document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+          const current = switcher.querySelector('.lang-current');
+          const popover = switcher.querySelector('.lang-popover');
+          if (!current || !popover) return;
+          current.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const shouldOpen = popover.hidden;
+            closeLanguagePopovers();
+            popover.hidden = !shouldOpen;
+            current.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+          });
+          switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+            choice.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              const lang = choice.getAttribute('data-lang') || 'da';
+              if (window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                window.SkimoI18n.setLanguage(lang, { source: 'manual' });
+                if (typeof window.SkimoI18n.applyTranslations === 'function') {
+                  window.SkimoI18n.applyTranslations(document);
+                }
+              } else {
+                document.documentElement.lang = lang;
+              }
+              syncLanguageSwitchers();
+              closeLanguagePopovers();
+            });
+          });
+        });
+        document.addEventListener('click', (event) => {
+          if (!event.target.closest('.lang-switcher')) closeLanguagePopovers();
+        });
+        document.querySelectorAll('a[data-i18n="nav.return"], a[data-smart-back="true"], a.back-link').forEach((link) => {
+          if (link.dataset.installBackBound === '1') return;
+          link.dataset.installBackBound = '1';
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            let handled = false;
+            try {
+              if (window.SkimoI18n && typeof window.SkimoI18n.smartBack === 'function') {
+                handled = !!window.SkimoI18n.smartBack('index.html');
+              }
+            } catch {}
+            if (!handled) window.location.href = 'index.html';
+          });
+        });
+        syncLanguageSwitchers();
+        if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+          window.SkimoI18n.applyTranslations(document);
+        }
+      });
+    </script>
+    <script src="assets/skimo-ai-assistant.js?v=20260327-69" defer></script>
+    <script src="assets/hq-enhance.js?v=20260327-69" defer></script>
+    <script src="assets/skimo-mobile-video.js?v=20260327-69" defer></script>
+</body>
+</html>

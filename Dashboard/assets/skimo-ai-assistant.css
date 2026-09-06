@@ -1,0 +1,211 @@
+.index-clone-nav .skimo-ai-trigger {
+    width: auto;
+    height: auto;
+    border: none !important;
+    border-radius: 0;
+    background: transparent !important;
+    color: rgba(240, 249, 252, 0.98) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin-right: 38px;
+    cursor: pointer;
+    box-shadow: none;
+    transition: transform 0.06s ease, color 0.06s ease, opacity 0.06s ease;
+}
+
+.index-clone-nav .skimo-ai-trigger:hover {
+    transform: translateY(-1px);
+    color: rgba(201, 242, 238, 0.98) !important;
+    opacity: 0.96;
+}
+
+.index-clone-nav .skimo-ai-trigger svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+@media (max-width: 720px) {
+    .index-clone-nav .skimo-ai-trigger {
+        margin-right: 18px;
+    }
+}
+
+.skimo-ai-widget {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: min(380px, calc(100vw - 28px));
+    border-radius: 24px;
+    border: 1px solid rgba(183, 220, 233, 0.2);
+    background: linear-gradient(180deg, rgba(10, 17, 24, 0.96) 0%, rgba(13, 21, 29, 0.94) 100%);
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(232, 245, 252, 0.04) inset;
+    overflow: hidden;
+    z-index: 2600;
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.07s ease, transform 0.07s ease;
+}
+
+.skimo-ai-widget.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.skimo-ai-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid rgba(183, 220, 233, 0.12);
+    background: linear-gradient(180deg, rgba(18, 29, 38, 0.96) 0%, rgba(12, 20, 28, 0.92) 100%);
+}
+
+.skimo-ai-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skimo-ai-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(179, 223, 235, 0.28) 0%, rgba(113, 170, 192, 0.12) 100%);
+    border: 1px solid rgba(183, 220, 233, 0.18);
+    color: #f4fbff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.skimo-ai-avatar svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+.skimo-ai-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f3fbff;
+}
+
+.skimo-ai-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.87rem;
+    line-height: 1.45;
+    color: rgba(232, 245, 252, 0.72);
+}
+
+.skimo-ai-close {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(183, 220, 233, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #f3fbff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.skimo-ai-body {
+    padding: 16px 16px 8px;
+}
+
+.skimo-ai-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.skimo-ai-message {
+    max-width: 88%;
+    padding: 12px 14px;
+    border-radius: 18px;
+    line-height: 1.55;
+    font-size: 0.94rem;
+    white-space: normal;
+}
+
+.skimo-ai-message a {
+    color: #c9f2ee;
+}
+
+.skimo-ai-message.ai {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(183, 220, 233, 0.09);
+    color: rgba(243, 251, 255, 0.92);
+}
+
+.skimo-ai-message.user {
+    align-self: flex-end;
+    background: linear-gradient(180deg, rgba(154, 202, 202, 0.24) 0%, rgba(110, 162, 181, 0.2) 100%);
+    border: 1px solid rgba(183, 220, 233, 0.18);
+    color: #f8fdff;
+}
+
+.skimo-ai-form {
+    display: flex;
+    gap: 10px;
+    padding: 16px;
+}
+
+.skimo-ai-input {
+    flex: 1;
+    min-width: 0;
+    border-radius: 16px;
+    border: 1px solid rgba(183, 220, 233, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f6fbff;
+    padding: 13px 14px;
+    font-size: 0.94rem;
+    outline: none;
+}
+
+.skimo-ai-input::placeholder {
+    color: rgba(232, 245, 252, 0.45);
+}
+
+.skimo-ai-send {
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #b5dce8 0%, #89b9cb 100%);
+    color: #071015;
+    font-weight: 700;
+    padding: 0 18px;
+    cursor: pointer;
+    min-width: 78px;
+}
+
+@media (max-width: 720px) {
+    .skimo-ai-widget {
+        right: 12px;
+        bottom: 12px;
+        width: calc(100vw - 24px);
+        border-radius: 22px;
+    }
+
+    .skimo-ai-messages {
+        max-height: 250px;
+    }
+
+    .skimo-ai-form {
+        flex-direction: column;
+    }
+
+    .skimo-ai-send {
+        min-height: 48px;
+    }
+}

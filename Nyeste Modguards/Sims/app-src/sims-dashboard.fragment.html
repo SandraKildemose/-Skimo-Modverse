@@ -1,0 +1,293 @@
+        <div id="dashboardView" class="view mg-shell" data-active-tab="search" data-qf-placement="search">
+          <aside class="mg-sidebar" aria-label="Navigation">
+            <div class="mg-brand">
+              <span class="hero-logo-shine hero-logo-shine--sidebar is-active">
+                <img src="assets/logomodserve.png" alt="Modverse" class="modverse-brand-logo" />
+                <img src="assets/logomodserve.png" alt="" aria-hidden="true" class="modverse-brand-logo shine-pass" />
+              </span>
+              <div class="mg-brand-text">
+                <strong id="mgBrandTitle">Sims Modverse</strong>
+              </div>
+            </div>
+            <div class="mg-nav-section">MAIN</div>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="home" id="navHome"><span class="mg-nav-ico">⌂</span> HOME</button>
+            <button class="mg-nav-item active" type="button" data-dashboard-tab="search" id="navModSearch"><span class="mg-nav-ico">⌕</span> MOD SEARCH</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="moddemand" id="navModDemand"><span class="mg-nav-ico">📈</span> CC DEMAND</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="browse" id="navBrowse"><span class="mg-nav-ico">▦</span> BROWSE MODS</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="favorites" id="navFavorites"><span class="mg-nav-ico">★</span> COLLECTION</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="downloads" id="navDownloads"><span class="mg-nav-ico">↓</span> INSTALLED</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="outdated" id="navOutdated"><span class="mg-nav-ico">!</span> BROKEN / OUTDATED <span class="mg-nav-badge" id="navOutdatedBadge">0</span></button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="resourcepacks" id="navResourcePacks"><span class="mg-nav-ico">▣</span> RESOURCE PACKS</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="customcontent" id="navCustomContent"><span class="mg-nav-ico">◆</span> CUSTOM CONTENT</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="posepacks" id="navPosePacks"><span class="mg-nav-ico">✦</span> POSE PACKS</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="maps" id="navMaps"><span class="mg-nav-ico">🗺</span> MAPS</button>
+            <div class="mg-nav-section">COMMUNITY</div>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="forum" id="navForum"><span class="mg-nav-ico">💬</span> FORUMS</button>
+            <button class="mg-nav-item" type="button" id="navDiscord" data-open-url="https://discord.gg/sims"><span class="mg-nav-ico">◎</span> DISCORD</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="news" id="navNews"><span class="mg-nav-ico">📰</span> NEWS</button>
+            <div class="mg-nav-section">TOOLS</div>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="scanner" id="navScanner"><span class="mg-nav-ico">🛡</span> MOD SCANNER</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="profile" id="navProfile"><span class="mg-nav-ico">👤</span> PROFILE MANAGER</button>
+            <button class="mg-nav-item" type="button" data-dashboard-tab="settings" id="navSettings"><span class="mg-nav-ico">⚙</span> SETTINGS</button>
+            <div id="mgQuickFiltersDockSidebar" class="mg-qf-dock-sidebar" hidden></div>
+            <div class="mg-profile" id="mgProfileCard">
+              <img src="assets/sg/plumbob.svg" alt="" class="mg-profile-avatar-img" id="mgProfileAvatar" width="32" height="32" />
+              <div class="mg-profile-meta">
+                <strong id="mgProfileName">SimmerLife</strong>
+                <span id="mgProfileLevel">Level 24</span>
+                <span id="mgProfileXp" class="mg-profile-xp">3240 / 5000 XP</span>
+              </div>
+              <div class="mg-xp-bar" aria-hidden="true"><span style="width:65%"></span></div>
+            </div>
+            <div class="mg-status-footer" id="mgSystemStatus"><span class="mg-status-check" aria-hidden="true">✓</span> All Systems Green — No issues detected</div>
+          </aside>
+
+          <div class="mg-main dashboard-workspace">
+          <div class="dashboard-tabs" role="tablist" aria-label="ModGuard visninger" hidden>
+            <button class="dashboard-tab active" type="button" data-dashboard-tab="antivirus">Antivirus</button>
+            <button class="dashboard-tab" type="button" data-dashboard-tab="search">Søgemaskine</button>
+            <button class="dashboard-tab" type="button" data-dashboard-tab="downloads">Downloads</button>
+            <button class="dashboard-tab" type="button" data-dashboard-tab="forum">Forum</button>
+            <button class="dashboard-tab" type="button" data-dashboard-tab="settings">Indstillinger</button>
+            <button class="dashboard-tab" type="button" data-dashboard-tab="outdated">Outdatede</button>
+          </div>
+
+          <header class="hub-toolbar downloads-only outdated-only">
+            <div class="hub-toolbar-status pill">
+              <div id="statusDot" class="dot"></div>
+              <div id="statusText">Status: …</div>
+            </div>
+            <div class="hub-toolbar-actions">
+              <button id="toggleBtn" type="button">Tænd</button>
+              <button id="minimizeBtn" class="secondary" type="button">Minimer app</button>
+            </div>
+          </header>
+
+          <div id="message" class="hint hub-message" hidden></div>
+
+          <div class="mg-page mg-page-scanner hub-page antivirus-only" id="scannerHub">
+            <h1 class="hub-title">Scanner</h1>
+            <p class="hub-sub">Sandbox og virusscan af dine filer</p>
+          <div class="stats-grid hub-stats">
+            <button class="stat-card stat-link" type="button" data-scroll-target="cleanModsBucket">
+              <div class="stat-label" id="statCleanTitle">Rene mods</div>
+              <div class="stat-value" id="statCleanCount">0</div>
+            </button>
+            <button class="stat-card stat-link" type="button" data-scroll-target="blockedModsBucket">
+              <div class="stat-label" id="statVirusTitle">Blokerede mods</div>
+              <div class="stat-value" id="statVirusCount">0</div>
+            </button>
+            <button class="stat-card stat-link" type="button" data-scroll-target="outdatedSection">
+              <div class="stat-label" id="statOutdatedTitle">Outdatede mods</div>
+              <div class="stat-value" id="statOutdatedCount">0</div>
+            </button>
+            <button class="stat-card stat-link" type="button" data-scroll-target="websitesSection">
+              <div class="stat-label" id="statSitesTitle">Hjemmesider</div>
+              <div class="stat-value" id="statSitesCount">0</div>
+            </button>
+          </div>
+
+          <div class="hub-quick-actions">
+            <button id="scanNowBtn" type="button">Scan nu</button>
+            <button id="clearHistoryBtn" class="secondary" type="button">Ryd historik</button>
+            <button id="openDownloadsBtn" class="secondary" type="button">Åbn Downloads</button>
+            <button id="pickDestinationBtn" class="secondary" type="button">Vælg mod-mappe</button>
+            <button id="openDestinationBtn" class="secondary" type="button">Åbn mod-mappe</button>
+            <span class="hub-path-short path" id="downloadsPath" hidden></span>
+            <span class="hub-path-short path" id="destinationPath" hidden></span>
+          </div>
+
+          <div class="section hub-panel downloads-panel" id="modsSection">
+            <div class="bucket-grid">
+              <div class="bucket" id="cleanModsBucket">
+                <div class="bucket-head">
+                  <h3 class="bucket-title" id="cleanModsTitle">Rene mods</h3>
+                  <div class="count-pill" id="cleanModsCount">0</div>
+                </div>
+                <div id="cleanModsList" class="stack-list"></div>
+              </div>
+
+              <div class="bucket" id="blockedModsBucket">
+                <div class="bucket-head">
+                  <h3 class="bucket-title" id="blockedModsTitle">Virus og blokerede</h3>
+                  <div class="count-pill" id="blockedModsCount">0</div>
+                </div>
+                <div id="blockedModsList" class="stack-list"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="hub-page hub-cta-page downloads-only" id="downloadsManageSection">
+            <button type="button" class="hub-open-mods-btn" id="openModsFolderBtn">
+              <span class="hub-open-mods-icon">📂</span>
+              <span id="openModsFolderLabel">Åbn mods-mappe</span>
+            </button>
+            <button type="button" class="hub-open-mods-secondary secondary" id="pickModsFolderBtn" hidden>Vælg mappe</button>
+          </div>
+
+          <div class="mg-page mg-page-search search-only active" id="simsSearchPanel" data-mg-page="search">
+            <div class="mg-header-zone">
+              <header class="mg-topbar">
+                <div class="mg-title-block">
+                  <h1><img src="assets/sg/plumbob.svg" alt="" class="mg-title-plumbob" width="22" height="22" /> MOD SEARCH</h1>
+                  <p>Find and explore Sims 4 mods and CC from all your favorite sources.</p>
+                </div>
+                <div class="mg-edition-toggle" role="group" aria-label="Edition">
+                  <button type="button" class="mg-edition-btn active" id="mgEditionSims4" data-mg-edition="sims4"><img src="assets/sg/plumbob.svg" alt="" class="mg-ed-img" width="14" height="14" /> SIMS 4 EDITION</button>
+                  <button type="button" class="mg-edition-btn" id="mgEditionLegacy" data-mg-edition="legacy"><img src="assets/sg/plumbob.svg" alt="" class="mg-ed-img" width="14" height="14" /> LEGACY EDITION</button>
+                </div>
+              </header>
+              <div class="mg-header-toolbar">
+              <div class="mg-header-main">
+              <div class="mg-search-row">
+                <input id="simsSearchInput" type="search" placeholder="Search CC, mods, creators, categories..." autocomplete="off" spellcheck="false" aria-describedby="simsSearchHints" />
+                <button id="simsSearchBtn" type="button" class="mg-search-go">SEARCH</button>
+              </div>
+              <p id="simsSearchHints" class="mg-search-hints-row" hidden></p>
+              <nav class="mg-category-pills" id="mgCategoryPills" role="group" aria-label="Categories">
+                <button type="button" class="active" data-sims-cat="all">ALL</button>
+                <button type="button" data-sims-cat="cas">CAS</button>
+                <button type="button" data-sims-cat="buildbuy">BUILD / BUY</button>
+                <button type="button" data-sims-cat="gameplay">GAMEPLAY</button>
+                <button type="button" data-sims-cat="style">STYLE</button>
+                <button type="button" data-sims-cat="animations">ANIMATIONS</button>
+                <button type="button" data-sims-cat="careers">CAREERS</button>
+              </nav>
+              <div class="search-mode mg-loader-modes" role="group" aria-label="Content type" hidden>
+                <button class="mode-toggle active" type="button" data-sims-mode="cc">CC</button>
+                <button class="mode-toggle" type="button" data-sims-mode="mods">Mods</button>
+                <button class="mode-toggle" type="button" data-sims-mode="gameplay">Gameplay</button>
+                <button class="mode-toggle" type="button" data-sims-mode="buildbuy">Build/Buy</button>
+              </div>
+              <div class="mg-stats-row" aria-label="Statistics">
+                <div class="mg-stat-box"><img src="assets/sg/plumbob.svg" alt="" class="mg-stat-img" width="28" height="28" /><div><strong id="mgStatMods">125,847</strong><span>Mods Indexed</span></div></div>
+                <div class="mg-stat-box"><img src="assets/sg/plumbob.svg" alt="" class="mg-stat-img" width="28" height="28" /><div><strong id="mgStatCreators">18,932</strong><span>Creators</span></div></div>
+                <div class="mg-stat-box"><img src="assets/sg/plumbob.svg" alt="" class="mg-stat-img" width="28" height="28" /><div><strong id="mgStatDownloads">4,672,931</strong><span>Downloads Today</span></div></div>
+                <div class="mg-stat-box"><img src="assets/sg/plumbob.svg" alt="" class="mg-stat-img" width="28" height="28" /><div><strong id="mgStatSafe">98.6%</strong><span>Mods Safe</span></div></div>
+              </div>
+            </div>
+            <div class="mg-search-body search-only">
+              <div class="mg-search-main">
+              <div class="mg-results-column">
+                <div class="mg-results-head">
+                  <h2><img src="assets/sg/plumbob.svg" alt="" class="mg-plumbob-ico" width="18" height="18" /> TOP RESULTS <span id="mgModCount" class="mg-mod-count"></span></h2>
+                  <div class="mg-view-toggle" role="group" aria-label="View">
+                    <button type="button" class="active" id="mgViewGrid" title="Grid view">▦</button>
+                    <button type="button" id="mgViewList" title="List view">☰</button>
+                  </div>
+                </div>
+                <div class="mg-results-scroll">
+                  <div class="browser-address" id="simsBrowserAddress" hidden>modguard://sims/search</div>
+                  <div class="mg-mod-grid browser-screen" id="simsBrowserScreen"></div>
+                </div>
+              </div>
+              </div>
+              <div id="mgQuickFiltersDockRight" class="mg-qf-dock-right search-only">
+            <aside class="mg-quick-filters-panel mg-qf-right-rail" id="simsFiltersSidebar" aria-label="Quick filters">
+              <div class="mg-qf-title">QUICK FILTERS</div>
+              <div class="mg-qf-select-wrap">
+                <select id="simsVersionFilter" class="mg-qf-select" aria-label="All Game Versions">
+                  <option value="all">All Game Versions</option>
+                  <option value="latest">Latest patch</option>
+                  <option value="1.110">1.110</option>
+                  <option value="1.105">1.105</option>
+                </select>
+              </div>
+              <div class="mg-qf-select-wrap">
+                <select id="mgFilterExpansion" class="mg-qf-select" aria-label="All Expansions">
+                  <option value="all">All Expansions</option>
+                  <option value="base">Base game</option>
+                  <option value="ep">Expansion packs</option>
+                  <option value="gp">Game packs</option>
+                  <option value="sp">Stuff packs</option>
+                </select>
+              </div>
+              <div class="mg-qf-select-wrap">
+                <select id="simsCategoryFilter" class="mg-qf-select" aria-label="All Categories">
+                  <option value="all">All Categories</option>
+                  <option value="cc">CC</option>
+                  <option value="mods">Mods</option>
+                  <option value="gameplay">Gameplay</option>
+                  <option value="buildbuy">Build / Buy</option>
+                </select>
+              </div>
+              <div class="mg-qf-select-wrap">
+                <select id="simsTypeFilter" class="mg-qf-select" aria-label="All Mod Types">
+                  <option value="all">All Mod Types</option>
+                  <option value="hair">Hair</option>
+                  <option value="clothes">Clothes</option>
+                  <option value="buildbuy">Build/Buy</option>
+                  <option value="gameplay">Gameplay</option>
+                </select>
+              </div>
+              <div class="mg-qf-select-wrap">
+                <select id="mgFilterModStatus" class="mg-qf-select" aria-label="Any Mod Status">
+                  <option value="all">Any Mod Status</option>
+                  <option value="safe">Verified safe</option>
+                  <option value="outdated">Outdated</option>
+                  <option value="broken">Broken</option>
+                </select>
+              </div>
+              <div class="mg-qf-select-wrap">
+                <select id="simsSortSelect" class="mg-qf-select" aria-label="Sort by Relevance">
+                  <option value="relevance">Sort by Relevance</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="newest">Newest</option>
+                  <option value="alphabetical">Alphabetical</option>
+                </select>
+              </div>
+              <div class="mg-qf-nsfw-box">
+                <label class="mg-qf-nsfw-label" for="adultContentToggle">
+                  <span class="mg-qf-nsfw-badge">18+</span>
+                  <span class="mg-qf-nsfw-text">NSFW content</span>
+                  <input type="checkbox" id="adultContentToggle" class="mg-qf-nsfw-input" aria-label="Show NSFW content (18+)" />
+                </label>
+              </div>
+              <select id="simsTimeFilter" hidden aria-hidden="true"><option value="all">All</option></select>
+              <select id="simsLangFilter" hidden aria-hidden="true"><option value="all">All</option></select>
+              <select id="simsRatingFilter" hidden aria-hidden="true"><option value="all">All</option></select>
+              <select id="simsPriceFilter" hidden aria-hidden="true"><option value="all">All</option></select>
+              <div id="simsPlatformToggles" hidden></div>
+              <button type="button" id="simsResetFilters" hidden></button>
+              <div id="simsStarPicker" hidden aria-hidden="true"></div>
+            </aside>
+              </div>
+            </div>
+            <div class="mg-bottom-bar search-only">
+              <div class="mg-request-banner" id="mgRequestBanner">
+                <button type="button" class="mg-request-btn" id="mgModFitBtn"><span id="mgModFitBtnLabel">FIND A MOD THAT FITS YOU</span></button>
+              </div>
+            </div>
+            <button id="minimizeBtnSearch" type="button" hidden>Minimer</button>
+            <div id="simsBottomPreview" hidden></div>
+            <div id="simsBottomScan" hidden></div>
+            <div id="simsThreatTable" hidden></div>
+            <div id="simsDetailPanel" hidden aria-hidden="true"></div>
+          </div>
+
+          <div class="moddemand-page moddemand-only" id="modDemandSection" hidden>
+            <header class="mg-demand-head">
+              <div class="mg-demand-head-text">
+                <h2>WHAT SIMMERS WANT</h2>
+                <p class="mg-demand-sub">Community gaps players and creators hunger for — from Reddit, Patreon, TSR &amp; mod forums.</p>
+              </div>
+              <div class="mg-demand-stats" id="modDemandStats" aria-live="polite"></div>
+            </header>
+            <div class="mg-demand-toolbar">
+              <div class="mg-demand-search-wrap">
+                <span class="mg-demand-search-ico" aria-hidden="true">⌕</span>
+                <input type="search" id="modDemandSearchInput" class="mg-demand-search" placeholder="Filter gaps (e.g. hair, WickedWhims, sliders)…" autocomplete="off" />
+              </div>
+              <nav class="mg-demand-tabs" id="modDemandTabs" role="tablist" aria-label="Demand categories">
+                <button type="button" class="active" data-demand-tab="all">All gaps</button>
+                <button type="button" data-demand-tab="cas">CAS / Hair</button>
+                <button type="button" data-demand-tab="buildbuy">Build / Buy</button>
+                <button type="button" data-demand-tab="gameplay">Gameplay</button>
+                <button type="button" data-demand-tab="performance">Performance</button>
+                <button type="button" data-demand-tab="tools">Tools</button>
+                <button type="button" data-demand-tab="security">Security</button>
+              </nav>
+            </div>
+            <div class="mg-demand-list" id="modDemandList" aria-live="polite"></div>
+          </div>

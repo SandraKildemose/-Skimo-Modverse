@@ -1,0 +1,7 @@
+{
+  "name": "antivirus-app",
+  "version": "1.0.14",
+  "buildId": "20260515-vt-runtime-fpfix",
+  "description": "Sandbox antivirus (Minecraft mods)",
+  "main": "main.js"
+}

@@ -1,0 +1,4081 @@
+<!DOCTYPE html>
+<html lang="da" class="page-abonnement guide-surface" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/skimo-desktop-viewport.js?v=20260405-70"></script>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preload" href="assets/i18n.js?v=20260405-70" as="script">
+    <link rel="preload" href="assets/skimo-ai-assistant.css?v=20260405-70" as="style">
+    <link rel="preload" href="assets/hq-enhance.js?v=20260405-70" as="script">
+    <title data-i18n="title.guide">Guide Skimo</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            color: #f8f8f8;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: none;
+            z-index: -1;
+            opacity: 1;
+            animation: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: none;
+            animation: none;
+        }
+        @keyframes backgroundShift {
+            0% { transform: scale(1.1) translate(-1%, -1%); }
+            100% { transform: scale(1.1) translate(1%, 1%); }
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+        header.highlighted-shell {
+            background: rgba(17, 22, 28, 0.94);
+            border-bottom: 1px solid rgba(143, 180, 192, 0.2);
+            width: 100%;
+            padding: 10px 0;
+            overflow: hidden;
+            color: #fff;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+            backdrop-filter: blur(10px);
+        }
+        header.highlighted-shell::before {
+            content: none;
+            position: absolute;
+            inset: 0;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            opacity: 0;
+            pointer-events: none;
+            filter: none;
+            transform-origin: 50% 78%;
+            animation: topMenMotion 6s ease-in-out infinite;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 86%, transparent 100%);
+        }
+        header.highlighted-shell::after {
+            content: none;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+
+            background-repeat: no-repeat;
+            background-position: center 68%;
+            background-size: contain;
+            mix-blend-mode: screen;
+            opacity: 0;
+            filter: none;
+            transform-origin: 50% 78%;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
+            animation: topMenPulse 6s ease-in-out infinite, topMenMotion 6s ease-in-out infinite;
+        }
+        header.highlighted-shell > * {
+            position: relative;
+            z-index: 1;
+        }
+        header.highlighted-shell h1 {
+            color: #fff;
+            font-size: 48px;
+            margin: 0;
+            text-shadow: 0 4px 10px rgba(143, 180, 192, 0.46);
+            animation: glow 3s infinite alternate;
+            visibility: hidden;
+        }
+        header.highlighted-shell p {
+            position: relative;
+            top: -22px;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(11px);
+        }
+        html[lang="fr"] header.highlighted-shell p[data-i18n="index.tagline"] {
+            transform: translateX(30px);
+        }
+        @keyframes glow {
+            from { text-shadow: 0 4px 10px rgba(143, 180, 192, 0.22); }
+            to { text-shadow: 0 4px 20px rgba(143, 180, 192, 0.56); }
+        }
+        @keyframes topMenPulse {
+            0%, 100% {
+                opacity: 0.05;
+                filter: saturate(1.05) brightness(0.95) contrast(1.00);
+            }
+            50% {
+                opacity: 0.58;
+                filter: saturate(1.62) brightness(2.35) contrast(1.34);
+            }
+        }
+        @keyframes topMenMotion {
+            0%, 100% {
+                transform: translate3d(0, 0, 0) rotate(-0.4deg) scale(1.0);
+            }
+            25% {
+                transform: translate3d(-0.35%, 0.25%, 0) rotate(0.9deg) scale(1.012);
+            }
+            50% {
+                transform: translate3d(0.4%, 0.05%, 0) rotate(-0.8deg) scale(1.016);
+            }
+            75% {
+                transform: translate3d(-0.3%, 0.2%, 0) rotate(0.8deg) scale(1.01);
+            }
+        }
+        nav.highlighted-shell {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 22, 28, 0.94);
+            padding: 16.5px 20px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+            border-top: 1px solid rgba(143, 180, 192, 0.14);
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14);
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8fb4c0;
+            text-shadow: none;
+            text-decoration: none;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .container {
+            max-width: none;
+            width: calc(100% - 24px);
+            margin: 34px auto 56px auto;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            color: #f8f8f8;
+            text-align: center;
+            position: relative;
+            backdrop-filter: none;
+        }
+        .security-section {
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            text-align: left;
+        }
+        .security-section h3 {
+            color: #0ff;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border-left: 4px solid #0ff;
+        }
+        .feature-list li::before {
+            content: "✓ ";
+            color: #0ff;
+            font-weight: bold;
+        }
+        .warning-box {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .warning-box h3 {
+            color: #ff6b35;
+            margin-bottom: 10px;
+        }
+        .info-box {
+            background: rgba(0, 255, 255, 0.12);
+            border: 1px solid rgba(0, 255, 255, 0.32);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .info-box h3 {
+            color: #0ff;
+            margin-bottom: 10px;
+        }
+
+        /* Navigation styles - identical to dashboard */
+        nav.highlighted-shell a {
+            text-decoration: none;
+            color: rgba(245, 248, 251, 0.84);
+            font-size: 16px;
+            margin: 0 10px;
+            padding: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        nav.highlighted-shell a:hover {
+            color: #8fb4c0;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4);
+        }
+
+        nav.highlighted-shell a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8fb4c0;
+            transition: width 0.09s ease;
+        }
+
+        nav.highlighted-shell a:hover::before {
+            width: 100%;
+        }
+
+        .language-selector {
+            margin-left: 20px;
+        }
+
+        .language-selector select {
+            background: rgba(168, 192, 202, 0.92);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .language-selector select:focus {
+            outline: 2px solid #0ff;
+        }
+
+        /* Subscription Grid Styles */
+        .subscription-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        /* Abonnement: integreret under hero — samme baggrund, ingen “lag-panels” */
+        .sub-integrated {
+            width: 100%;
+            padding: 4px 0 36px;
+            border-top: 1px solid rgba(154, 202, 202, 0.16);
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .sub-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 14px;
+            box-sizing: border-box;
+        }
+
+        .sub-two-col {
+            display: grid;
+            grid-template-columns: minmax(252px, 308px) minmax(0, 1fr);
+            gap: 28px 40px;
+            align-items: start;
+            margin-top: 2cm;
+        }
+
+        .sub-price-col {
+            position: sticky;
+            top: 86px;
+            text-align: left;
+            padding-top: 4px;
+        }
+
+        .sub-right-col {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .sub-block {
+            margin: 0;
+            padding: 0 0 18px;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid rgba(154, 202, 202, 0.12);
+            overflow: visible;
+        }
+
+        .sub-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* Contact-only content in subscription layout */
+        .sub-two-col {
+            grid-template-columns: minmax(0, 1fr) !important;
+        }
+        .sub-right-col {
+            display: none !important;
+        }
+
+        .sub-block--price {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .page-hero-wrap {
+            width: 100%;
+            margin: 0;
+            border-bottom: none;
+        }
+
+        .page-hero {
+            border-bottom: none;
+        }
+
+        .sub-price-col .summary-selected,
+        .sub-price-col .card-intro,
+        .sub-price-col .fineprint {
+            max-width: none;
+        }
+
+        .sub-right-col {
+            overflow: visible;
+        }
+
+        /* Spil: større bokse, pæn række (højre kolonne) */
+        .product-tabs {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 16px 18px;
+            align-items: stretch;
+            justify-content: flex-start;
+            max-width: none;
+        }
+
+        .product-tab {
+            border: 1px solid rgba(74, 159, 223, 0.42);
+            background: linear-gradient(165deg, rgba(14, 20, 28, 0.55) 0%, rgba(9, 14, 20, 0.38) 100%);
+            border-radius: 18px;
+            padding: 12px 12px 14px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            flex: 1 1 148px;
+            min-width: 128px;
+            max-width: 184px;
+            cursor: pointer;
+            transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+            user-select: none;
+            min-height: 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        .product-tab:hover {
+            border-color: rgba(141, 152, 166, 0.72);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+        }
+
+        .product-tab.selected {
+            border-color: var(--skimo-pick-black, #07090c);
+            background: linear-gradient(165deg, rgba(255, 255, 255, 0.1) 0%, rgba(9, 14, 20, 0.52) 100%);
+            box-shadow: 0 0 0 2px rgba(7, 9, 12, 0.55), 0 8px 24px rgba(0, 0, 0, 0.26);
+        }
+
+        .product-tab .product-media {
+            aspect-ratio: 4 / 3;
+            width: 100%;
+            border-radius: 14px;
+            border-color: rgba(154, 202, 202, 0.22);
+        }
+
+        .product-tab .tab-skimo {
+            display: none;
+        }
+
+        .product-tab .product-desc {
+            display: none;
+        }
+
+        .product-tab .product-copy {
+            align-items: center;
+            text-align: center;
+            gap: 6px;
+            padding-top: 10px;
+        }
+
+        .product-tab .product-title-row {
+            justify-content: center;
+        }
+
+        .product-tab .product-name {
+            font-size: 0.95em;
+            justify-content: center;
+            line-height: 1.2;
+            color: var(--skimo-pick-blue, #4a9fdf);
+            transition: color 0.1s ease;
+        }
+
+        .product-tab:hover .product-name {
+            color: var(--skimo-pick-grey, #8d98a6);
+        }
+
+        .product-tab.selected .product-name {
+            color: #f0f5fa;
+        }
+
+        /* Én samlet checkout: enheder + plan + e-mail + chips (under spil) */
+        .sub-block--checkout {
+            border-bottom: none;
+            padding-bottom: 4px;
+        }
+
+        /* Guide: transparent base — lag i senere style-blok (lys IT-blå / video undtagelse) */
+        body.guide-page {
+            background: transparent !important;
+            background-image: none !important;
+        }
+        body.guide-page .page-hero-media {
+            display: none !important;
+        }
+        body.guide-page .page-hero {
+            background: rgb(6, 12, 18) !important;
+            min-height: 0 !important;
+            border-top: none !important;
+        }
+        body.guide-page .page-hero::before {
+            content: none !important;
+            display: none !important;
+        }
+        body.guide-page .page-hero-wrap {
+            display: none !important;
+        }
+        body.guide-page .guide-story {
+            width: 100%;
+        }
+        body.guide-page .guide-screen {
+            min-height: 100svh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 88px 22px 24px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        body.guide-page .guide-screen--video-primary,
+        body.guide-page .guide-screen--video-secondary {
+            padding: 0;
+            min-height: 100svh;
+            overflow: hidden;
+        }
+        body.guide-page .guide-screen--text {
+            text-align: center;
+        }
+        body.guide-page .guide-story-title {
+            margin: 0;
+            font-size: clamp(2.8rem, 9vw, 7rem);
+            line-height: 0.92;
+            letter-spacing: -0.045em;
+            color: #f2f8fc;
+            text-shadow: 0 8px 28px rgba(0, 12, 28, 0.45);
+            max-width: 12ch;
+        }
+        body.guide-page .guide-story-sub {
+            margin: 16px auto 0;
+            max-width: 52ch;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(232, 242, 252, 0.92);
+        }
+        body.guide-page .guide-screen video {
+            width: min(1600px, calc(100% - 24px));
+            height: min(84vh, 980px);
+            object-fit: cover;
+            object-position: center;
+            border-radius: 18px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.38);
+            opacity: 0;
+            transform: translateY(12px);
+            animation: guideStoryFadeIn 0.9s ease forwards;
+        }
+        body.guide-page .guide-screen--video-primary video,
+        body.guide-page .guide-screen--video-secondary video {
+            width: 100vw;
+            height: 100svh;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        body.guide-page .guide-screen--video-secondary video {
+            filter: grayscale(1) saturate(0) contrast(1.05) brightness(0.98);
+            background: #243548;
+        }
+        body.guide-page .guide-steps-wrap {
+            width: min(1320px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 24px 0 54px;
+        }
+        body.guide-page .guide-step-item {
+            display: grid;
+            grid-template-columns: minmax(220px, 420px) minmax(0, 1fr);
+            gap: 22px;
+            align-items: center;
+            margin: 0 0 20px;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.18);
+            outline: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+        body.guide-page .guide-step-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.guide-page .guide-step-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+        }
+        body.guide-page .guide-step-num {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-right: 10px;
+            background: rgba(143, 180, 192, 0.2);
+            outline: 1px solid rgba(143, 180, 192, 0.28);
+        }
+        body.guide-page .guide-step-item h3 {
+            margin: 0 0 10px;
+            color: #f6fbfd;
+            font-size: clamp(1.1rem, 2vw, 1.55rem);
+        }
+        body.guide-page .guide-step-item p {
+            margin: 0;
+            color: rgba(242, 249, 252, 0.86);
+            line-height: 1.55;
+        }
+        @keyframes guideStoryFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        body.guide-page .guide-top-video-wrap {
+            display: none !important;
+            position: relative;
+            width: 100%;
+            padding-top: 74px;
+            background: #243548;
+            overflow: hidden;
+        }
+        body.guide-page .guide-top-video {
+            width: 100%;
+            max-height: min(44vh, 520px);
+            min-height: 160px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            opacity: 0;
+            filter: brightness(0.82) saturate(0.9);
+            animation: guideTopVideoFadeIn 1.35s ease forwards;
+        }
+        @keyframes guideTopVideoFadeIn {
+            from { opacity: 0; }
+            to { opacity: 0.72; }
+        }
+        body.guide-page .guide-top-video-wrap::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 65%;
+            background: linear-gradient(to top, #243548 0%, rgba(36, 53, 72, 0) 100%);
+            pointer-events: none;
+        }
+        body.guide-page .guide-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            width: min(1240px, calc(100% - 32px));
+            margin: 14px auto 0;
+            padding: 0 16px;
+            box-sizing: border-box;
+        }
+        body.guide-page .guide-step-card {
+            margin: 0;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.18);
+            outline: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+        }
+        body.guide-page .guide-step-head {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin: 0 0 10px;
+        }
+        body.guide-page .guide-step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(143, 180, 192, 0.14);
+            outline: 1px solid rgba(143, 180, 192, 0.22);
+            color: #ffffff;
+            font-weight: 800;
+        }
+        body.guide-page .guide-step-title {
+            margin: 0;
+            font-size: 16px;
+            letter-spacing: 0.2px;
+            color: rgba(245, 248, 251, 0.96);
+        }
+        body.guide-page .guide-step-desc {
+            margin: 0 0 12px;
+            color: rgba(245, 248, 251, 0.82);
+            line-height: 1.45;
+            font-size: 14px;
+        }
+        body.guide-page .guide-step-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.14);
+            outline: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        @media (max-width: 980px) {
+            body.guide-page .guide-screen--video-primary video,
+            body.guide-page .guide-screen--video-secondary video {
+                width: 100vw;
+                height: 100svh;
+                height: 100dvh;
+                min-height: 100svh;
+                object-fit: cover;
+                object-position: center center;
+            }
+            body.guide-page .guide-step-item {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            body.guide-page .guide-steps-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+        body.guide-page .page-hero-inner {
+            width: min(1240px, calc(100% - 32px)) !important;
+            padding: 28px 16px 20px !important;
+        }
+        body.guide-page .sub-integrated {
+            border-top: none !important;
+            padding-top: 0 !important;
+        }
+        body.guide-page .sub-inner {
+            max-width: none !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        body.guide-page .sub-two-col {
+            grid-template-columns: minmax(0, 1fr) !important;
+            margin-top: 0 !important;
+        }
+        body.guide-page .sub-right-col {
+            display: none !important;
+        }
+        body.guide-page .sub-price-col {
+            max-width: none !important;
+            width: 100% !important;
+            position: static !important;
+            top: auto !important;
+        }
+        body.guide-page .sub-block.sub-block--price {
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        body.guide-page .sub-price-col .card-title,
+        body.guide-page .sub-price-col .card-intro {
+            max-width: 1240px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            box-sizing: border-box;
+        }
+        body.guide-page .guide-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 14px;
+            width: 100%;
+        }
+        body.guide-page .guide-flow img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none !important;
+            vertical-align: top;
+        }
+        body.guide-page .card-intro {
+            max-width: none;
+        }
+
+        /* Venstre: titel + intro + enheder; højre: betalingsplan-boks */
+        .checkout-main-split {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 22px 36px;
+            margin-bottom: 22px;
+        }
+
+        .checkout-left-column {
+            flex: 1 1 260px;
+            min-width: min(100%, 220px);
+            max-width: 460px;
+        }
+
+        .checkout-left-column .checkout-title-main {
+            margin: 0 0 10px;
+        }
+
+        .checkout-left-column .card-intro {
+            margin: 0 0 14px;
+            max-width: 50ch;
+        }
+
+        .checkout-devices-below-title {
+            margin: 0;
+        }
+
+        .checkout-devices-below-title select {
+            max-width: min(100%, 280px);
+        }
+
+        .checkout-payment-methods {
+            margin-top: 18px;
+        }
+
+        .payment-method-label {
+            display: block;
+            margin-bottom: 9px;
+            color: #b9d0d0;
+            font-weight: 600;
+            font-size: 0.78em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .payment-method-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            margin-top: 8px;
+        }
+
+        .pay-method-chip {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(154, 202, 202, 0.34);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.82em;
+            color: #e8f2f2;
+            background: rgba(8, 12, 18, 0.45);
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            user-select: none;
+        }
+
+        .pay-method-chip:hover {
+            border-color: rgba(154, 202, 202, 0.55);
+        }
+
+        .pay-method-chip input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+        }
+
+        .pay-method-chip:has(input:checked) {
+            border-color: #9acaca;
+            background: rgba(154, 202, 202, 0.16);
+            box-shadow: 0 0 0 1px rgba(154, 202, 202, 0.25);
+        }
+
+        .payment-details {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(154, 202, 202, 0.18);
+            background: rgba(6, 10, 14, 0.35);
+            min-height: 4.5em;
+        }
+
+        .payment-detail-panel {
+            display: none;
+            font-size: 0.9em;
+            line-height: 1.55;
+            color: #c5d8d8;
+        }
+
+        .payment-detail-panel.is-active {
+            display: block;
+        }
+
+        .payment-detail-panel h4 {
+            margin: 0 0 10px;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #e8f4f4;
+        }
+
+        .payment-detail-panel .form-group {
+            margin: 12px 0 0;
+        }
+
+        .checkout-billing-beside {
+            flex: 1 1 300px;
+            min-width: min(100%, 260px);
+            max-width: 520px;
+            align-self: stretch;
+        }
+
+        .form-group--billing-beside {
+            margin: 0;
+        }
+
+        .form-group--billing-beside > label {
+            margin-bottom: 8px;
+        }
+
+        .checkout-billing-beside .billing-row {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(154, 202, 202, 0.14);
+            background: rgba(6, 10, 14, 0.22);
+        }
+
+        .checkout-billing-beside .pill:first-child {
+            border-top: none;
+        }
+
+        .checkout-billing-beside .pill {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .checkout-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .checkout-col--full {
+            width: 100%;
+        }
+
+        .checkout-col--full .form-group {
+            margin-top: 4px;
+        }
+
+        /* Bagudkompatibilitet hvis .checkout-col--billing bruges andre steder */
+        .checkout-col--billing .billing-row {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(154, 202, 202, 0.14);
+            background: rgba(6, 10, 14, 0.22);
+        }
+
+        .checkout-col--billing .pill:first-child {
+            border-top: none;
+        }
+
+        .checkout-col--billing .pill {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .checkout-pay-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkout-pay-row .chips-row {
+            margin-top: 2px;
+            gap: 10px;
+        }
+
+        .checkout-pay-row .pay-chip {
+            padding: 7px 14px;
+            font-size: 0.82em;
+            border-radius: 999px;
+            border-color: rgba(154, 202, 202, 0.38);
+            background: rgba(8, 12, 18, 0.4);
+        }
+
+        @media (max-width: 720px) {
+            .checkout-main-split {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .checkout-left-column {
+                max-width: none;
+            }
+
+            .checkout-billing-beside {
+                max-width: none;
+            }
+        }
+
+        .product-tab.coming-soon {
+            opacity: 0.92;
+            cursor: default;
+            border-color: rgba(154, 202, 202, 0.22);
+        }
+
+        .product-tab.coming-soon:hover {
+            transform: none;
+            border-color: rgba(154, 202, 202, 0.4);
+        }
+
+        .product-tab.coming-soon .product-media video {
+            opacity: 0.68;
+            filter: saturate(0.9) contrast(1.04) brightness(0.88);
+        }
+
+        .product-tab.coming-soon .product-help-btn {
+            display: none;
+        }
+
+        .coming-soon-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: auto;
+            z-index: 5;
+            width: auto;
+            text-align: center;
+            transform: none;
+            background: rgba(8, 12, 18, 0.72);
+            border: 1px solid rgba(154, 202, 202, 0.28);
+            border-radius: 999px;
+            color: #d9f3f3;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 9px;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+        }
+
+        .product-media {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 8.2;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(154, 202, 202, 0.28);
+            background: rgba(0, 0, 0, 0.36);
+        }
+
+        .product-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            filter: saturate(1.16) contrast(1.1) brightness(1.04);
+            image-rendering: auto;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .product-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.96;
+            filter: saturate(1.02) contrast(1.02) brightness(0.98);
+            display: block;
+        }
+
+        .product-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .product-title-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .product-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            font-weight: 700;
+            color: #f1f7f7;
+            font-size: 1.24em;
+        }
+
+        .product-help-btn {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid rgba(154, 202, 202, 0.6);
+            background: rgba(154, 202, 202, 0.18);
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .tab-skimo {
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            color: #15d9df;
+            font-size: 0.72em;
+            min-width: 0;
+            text-align: left;
+        }
+
+        .product-desc {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #bfd5d5;
+            margin: 0;
+            max-width: 58ch;
+        }
+
+        .card-title {
+            margin: 0 0 10px;
+            font-weight: 700;
+            color: #e5f3f3;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.2;
+            font-size: 1.08em;
+        }
+
+        .card-intro {
+            margin: -2px 0 14px;
+            color: #93acac;
+            font-size: 0.84em;
+            line-height: 1.6;
+            max-width: 34ch;
+        }
+
+        .form-group {
+            margin: 14px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            color: #b9d0d0;
+            font-weight: 600;
+            font-size: 0.78em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 0 13px;
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid rgba(154, 202, 202, 0.22);
+            background: transparent;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #9acaca;
+            box-shadow: inset 0 -1px 0 #9acaca;
+        }
+
+        .billing-row {
+            display: grid;
+            gap: 0;
+            align-items: stretch;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 0;
+            border-radius: 0;
+            border: none;
+            border-top: 1px solid rgba(154, 202, 202, 0.12);
+            background: transparent;
+            cursor: pointer;
+            user-select: none;
+            width: 100%;
+            box-sizing: border-box;
+            line-height: 1.35;
+        }
+
+        .pill:last-child {
+            border-bottom: 1px solid rgba(154, 202, 202, 0.12);
+        }
+
+        .pill input {
+            accent-color: #9acaca;
+            flex: 0 0 auto;
+            margin-top: 3px;
+        }
+
+        .pill-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .pill-title {
+            color: var(--skimo-pick-blue, #4a9fdf);
+            font-weight: 700;
+            line-height: 1.25;
+            font-size: 0.98em;
+            transition: color 0.12s ease;
+        }
+
+        .pill:hover .pill-title {
+            color: var(--skimo-pick-grey, #8d98a6);
+        }
+
+        .pill:has(input:checked) .pill-title {
+            color: #f4f8fc;
+            font-weight: 800;
+        }
+
+        .pill-subtitle {
+            color: #8fa7a7;
+            font-size: 0.78em;
+            line-height: 1.45;
+            transition: color 0.12s ease;
+        }
+
+        .pill:hover .pill-subtitle {
+            color: #a3adb5;
+        }
+
+        .pill:has(input:checked) .pill-subtitle {
+            color: #c8d2dc;
+        }
+
+        .pill:has(input:checked) {
+            box-shadow: inset 4px 0 0 var(--skimo-pick-black, #07090c);
+        }
+
+        .price-box {
+            margin-top: 12px;
+            padding: 14px 0 0;
+            border-radius: 0;
+            background: transparent;
+            border: none;
+            border-top: 1px solid rgba(154, 202, 202, 0.18);
+            display: grid;
+            gap: 2px;
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: flex-end;
+            margin: 0;
+            color: #eaeaea;
+            padding: 10px 0;
+        }
+
+        .price-line + .price-line {
+            border-top: 1px solid rgba(154, 202, 202, 0.08);
+        }
+
+        .price-line > span:first-child {
+            font-size: 0.96em;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: none;
+            color: #e3efef;
+        }
+
+        .price-line strong {
+            color: #fff;
+            font-size: 1.36em;
+            line-height: 1.1;
+        }
+
+        .price-line.secondary > span:first-child,
+        .price-line.secondary > span:last-child {
+            color: #a3b9b9;
+            font-size: 0.88em;
+        }
+
+        .summary-selected {
+            display: grid;
+            gap: 3px;
+            margin-top: 0;
+            padding: 0 0 16px;
+            border-bottom: 1px solid rgba(154, 202, 202, 0.12);
+            max-width: 34ch;
+        }
+
+        .summary-selected-label {
+            color: #8fa8a8;
+            font-size: 0.72em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .summary-selected-value {
+            color: #eef6f6;
+            font-size: 0.95em;
+            line-height: 1.55;
+        }
+
+        .fineprint {
+            color: #97adad;
+            font-size: 0.8em;
+            margin-top: 10px;
+            line-height: 1.65;
+            max-width: 34ch;
+        }
+
+        .billing-row,
+        .chips-row,
+        .price-box {
+            max-width: none;
+        }
+
+        .chips-row {
+            gap: 6px;
+        }
+
+        .pay-chip {
+            border-color: rgba(154, 202, 202, 0.2);
+            padding: 4px 9px;
+            background: rgba(6, 9, 14, 0.34);
+            color: #dbe9e9;
+        }
+
+        .buy-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .device-category {
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .device-category h3 {
+            color: #0ff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-shadow: 0 0 8px #0ff;
+        }
+
+        .plan-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .plan-card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            min-width: 180px;
+            transition: all 0.08s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            border-color: #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .plan-card.featured {
+            border-color: #0ff;
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .plan-card.featured::before {
+            content: "POPULÆR";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0ff;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .plan-card h4 {
+            color: #0ff;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .savings {
+            color: #0ff;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, #9acaca, #c7e6e6);
+            border: none;
+            color: #071014;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .buy-btn:hover {
+            box-shadow: 0 0 15px rgba(154, 202, 202, 0.34);
+            transform: translateY(-1px);
+        }
+
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .payment-method-option {
+            border: 1px solid rgba(74, 159, 223, 0.4);
+            background: rgba(5, 8, 14, 0.55);
+            border-radius: 10px;
+            padding: 10px 11px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .payment-method-option:hover {
+            border-color: rgba(141, 152, 166, 0.65);
+        }
+
+        .payment-method-option.selected {
+            border-color: var(--skimo-pick-black, #07090c);
+            background: rgba(7, 9, 12, 0.42);
+            box-shadow: inset 3px 0 0 var(--skimo-pick-black, #07090c);
+        }
+
+        .pm-badge {
+            min-width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.73em;
+            font-weight: 800;
+            color: #071014;
+            background: linear-gradient(135deg, #9acaca, #d2f1f1);
+        }
+
+        .pm-badge.mp { background: linear-gradient(135deg, #1f4eff, #1530a1); color: #fff; }
+        .pm-badge.sw { background: linear-gradient(135deg, #7f35ff, #00c7f2); color: #fff; }
+        .pm-badge.kl { background: linear-gradient(135deg, #ff8fc8, #ff61ac); color: #240c13; }
+
+        .pm-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .pm-text strong {
+            font-size: 0.9em;
+            color: #f2f6f6;
+        }
+
+        .pm-text span {
+            font-size: 0.76em;
+            color: #c8d6d6;
+        }
+
+        .chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pay-chip {
+            border: 1px solid rgba(154, 202, 202, 0.3);
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.78em;
+            color: #e9f2f2;
+            background: rgba(6, 9, 14, 0.5);
+        }
+
+        .help-inline {
+            position: relative;
+            display: inline-flex;
+            margin-left: 6px;
+        }
+
+        .help-btn {
+            width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            border: 1px solid rgba(154, 202, 202, 0.62);
+            background: rgba(154, 202, 202, 0.16);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.78em;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .help-pop {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: min(280px, calc(100vw - 56px));
+            border: 1px solid rgba(154, 202, 202, 0.5);
+            background: rgba(8, 12, 18, 0.98);
+            border-radius: 10px;
+            padding: 10px 11px;
+            font-size: 0.83em;
+            line-height: 1.43;
+            color: #eaf4f4;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
+            z-index: 25;
+        }
+
+        .help-pop.show { display: block; }
+
+        .help-pop strong {
+            display: block;
+            color: #d5eded;
+            margin-bottom: 5px;
+        }
+
+        .subscription-mini {
+            display: block;
+            margin: 22px 0 8px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(154, 202, 202, 0.14);
+            font-size: 0.88rem;
+            line-height: 1.45;
+            color: #9fb7b7;
+            text-align: left;
+            letter-spacing: 0.01em;
+        }
+
+        #product-selected {
+            line-height: 1.45;
+            word-break: break-word;
+        }
+
+        .subscription-mini a {
+            display: inline;
+            color: #d9efef;
+            text-decoration: underline;
+            text-underline-offset: 0.16em;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        /* Calm blue/white polish overrides */
+        .container h2,
+        .security-section h3,
+        .info-box h3,
+        .warning-box h3,
+        .logo {
+            color: #cfe7ea !important;
+            text-shadow: none !important;
+        }
+
+
+        .security-section,
+        .info-box,
+        .warning-box {
+            background: rgba(154, 202, 202, 0.06) !important;
+            border-color: rgba(154, 202, 202, 0.22) !important;
+        }
+
+        .feature-list li {
+            border-left-color: #9acaca !important;
+        }
+
+        .feature-list li::before {
+            color: #9acaca !important;
+        }
+        @media (max-width: 900px) {
+            .sub-two-col {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .sub-price-col {
+                position: static;
+                order: -1;
+            }
+
+            .product-tabs {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .product-tab {
+                flex: 1 1 calc(50% - 12px);
+                min-width: 112px;
+                max-width: none;
+            }
+        }
+
+@media (pointer: coarse) and (max-width: 768px) {
+            .payment-methods-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plan-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    
+
+        /* Dashboard-identical top lines for subscriptions */
+        header {
+            background: #020406;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            color: #fff;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(154, 202, 202, 0.25);
+            overflow: hidden;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        header::before {
+            content: none;
+        }
+
+        header::after {
+            content: none;
+        }
+
+        @keyframes topMenPulse {
+            0%, 100% {
+                opacity: 0.05;
+                filter: saturate(1.05) brightness(0.95) contrast(1.00);
+            }
+            50% {
+                opacity: 0.58;
+                filter: saturate(1.62) brightness(2.35) contrast(1.34);
+            }
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+            text-shadow: none;
+            animation: none;
+            visibility: hidden;
+        }
+
+        header p {
+            position: relative;
+            top: -22px;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(11px);
+        }
+
+        html[lang="fr"] header p[data-i18n="index.tagline"] {
+            transform: translateX(30px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 22, 28, 0.9);
+            padding: 16.5px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(154, 202, 202, 0.24);
+            border-bottom: 1px solid rgba(154, 202, 202, 0.24);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(221, 221, 221, 0.72);
+            font-size: 16px;
+            margin: 0 10px;
+            padding: 10px;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #dff3f3;
+            text-shadow: none;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #9acaca;
+            transition: width 0.09s ease;
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #9acaca;
+            text-shadow: none;
+        }
+
+        .language-selector {
+            margin-left: 0;
+        }
+
+        .language-selector select {
+            padding: 5px;
+            background: rgb(154, 202, 202);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+@media (pointer: coarse) and (max-width: 1199px) and (min-width: 768px) {
+            header h1 {
+                font-size: 36px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            nav {
+                padding: 12px 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+                margin: 0 8px;
+                padding: 8px;
+            }
+        }
+@media (pointer: coarse) and (max-width: 767px) and (min-width: 576px) {
+            header {
+                padding: 15px 0;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 12px;
+                margin: 5px 0;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-right {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .language-selector {
+                margin-top: 10px;
+            }
+        }
+@media (pointer: coarse) and (max-width: 575px) {
+            header {
+                padding: 10px 0;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            header p {
+                font-size: 11px;
+                margin: 3px 0;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px 10px;
+            }
+
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-right {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            nav a {
+                font-size: 12px;
+                margin: 0 5px;
+                padding: 6px;
+            }
+
+            .language-selector {
+                margin-top: 8px;
+            }
+
+            .language-selector select {
+                padding: 3px;
+                font-size: 12px;
+            }
+        }
+
+        .page-hero {
+            position: relative;
+            min-height: min(54vh, 520px);
+            display: flex;
+            align-items: flex-end;
+            border-radius: 0;
+            overflow: hidden;
+            /* Samme grå familie som ModGuard-titelbar + sidebaggrund, så det falder i ét */
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%);
+            border-top: 1px solid rgba(154, 202, 202, 0.14);
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
+            box-shadow: none;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            /* Mørk kun til venstre til læsbar tekst; mod højre næsten gennemsigtig så UI-grå matcher */
+            background:
+                linear-gradient(90deg,
+                    rgba(28, 30, 33, 0.72) 0%,
+                    rgba(45, 47, 50, 0.38) 28%,
+                    rgba(78, 80, 82, 0.12) 58%,
+                    rgba(95, 98, 102, 0.04) 100%),
+                linear-gradient(180deg, rgba(40, 42, 45, 0.2) 0%, rgba(78, 80, 82, 0.18) 100%);
+        }
+
+        .page-hero-media {
+            position: absolute;
+            inset: 0;
+        }
+
+        .page-hero-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            filter: saturate(1.04) contrast(1.02) brightness(0.88);
+        }
+
+        .page-hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: saturate(1.02) contrast(1.02) brightness(0.88);
+        }
+
+        .page-hero-inner {
+            position: relative;
+            z-index: 2;
+            width: min(1240px, calc(100% - 72px));
+            margin: 0 auto;
+            padding: 112px 0 28px;
+        }
+
+        .page-hero-copy {
+            max-width: 740px;
+        }
+
+        .page-hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(10, 18, 25, 0.62);
+            border: 1px solid rgba(211, 231, 239, 0.18);
+            color: rgba(232, 241, 245, 0.82);
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .page-hero h2 {
+            margin: 18px 0 14px;
+            font-size: clamp(2.9rem, 7vw, 5.9rem);
+            line-height: 0.94;
+            letter-spacing: -0.06em;
+            color: #f6fbfd;
+            max-width: 8ch;
+        }
+
+        @media (max-width: 900px) {
+            .page-hero-wrap {
+                width: 100%;
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
+
+            .page-hero {
+                min-height: min(54svh, 520px);
+                min-height: min(54vh, 520px);
+                border-radius: 0;
+            }
+
+            .page-hero-inner {
+                width: calc(100% - 32px);
+                padding: 92px 0 24px;
+            }
+        }
+        .index-clone-header {
+            display: none !important;
+        }
+        .index-clone-nav {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: rgba(31, 44, 52, 0.94) !important;
+            padding: 16.5px 20px !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+            border-top: 1px solid rgba(143, 180, 192, 0.14) !important;
+            border-bottom: 1px solid rgba(143, 180, 192, 0.14) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+        }
+        .index-clone-nav .nav-left,
+        .index-clone-nav .nav-right {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .index-clone-nav .nav-left {
+            gap: 20px !important;
+        }
+        .index-clone-nav .nav-right {
+            flex-wrap: wrap !important;
+        }
+        .index-clone-nav .logo {
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: #8fb4c0 !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a {
+            text-decoration: none !important;
+            color: rgba(245, 248, 251, 0.84) !important;
+            font-size: 16px !important;
+            margin: 0 10px !important;
+            padding: 10px !important;
+            transition: all 0.15s ease !important;
+            position: relative !important;
+            text-shadow: none !important;
+        }
+        .index-clone-nav a:hover {
+            color: #8fb4c0 !important;
+            text-shadow: 0 0 10px rgba(143, 180, 192, 0.4) !important;
+        }
+        .index-clone-nav a::before {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -5px !important;
+            left: 0 !important;
+            width: 0 !important;
+            height: 2px !important;
+            background: #8fb4c0 !important;
+            transition: width 0.09s ease !important;
+        }
+        .index-clone-nav a:hover::before {
+            width: 100% !important;
+        }
+        .index-clone-nav .language-selector select {
+            padding: 5px !important;
+            background: rgba(168, 192, 202, 0.92) !important;
+            color: #000 !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+        }
+        body.nav-idle .index-clone-nav {
+            opacity: 0 !important;
+            transform: translateY(-120%) !important;
+            pointer-events: none !important;
+        }
+        #skimoHeroNav {
+            background: transparent !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            min-height: 74px;
+            gap: 18px;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1001 !important;
+            box-shadow: none !important;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        #skimoHeroNav .nav-left,
+        #skimoHeroNav .nav-right {
+            min-width: 160px;
+        }
+        #skimoHeroNav .nav-left {
+            position: relative;
+            isolation: isolate;
+        }
+        #skimoHeroNav .hero-logo-shine {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        #skimoHeroNav .hero-logo-shine::after {
+            content: none;
+        }
+        #skimoHeroNav .nav-center {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        #skimoHeroNav .hero-brand-logo {
+            display: inline-block;
+            width: 72px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+            position: relative;
+            z-index: 2;
+        }
+        #skimoHeroNav .hero-brand-logo.shine-pass {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            filter: brightness(3.1) saturate(1.45);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            animation: skimoLogoShinePass 3.1s ease-in-out infinite;
+            z-index: 3;
+        }
+        @keyframes skimoLogoShinePass {
+            0%, 18% {
+                opacity: 0;
+                clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+            }
+            24% {
+                opacity: 1;
+            }
+            38% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+            100% {
+                opacity: 0;
+                clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+            }
+        }
+        #skimoHeroNav .nav-center a {
+            font-size: 17px !important;
+            letter-spacing: 0.01em;
+            color: var(--skimo-pick-blue, #4a9fdf) !important;
+            padding: 10px 12px !important;
+            text-transform: none;
+            font-weight: 600;
+            transition: color 0.15s ease, text-shadow 0.15s ease;
+        }
+        #skimoHeroNav .nav-center a:hover {
+            color: var(--skimo-pick-grey, #8d98a6) !important;
+            text-shadow: none !important;
+        }
+        #skimoHeroNav .nav-center a[aria-current="page"] {
+            color: var(--skimo-pick-black, #07090c) !important;
+            font-weight: 800 !important;
+        }
+        #skimoHeroNav .nav-center a:hover::before {
+            background: var(--skimo-pick-grey, #8d98a6) !important;
+        }
+        #skimoHeroNav .nav-center a[aria-current="page"]::before {
+            background: var(--skimo-pick-black, #07090c) !important;
+            width: 100% !important;
+        }
+        #skimoHeroNav .hero-search {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--skimo-pick-blue, #4a9fdf);
+            font-size: 16px;
+            background: transparent;
+            transition: color 0.15s ease;
+            cursor: pointer;
+        }
+        #skimoHeroNav .hero-search:hover {
+            color: var(--skimo-pick-grey, #8d98a6);
+        }
+        #skimoHeroNav .hero-search::before {
+            content: none !important;
+        }
+        #skimoHeroNav a.nav-logo-link {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none;
+            text-decoration: none;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+        }
+        #skimoHeroNav a.nav-logo-link::before {
+            display: none !important;
+        }
+        .lang-switcher {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: -18px; /* ~0.5 cm mod venstre */
+        }
+        .lang-current {
+            border: none !important;
+            background: transparent !important;
+            color: var(--skimo-pick-blue, #4a9fdf) !important;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 0 !important;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .lang-current:hover {
+            color: var(--skimo-pick-grey, #8d98a6) !important;
+        }
+        .lang-popover {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 222, 235, 0.1);
+            background: rgba(8, 12, 18, 0.34);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(8px);
+            z-index: 8;
+        }
+        .lang-popover[hidden] {
+            display: none;
+        }
+        .lang-choice {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(74, 159, 223, 0.45);
+            background: rgba(74, 159, 223, 0.08);
+            color: var(--skimo-pick-blue, #4a9fdf);
+            cursor: pointer;
+            font-weight: 700;
+            transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+        }
+        .lang-choice:hover {
+            color: var(--skimo-pick-grey, #8d98a6);
+            border-color: rgba(141, 152, 166, 0.55);
+            background: rgba(141, 152, 166, 0.1);
+        }
+        .lang-choice.active {
+            border-color: var(--skimo-pick-black, #07090c);
+            background: var(--skimo-pick-black, #07090c);
+            color: #f4f8fc;
+        }
+        @media (max-width: 1100px) {
+            #skimoHeroNav {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 10px 12px !important;
+            }
+            #skimoHeroNav .nav-left,
+            #skimoHeroNav .nav-right,
+            #skimoHeroNav .nav-center {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .modguard-terms {
+            margin-top: 0;
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(143, 180, 192, 0.2);
+            background: rgba(6, 10, 14, 0.5);
+            padding: 8px 12px 10px;
+        }
+        .modguard-terms > summary {
+            cursor: pointer;
+            list-style-position: outside;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(196, 220, 230, 0.9);
+        }
+        .modguard-terms-body {
+            margin-top: 8px;
+            max-height: min(48vh, 320px);
+            overflow-y: auto;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: rgba(228, 238, 242, 0.9);
+        }
+        .modguard-terms-body p { margin: 0.4em 0; }
+        .modguard-terms-body p strong { color: #e8f4f8; font-weight: 600; }
+    </style>
+    <style>
+        /* Kun jeres gradient — ikke-guide sider på samme html-class */
+        html.page-abonnement body {
+            background: linear-gradient(90deg, rgb(68, 70, 73) 0%, rgb(78, 80, 82) 45%, rgb(154, 154, 154) 100%) !important;
+        }
+        html.page-abonnement body.guide-page {
+            background: transparent !important;
+        }
+        html.page-abonnement body:not(.guide-page)::before,
+        html.page-abonnement body:not(.guide-page)::after {
+            background: none !important;
+            animation: none !important;
+        }
+    </style>
+    <link rel="stylesheet" href="assets/theme-picker.css?v=20260506-dark-lightblue">
+    <link rel="stylesheet" href="assets/skimo-ai-assistant.css?v=20260405-70">
+    <style>
+        /* Guide: reference #546A7B (rgb 84,106,123) 1:1 — kun lys/mørk af samme slate */
+        html.guide-surface body.guide-page::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 115% 85% at 12% 8%, rgba(84, 106, 123, 0.42) 0%, transparent 58%),
+                radial-gradient(ellipse 95% 70% at 88% 18%, rgba(72, 94, 110, 0.30) 0%, transparent 52%),
+                linear-gradient(165deg, rgb(112, 128, 142) 0%, rgb(84, 106, 123) 42%, rgb(56, 74, 88) 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateZ(0);
+            z-index: -1;
+            opacity: 1;
+            pointer-events: none;
+        }
+        html.guide-surface body.guide-page::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: linear-gradient(180deg, rgb(102, 118, 132) 0%, rgb(84, 106, 123) 45%, rgb(58, 76, 90) 100%);
+            pointer-events: none;
+        }
+        /* Fuldskærm video: behold tidligere ModGuard-lag kun her */
+        html.guide-surface body.guide-page .guide-screen--video-primary::before,
+        html.guide-surface body.guide-page .guide-screen--video-secondary::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg,
+                    rgba(26, 58, 92, 0.72) 0%,
+                    rgba(40, 82, 118, 0.52) 45%,
+                    rgba(58, 108, 148, 0.42) 100%),
+                linear-gradient(180deg,
+                    rgba(8, 18, 28, 0.40) 0%,
+                    rgba(8, 18, 28, 0.78) 100%),
+                url("Billeder/modguard-hero-faded.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.42;
+            filter: saturate(1.02) contrast(1.04) blur(1px);
+        }
+        html.guide-surface body.guide-page .guide-screen--video-primary > video,
+        html.guide-surface body.guide-page .guide-screen--video-secondary > video {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="guide-page">
+    <nav class="index-clone-nav" id="skimoHeroNav" style="display:flex !important;">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo-link" data-i18n-aria-label="nav.logoHome">
+                <span class="hero-logo-shine">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo" alt="Skimo">
+                    <img src="Logoer/Skimo1logo.png" class="hero-brand-logo shine-pass" alt="" aria-hidden="true">
+                </span>
+            </a>
+        </div>
+        <div class="nav-center">
+            <a href="guide.html" data-i18n="nav.guide" aria-current="page">Guide</a>
+            <a href="abonnement.html" data-i18n="nav.subscriptions">Abonnementer</a>
+            <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
+            <a href="index.html" data-i18n="nav.dashboard">Hjem</a>
+        </div>
+        <div class="nav-right">
+            <button type="button" class="hero-search skimo-ai-trigger" aria-label="Åbn Skimo chatbot"></button>
+            <div class="lang-switcher" data-lang-switcher>
+                <button type="button" class="lang-current" aria-label="Vælg sprog" aria-expanded="false">DA</button>
+                <div class="lang-popover" hidden>
+                    <button type="button" class="lang-choice" data-lang="da" aria-label="Dansk">DA</button>
+                    <button type="button" class="lang-choice" data-lang="sv" aria-label="Svenska">SV</button>
+                    <button type="button" class="lang-choice" data-lang="no" aria-label="Norsk">NO</button>
+                    <button type="button" class="lang-choice" data-lang="en" aria-label="English">EN</button>
+                    <button type="button" class="lang-choice" data-lang="fr" aria-label="Français">FR</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="guide-story" id="guideStoryRoot">
+        <section class="guide-screen guide-screen--text">
+            <div>
+                <h1 class="guide-story-title" data-guide-i18n="welcomeTitle">Velkommen til guiden</h1>
+                <p class="guide-story-sub" data-guide-i18n="welcomeBody">Kom i gang med ModGuard trin for trin med et hurtigt overblik og visuel vejledning.</p>
+            </div>
+        </section>
+
+        <section class="guide-screen guide-screen--video-primary">
+            <video autoplay muted loop playsinline webkit-playsinline="" preload="auto" aria-hidden="true" data-skimo-cinema-wired>
+                <source src="Videoer/Sk%C3%A6rmoptagelse%202026-03-02%20kl.%2013.28.26.mov" type="video/quicktime">
+                <source src="Videoer/Sk%C3%A6rmoptagelse%202026-03-02%20kl.%2013.28.26.mov" type="video/mp4">
+            </video>
+        </section>
+
+        <section class="guide-screen guide-screen--text">
+            <div>
+                <h2 class="guide-story-title" data-guide-i18n="videoExplainTitle">Dette er guidevideoen</h2>
+                <p class="guide-story-sub" data-guide-i18n="videoExplainBody">Her ser du hele flowet i praksis, så du ved præcis hvad der sker før du fortsætter.</p>
+            </div>
+        </section>
+
+        <section class="guide-screen guide-screen--video-secondary">
+            <video src="Videoer/guidevideo.mov" autoplay muted loop playsinline webkit-playsinline="" preload="auto" aria-hidden="true" data-skimo-cinema-wired>
+                <source src="Videoer/guidevideo.mov">
+            </video>
+        </section>
+
+        <section class="guide-screen guide-screen--text">
+            <div>
+                <h2 class="guide-story-title" data-guide-i18n="imageGuideTitle">Her er guiden med billeder</h2>
+                <p class="guide-story-sub" data-guide-i18n="imageGuideBody">Scroll ned og følg de 8 trin. Hvert billede har en kort forklaring, så du kan sætte ModGuard korrekt op første gang.</p>
+            </div>
+        </section>
+
+        <section class="guide-steps-wrap">
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/1.png" alt="Trin 1" loading="lazy">
+                <div><h3><span class="guide-step-num">1</span><span data-guide-i18n="s1t">Download ModGuard</span></h3><p data-guide-i18n="s1b">Start med at hente den rigtige version til dit spil og din enhed.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/2.png" alt="Trin 2" loading="lazy">
+                <div><h3><span class="guide-step-num">2</span><span data-guide-i18n="s2t">Installer sikkert</span></h3><p data-guide-i18n="s2b">Åbn installationsfilen og gennemfør opsætningen med standardvalg.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/3.png" alt="Trin 3" loading="lazy">
+                <div><h3><span class="guide-step-num">3</span><span data-guide-i18n="s3t">Vælg spil og mappe</span></h3><p data-guide-i18n="s3b">Peg ModGuard mod den mappe, hvor dine mods bliver gemt.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/4.png" alt="Trin 4" loading="lazy">
+                <div><h3><span class="guide-step-num">4</span><span data-guide-i18n="s4t">Kør første scanning</span></h3><p data-guide-i18n="s4b">Lad ModGuard tjekke filerne for usikre eller mistænkelige ændringer.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/5.png" alt="Trin 5" loading="lazy">
+                <div><h3><span class="guide-step-num">5</span><span data-guide-i18n="s5t">Godkend sikre filer</span></h3><p data-guide-i18n="s5b">Filer med grøn status kan bruges direkte i dit setup.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/6.png" alt="Trin 6" loading="lazy">
+                <div><h3><span class="guide-step-num">6</span><span data-guide-i18n="s6t">Håndter advarsler</span></h3><p data-guide-i18n="s6b">Ved advarsler får du forslag til næste sikre handling.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/7.png" alt="Trin 7" loading="lazy">
+                <div><h3><span class="guide-step-num">7</span><span data-guide-i18n="s7t">Tjek statusoversigt</span></h3><p data-guide-i18n="s7b">Brug oversigten til hurtigt at se om alt er klar.</p></div>
+            </article>
+            <article class="guide-step-item">
+                <img src="Billeder/Guide/8.png" alt="Trin 8" loading="lazy">
+                <div><h3><span class="guide-step-num">8</span><span data-guide-i18n="s8t">Spil med ro i maven</span></h3><p data-guide-i18n="s8b">Når alt er grønt, er du klar til en mere sikker mod-oplevelse.</p></div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const storyTexts = {
+                da: {
+                    welcomeTitle: 'Velkommen til guiden',
+                    welcomeBody: 'Kom i gang med ModGuard trin for trin med et hurtigt overblik og visuel vejledning.',
+                    videoExplainTitle: 'Dette er guidevideoen',
+                    videoExplainBody: 'Her ser du hele flowet i praksis, så du ved præcis hvad der sker før du fortsætter.',
+                    imageGuideTitle: 'Her er guiden med billeder',
+                    imageGuideBody: 'Scroll ned og følg de 8 trin. Hvert billede har en kort forklaring, så du kan sætte ModGuard korrekt op første gang.',
+                    s1t: 'Download ModGuard', s1b: 'Start med at hente den rigtige version til dit spil og din enhed.',
+                    s2t: 'Installer sikkert', s2b: 'Åbn installationsfilen og gennemfør opsætningen med standardvalg.',
+                    s3t: 'Vælg spil og mappe', s3b: 'Peg ModGuard mod den mappe, hvor dine mods bliver gemt.',
+                    s4t: 'Kør første scanning', s4b: 'Lad ModGuard tjekke filerne for usikre eller mistænkelige ændringer.',
+                    s5t: 'Godkend sikre filer', s5b: 'Filer med grøn status kan bruges direkte i dit setup.',
+                    s6t: 'Håndter advarsler', s6b: 'Ved advarsler får du forslag til næste sikre handling.',
+                    s7t: 'Tjek statusoversigt', s7b: 'Brug oversigten til hurtigt at se om alt er klar.',
+                    s8t: 'Spil med ro i maven', s8b: 'Når alt er grønt, er du klar til en mere sikker mod-oplevelse.'
+                },
+                en: {
+                    welcomeTitle: 'Welcome to the guide',
+                    welcomeBody: 'Get started with ModGuard step by step with a fast overview and visual guidance.',
+                    videoExplainTitle: 'This is the guide video',
+                    videoExplainBody: 'Here you can watch the full flow in practice before continuing.',
+                    imageGuideTitle: 'Here is the picture guide',
+                    imageGuideBody: 'Scroll down and follow all 8 steps. Each image includes a short explanation.',
+                    s1t: 'Download ModGuard', s1b: 'Start by downloading the correct version for your game and device.',
+                    s2t: 'Install safely', s2b: 'Open the installer and complete setup with default options.',
+                    s3t: 'Choose game and folder', s3b: 'Point ModGuard to the folder where your mods are stored.',
+                    s4t: 'Run first scan', s4b: 'Let ModGuard scan files for unsafe or suspicious changes.',
+                    s5t: 'Approve safe files', s5b: 'Files with green status can be used directly.',
+                    s6t: 'Handle warnings', s6b: 'If warnings appear, follow the suggested safe next action.',
+                    s7t: 'Check status overview', s7b: 'Use the overview to confirm everything is ready.',
+                    s8t: 'Play with peace of mind', s8b: 'When all indicators are green, you are ready to play.'
+                },
+                sv: {
+                    welcomeTitle: 'Välkommen till guiden', welcomeBody: 'Kom igång med ModGuard steg för steg med snabb överblick och visuell hjälp.',
+                    videoExplainTitle: 'Det här är guidevideon', videoExplainBody: 'Här ser du hela flödet i praktiken innan du fortsätter.',
+                    imageGuideTitle: 'Här är bildguiden', imageGuideBody: 'Scrolla ner och följ alla 8 steg. Varje bild har en kort förklaring.',
+                    s1t: 'Ladda ner ModGuard', s1b: 'Börja med rätt version för ditt spel och din enhet.',
+                    s2t: 'Installera säkert', s2b: 'Öppna installationsfilen och slutför med standardval.',
+                    s3t: 'Välj spel och mapp', s3b: 'Peka ut mappen där dina mods sparas.',
+                    s4t: 'Kör första skanning', s4b: 'Låt ModGuard kontrollera filer för osäkra ändringar.',
+                    s5t: 'Godkänn säkra filer', s5b: 'Filer med grön status kan användas direkt.',
+                    s6t: 'Hantera varningar', s6b: 'Vid varningar får du förslag på nästa säkra steg.',
+                    s7t: 'Kontrollera status', s7b: 'Använd översikten för att se att allt är klart.',
+                    s8t: 'Spela tryggt', s8b: 'När allt är grönt är du redo att spela tryggt.'
+                },
+                no: {
+                    welcomeTitle: 'Velkommen til guiden', welcomeBody: 'Kom i gang med ModGuard steg for steg med rask oversikt og visuell veiledning.',
+                    videoExplainTitle: 'Dette er guidevideoen', videoExplainBody: 'Her ser du hele flyten i praksis før du fortsetter.',
+                    imageGuideTitle: 'Her er bildeguiden', imageGuideBody: 'Scroll ned og følg alle 8 trinn. Hvert bilde har en kort forklaring.',
+                    s1t: 'Last ned ModGuard', s1b: 'Start med riktig versjon for spill og enhet.',
+                    s2t: 'Installer trygt', s2b: 'Åpne installasjonsfilen og fullfør med standardvalg.',
+                    s3t: 'Velg spill og mappe', s3b: 'Pek ModGuard til mappen der mods lagres.',
+                    s4t: 'Kjør første skanning', s4b: 'La ModGuard kontrollere filer for usikre endringer.',
+                    s5t: 'Godkjenn sikre filer', s5b: 'Filer med grønn status kan brukes direkte.',
+                    s6t: 'Håndter varsler', s6b: 'Ved varsler får du forslag til trygg neste handling.',
+                    s7t: 'Sjekk statusoversikt', s7b: 'Bruk oversikten for å se at alt er klart.',
+                    s8t: 'Spill med ro', s8b: 'Når alt er grønt, er du klar til å spille tryggere.'
+                },
+                fr: {
+                    welcomeTitle: 'Bienvenue dans le guide', welcomeBody: 'Démarrez ModGuard étape par étape avec un aperçu rapide et visuel.',
+                    videoExplainTitle: 'Voici la vidéo guide', videoExplainBody: 'Ici vous voyez le flux complet avant de continuer.',
+                    imageGuideTitle: 'Voici le guide en images', imageGuideBody: 'Faites défiler et suivez les 8 étapes. Chaque image a une courte explication.',
+                    s1t: 'Télécharger ModGuard', s1b: 'Commencez par la bonne version pour votre jeu et appareil.',
+                    s2t: 'Installer en sécurité', s2b: 'Ouvrez l’installateur et terminez avec les options par défaut.',
+                    s3t: 'Choisir jeu et dossier', s3b: 'Indiquez le dossier où vos mods sont enregistrés.',
+                    s4t: 'Lancer le premier scan', s4b: 'Laissez ModGuard vérifier les fichiers suspects.',
+                    s5t: 'Valider les fichiers sûrs', s5b: 'Les fichiers en vert peuvent être utilisés directement.',
+                    s6t: 'Gérer les alertes', s6b: 'En cas d’alerte, suivez l’action sûre proposée.',
+                    s7t: 'Vérifier le statut', s7b: 'Utilisez le panneau pour confirmer que tout est prêt.',
+                    s8t: 'Jouer sereinement', s8b: 'Quand tout est vert, vous pouvez jouer sereinement.'
+                }
+            };
+
+            function currentLang() {
+                try {
+                    if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+                        return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+                    }
+                } catch {}
+                return String(document.documentElement.lang || 'da').toLowerCase();
+            }
+
+            function applyGuideStoryTranslations() {
+                const lang = currentLang();
+                const pack = storyTexts[lang] || storyTexts.da;
+                document.querySelectorAll('[data-guide-i18n]').forEach((el) => {
+                    const k = el.getAttribute('data-guide-i18n');
+                    if (k && pack[k]) el.textContent = pack[k];
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                applyGuideStoryTranslations();
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+                    });
+                }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+                document.querySelectorAll('.guide-step-item').forEach((el) => io.observe(el));
+            });
+
+            const mo = new MutationObserver(() => applyGuideStoryTranslations());
+            mo.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+            document.addEventListener('click', (e) => {
+                if (e.target && e.target.closest && e.target.closest('.lang-choice')) {
+                    window.setTimeout(applyGuideStoryTranslations, 0);
+                }
+            });
+        })();
+    </script>
+
+    <div class="page-hero-wrap">
+        <section class="page-hero">
+            <div class="page-hero-inner">
+                <div class="page-hero-copy">
+                    <span class="page-hero-kicker" data-i18n="guide.page.kicker">Guide / ModGuard / Kom i gang</span>
+                    <h2 data-i18n="guide.page.heroH2">Sådan kommer du i gang med ModGuard</h2>
+                </div>
+            </div>
+        </section>
+        <div class="sub-integrated" data-i18n-aria-label="guide.page.sectionAria" aria-label="ModGuard guide">
+            <div class="sub-inner">
+                <div class="sub-two-col">
+                    <aside class="sub-price-col sub-block sub-block--price">
+                        <p class="card-title">
+                            <span id="price-overview-title" data-i18n="guide.page.sidebarTitle">ModGuard-guide</span>
+                            <span class="help-inline">
+                                <button type="button" class="help-btn" data-help-target="securityHelp">?</button>
+                                <span class="help-pop" id="securityHelp" data-i18n-html="guide.page.helpHtml"></span>
+                            </span>
+                        </p>
+                        <p class="card-intro" id="summary-intro" data-i18n="guide.page.summaryIntro">Følg trinene herunder fra download til aktiv beskyttelse.</p>
+                        <div class="guide-steps-grid" aria-label="Trin og forklaringer">
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">1</span>
+                                    <h3 class="guide-step-title">Download ModGuard</h3>
+                                </div>
+                                <p class="guide-step-desc">Gå til download-siden og hent ModGuard til dit spil.</p>
+                                <img src="Billeder/Guide/1.png" alt="Trin 1" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">2</span>
+                                    <h3 class="guide-step-title">Installer programmet</h3>
+                                </div>
+                                <p class="guide-step-desc">Åbn filen og følg installationen trin for trin.</p>
+                                <img src="Billeder/Guide/2.png" alt="Trin 2" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">3</span>
+                                    <h3 class="guide-step-title">Vælg spil og mods</h3>
+                                </div>
+                                <p class="guide-step-desc">Vælg de spil du vil beskytte og de mods du vil installere.</p>
+                                <img src="Billeder/Guide/3.png" alt="Trin 3" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">4</span>
+                                    <h3 class="guide-step-title">Scan for sikkerhed</h3>
+                                </div>
+                                <p class="guide-step-desc">ModGuard scanner og advarer, hvis noget ser usikkert ud.</p>
+                                <img src="Billeder/Guide/4.png" alt="Trin 4" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">5</span>
+                                    <h3 class="guide-step-title">Aktivér beskyttelse</h3>
+                                </div>
+                                <p class="guide-step-desc">Slå beskyttelsen til, så dine downloads overvåges automatisk.</p>
+                                <img src="Billeder/Guide/5.png" alt="Trin 5" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">6</span>
+                                    <h3 class="guide-step-title">Hold det opdateret</h3>
+                                </div>
+                                <p class="guide-step-desc">Opdater ModGuard og dine mods for bedst mulig sikkerhed.</p>
+                                <img src="Billeder/Guide/6.png" alt="Trin 6" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">7</span>
+                                    <h3 class="guide-step-title">Tjek status</h3>
+                                </div>
+                                <p class="guide-step-desc">Se status og advarsler direkte i app’en, så du har overblik.</p>
+                                <img src="Billeder/Guide/7.png" alt="Trin 7" loading="lazy">
+                            </figure>
+                            <figure class="guide-step-card">
+                                <div class="guide-step-head">
+                                    <span class="guide-step-num">8</span>
+                                    <h3 class="guide-step-title">Klar til at spille</h3>
+                                </div>
+                                <p class="guide-step-desc">Når alt er grønt, kan du spille med ro i maven.</p>
+                                <img src="Billeder/Guide/8.png" alt="Trin 8" loading="lazy">
+                            </figure>
+                        </div>
+                        <button type="button" class="buy-btn" id="buy-now" style="display:none;position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true"></button>
+                    </aside>
+                    <div class="sub-right-col">
+                        <div class="sub-block">
+                            <details class="modguard-terms">
+                                <summary data-i18n="dashboard.modguardTerms.summary">ModGuard: kort begrebsliste</summary>
+                                <div class="modguard-terms-body">
+                                    <p data-i18n="dashboard.modguardTerms.intro">Her er en kort forklaring på de nævnte termer:</p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.t1Title">1. Universal "Sandboxed" Mod Execution</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.t1Body"></p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.t2Title">2. Live Behavioral Analysis for Mods (Runtime Scanning)</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.t2Body"></p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.t3Title">3. Automated "Fake Mod" Prevention</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.t3Body"></p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.infoTitle">Infostealers: trojansk malware forklædt som mods</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.infoBody"></p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.contamTitle">Mod contamination: malware injiceret i mods</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.contamBody"></p>
+                                    <p><strong data-i18n="dashboard.modguardTerms.fixTitle">"Fix" sårbarhed: slå antivirus fra for at installere mods</strong></p>
+                                    <p data-i18n="dashboard.modguardTerms.fixBody"></p>
+                                </div>
+                            </details>
+                        </div>
+                        <div class="sub-block">
+                        <p class="card-title" id="step-product-title">1. Vælg produkter</p>
+                        <div class="product-tabs" id="product-tabs">
+                            <label class="product-tab selected" data-product="minecraft-player">
+                                <input type="checkbox" name="product" value="minecraft-player" checked style="display:none;">
+                                <span class="product-media">
+                                    <video src="Videoer/Minecraft.mp4" autoplay muted loop playsinline preload="auto"></video>
+                                </span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="minecraft-player">Minecraft</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodPlayerHelp">?</button>
+                                                <span class="help-pop" id="prodPlayerHelp"><strong>Minecraft</strong>Til private spillere. Fokuserer på sikker mod-download, malware-scanning og stabil spiloplevelse.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="minecraft-player">Beskytter din konto og dine mods under daglig gaming.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab" data-product="sims">
+                                <input type="checkbox" name="product" value="sims" style="display:none;">
+                                <span class="product-media">
+                                    <video src="Videoer/Sims.mp4" autoplay muted loop playsinline preload="auto"></video>
+                                </span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="sims">Sims</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodSimsHelp">?</button>
+                                                <span class="help-pop" id="prodSimsHelp"><strong>Sims</strong>Til Sims-mods og tilpasset indhold. Holder installationen ren og advarer ved usikre filer.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="sims">Holder tilpasset indhold sikkert og giver ro i hverdagen.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="gta" aria-disabled="true">
+                                <input type="checkbox" name="product" value="gta" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="gta">GTA</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodGtaHelp">?</button>
+                                                <span class="help-pop" id="prodGtaHelp"><strong>GTA</strong>Beskytter mod usikre loaders og scam-værktøjer.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="gta">Reducerer risiko fra uofficielle mod-tools og filer.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="fallout" aria-disabled="true">
+                                <input type="checkbox" name="product" value="fallout" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="fallout">Fallout</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodFalloutHelp">?</button>
+                                                <span class="help-pop" id="prodFalloutHelp"><strong>Fallout</strong>Anti-malware og stabilitetskontrol til store modlister.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="fallout">Hjælper med load-order stabilitet og sikre modpakker.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="stardew" aria-disabled="true">
+                                <input type="checkbox" name="product" value="stardew" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="stardew">Stardew Valley</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodStardewHelp">?</button>
+                                                <span class="help-pop" id="prodStardewHelp"><strong>Stardew Valley</strong>Sikker SMAPI-modding og advarsler ved usikre filer.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="stardew">Holder modsetup stabilt efter game-updates.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="baldursgate3" aria-disabled="true">
+                                <input type="checkbox" name="product" value="baldursgate3" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="baldursgate3">Baldur's Gate 3</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodBg3Help">?</button>
+                                                <span class="help-pop" id="prodBg3Help"><strong>Baldur's Gate 3</strong>Beskyttelse mod ustabile modstacks og usikre filer.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="baldursgate3">Reducerer load-order konflikter og modfejl.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="cities" aria-disabled="true">
+                                <input type="checkbox" name="product" value="cities" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="cities">Cities: Skylines</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodCitiesHelp">?</button>
+                                                <span class="help-pop" id="prodCitiesHelp"><strong>Cities: Skylines</strong>Asset- og modbeskyttelse med fokus på kompatibilitet.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="cities">Mod- og assetkontrol for bedre performance og drift.</span>
+                                </span>
+                            </label>
+                            <label class="product-tab coming-soon" data-product="skyrim" aria-disabled="true">
+                                <input type="checkbox" name="product" value="skyrim" style="display:none;" disabled>
+                                <span class="product-media">
+                                    <video src="Videoer/dashboardcs.mp4" autoplay muted playsinline preload="auto" data-sync-clip-start="7"></video>
+                                </span>
+                                <span class="coming-soon-label">Kommer snart</span>
+                                <span class="product-copy">
+                                    <span class="product-title-row">
+                                        <span class="tab-skimo">SKIMO</span>
+                                        <span class="product-name">
+                                            <span class="product-label" data-product-id="skyrim">Skyrim</span>
+                                            <span class="help-inline">
+                                                <button type="button" class="product-help-btn" data-help-target="prodSkyrimHelp">?</button>
+                                                <span class="help-pop" id="prodSkyrimHelp"><strong>Skyrim</strong>Load-order og dependency-beskyttelse til modpakker.</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="product-desc" data-product-id="skyrim">Sikker modding af plugin chains og script extenders.</span>
+                                </span>
+                            </label>
+                        </div>
+                        </div>
+                        <div class="sub-block sub-block--checkout">
+                        <div class="checkout-main-split">
+                        <div class="checkout-left-column">
+                        <p class="card-title checkout-title-main" id="step-checkout-title">2. Enheder, plan og konto</p>
+                        <p class="card-intro" id="device-intro">Vælg enheder og betaling, og angiv e-mail til checkout.</p>
+                        <div class="form-group checkout-devices-below-title">
+                                    <label for="device-select" id="devices-label">Antal enheder</label>
+                                    <select id="device-select">
+                                        <option value="1" selected id="devices-opt-1">1 enhed</option>
+                                        <option value="2" id="devices-opt-2">2 enheder</option>
+                                        <option value="4" id="devices-opt-4">4 enheder</option>
+                                    </select>
+                        </div>
+                        <div class="form-group checkout-payment-methods">
+                            <span class="payment-method-label" id="payment-method-label">Betalingsmetode</span>
+                            <div class="payment-method-chips" role="radiogroup" aria-labelledby="payment-method-label">
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="mobilepay" checked>MobilePay</label>
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="klarna">Klarna</label>
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="visa">Visa</label>
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="mastercard">Mastercard</label>
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="debit">Debit</label>
+                                <label class="pay-method-chip"><input type="radio" name="payment-method" value="applepay">Apple Pay</label>
+                            </div>
+                        </div>
+                        <div class="payment-details" id="payment-details" aria-live="polite">
+                            <div class="payment-detail-panel is-active" data-payment="mobilepay" id="payment-panel-mobilepay">
+                                <h4>MobilePay</h4>
+                                <p>Du sendes til MobilePay for at godkende betalingen. Tjek at dit mobilnummer er korrekt i MobilePay-appen.</p>
+                                <div class="form-group">
+                                    <label for="pay-mp-phone">Mobilnummer (valgfrit)</label>
+                                    <input id="pay-mp-phone" type="tel" autocomplete="tel" placeholder="+45 12 34 56 78">
+                                </div>
+                            </div>
+                            <div class="payment-detail-panel" data-payment="klarna" id="payment-panel-klarna">
+                                <h4>Klarna</h4>
+                                <p>Du kan betale med det samme, dele betalingen eller betale senere, afhængigt af hvad Klarna tilbyder. Kort og oplysninger indtastes krypteret hos Klarna på næste trin.</p>
+                            </div>
+                            <div class="payment-detail-panel" data-payment="visa" id="payment-panel-visa">
+                                <h4>Visa</h4>
+                                <p>Kortnummer, udløb og CVC indtastes sikkert hos vores betalingspartner på næste trin (PCI-krypteret). Her gemmes ingen kortdata på Skimo.</p>
+                            </div>
+                            <div class="payment-detail-panel" data-payment="mastercard" id="payment-panel-mastercard">
+                                <h4>Mastercard</h4>
+                                <p>Kortoplysninger indtastes krypteret hos betalingsudbyderen på næste trin. Vi understøtter 3-D Secure hvor det kræves.</p>
+                            </div>
+                            <div class="payment-detail-panel" data-payment="debit" id="payment-panel-debit">
+                                <h4>Debitkort</h4>
+                                <p>Debetkort (fx Visa Debit/Dankort hvor understøttet) håndteres som kortbetaling. Oplysninger indtastes krypteret på næste trin.</p>
+                            </div>
+                            <div class="payment-detail-panel" data-payment="applepay" id="payment-panel-applepay">
+                                <h4>Apple Pay</h4>
+                                <p>På understøttede enheder åbnes Apple Pay, så du kan godkende med Face ID, Touch ID eller kode. Ingen kortnumre vises på siden.</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="checkout-billing-beside">
+                                <div class="form-group form-group--billing-beside">
+                                    <label id="billing-label">Betalingsplan</label>
+                                    <div class="billing-row">
+                                        <label class="pill">
+                                            <input type="radio" name="billing" value="installments" checked>
+                                            <span class="pill-copy">
+                                                <span class="pill-title" id="billing-installments">Årligt delt op pr. måned</span>
+                                                <span class="pill-subtitle" id="billing-installments-sub">12 betalinger fordelt over året</span>
+                                            </span>
+                                        </label>
+                                        <label class="pill">
+                                            <input type="radio" name="billing" value="monthly">
+                                            <span class="pill-copy">
+                                                <span class="pill-title" id="billing-monthly">Månedlig plan</span>
+                                                <span class="pill-subtitle" id="billing-monthly-sub">Mere fleksibel og kan opsiges løbende</span>
+                                            </span>
+                                        </label>
+                                        <label class="pill">
+                                            <input type="radio" name="billing" value="quarterly">
+                                            <span class="pill-copy">
+                                                <span class="pill-title" id="billing-quarterly">Kvartalsvis betaling</span>
+                                                <span class="pill-subtitle" id="billing-quarterly-sub">4 betalinger pr. år (hvert 3. måned)</span>
+                                            </span>
+                                        </label>
+                                        <label class="pill">
+                                            <input type="radio" name="billing" value="annual">
+                                            <span class="pill-copy">
+                                                <span class="pill-title" id="billing-annual">Årlig betaling</span>
+                                                <span class="pill-subtitle" id="billing-annual-sub">Betales på én gang for 12 måneder</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="checkout-layout">
+                            <div class="checkout-col checkout-col--full checkout-pay-row">
+                                <div class="form-group">
+                                    <label for="buy-email" data-i18n="subscriptions.buy.email.label">E-mailadresse *</label>
+                                    <input id="buy-email" type="email" autocomplete="email" inputmode="email" required data-i18n-placeholder="subscriptions.buy.email.placeholder" placeholder="din@email.com">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/i18n.js?v=20260405-70"></script>
+    <script src="assets/skimo-ai-assistant.js?v=20260405-70" defer></script>
+    <script>
+        const planKeyByDevices = {
+            1: '1device-yearly',
+            2: '2devices-yearly',
+            4: '4devices-yearly'
+        };
+
+        /** Sæt til true indtil endelige priser er på plads — viser “pris oplyses snart”. */
+        const SUBSCRIPTION_PRICES_PENDING = false;
+
+        const productCatalog = {
+            'minecraft-player': {
+                prices: { 1: 559, 2: 999, 4: 1899 }
+            },
+            sims: {
+                prices: { 1: 479, 2: 879, 4: 1699 }
+            },
+            gta: {
+                prices: { 1: 509, 2: 919, 4: 1759 }
+            },
+            fallout: {
+                prices: { 1: 509, 2: 919, 4: 1759 }
+            },
+            stardew: {
+                prices: { 1: 469, 2: 849, 4: 1639 }
+            },
+            baldursgate3: {
+                prices: { 1: 529, 2: 959, 4: 1829 }
+            },
+            cities: {
+                prices: { 1: 499, 2: 899, 4: 1729 }
+            },
+            skyrim: {
+                prices: { 1: 519, 2: 939, 4: 1799 }
+            }
+        };
+
+        /** Videoer matcher dashboard (Videoer/…). */
+        const PRODUCT_VIDEO_SRC = {
+            'minecraft-player': 'Videoer/Minecraft.mp4',
+            sims: 'Videoer/Sims.mp4',
+            gta: 'Videoer/GTA.mp4',
+            fallout: 'Videoer/Fallout.mp4',
+            stardew: 'Videoer/Stardew.mp4',
+            baldursgate3: 'Videoer/BaldursGate3.mp4',
+            cities: 'Videoer/CitiesSkylines.mp4',
+            skyrim: 'Videoer/Skyrim.mp4'
+        };
+
+        /** Priser i katalog = DKK (årligt). Vises i valuta efter aktivt sprog (vekselkurs vejledende). */
+        const currencyByLang = {
+            da: { currency: 'DKK', locale: 'da-DK' },
+            sv: { currency: 'SEK', locale: 'sv-SE' },
+            no: { currency: 'NOK', locale: 'nb-NO' },
+            en: { currency: 'EUR', locale: 'en-GB' },
+            fr: { currency: 'EUR', locale: 'fr-FR' }
+        };
+
+        const dkkToCurrencyFactor = {
+            DKK: 1,
+            SEK: 1.52,
+            NOK: 1.55,
+            EUR: 0.134
+        };
+
+        function convertAnnualDkkToDisplay(amountDkk, currency) {
+            const f = dkkToCurrencyFactor[currency] || 1;
+            const v = Number(amountDkk) * f;
+            if (currency === 'EUR') return Math.round(v * 100) / 100;
+            return Math.round(v);
+        }
+
+        function formatMoney(amount, lang) {
+            const { currency, locale } = currencyByLang[lang] || currencyByLang.da;
+            try {
+                const opts = { style: 'currency', currency, maximumFractionDigits: currency === 'EUR' ? 2 : 0 };
+                return new Intl.NumberFormat(locale, opts).format(amount);
+            } catch {
+                return `${amount} ${currency}`;
+            }
+        }
+
+        const localeCopy = {
+            da: {
+                summaryTitle: 'Kontaktoplysninger',
+                stepProduct: '1. Vælg produkter',
+                stepCheckout: '2. Enheder, plan og konto',
+                summaryIntro: 'Kontakt os direkte for hurtig hjælp. Her ser du kontaktveje og åbningstid samlet ét sted.',
+                deviceIntro: 'Vælg enheder og betaling, og angiv e-mail til checkout.',
+                deviceLabel: 'Antal enheder',
+                d1: '1 enhed',
+                d2: '2 enheder',
+                d4: '4 enheder',
+                billingLabel: 'Betalingsplan',
+                installments: 'Mandag - fredag, 09:00 - 17:00',
+                installmentsSub: '12 betalinger fordelt over året',
+                monthly: 'Månedlig plan',
+                monthlySub: 'Mere fleksibel og kan opsiges løbende',
+                annual: 'Årlig betaling',
+                annualSub: 'Betales på én gang for 12 måneder',
+                quarterly: 'Kvartalsvis betaling',
+                quarterlySub: '4 betalinger pr. år (hvert 3. måned)',
+                infoLink: 'Abonnementsoplysninger og vilkår',
+                labels: {
+                    'minecraft-player': 'Minecraft',
+                    'minecraft-server': 'Minecraft (Server)',
+                    'minecraft-creator': 'Minecraft (Creator)',
+                    sims: 'Sims',
+                    gta: 'GTA',
+                    fallout: 'Fallout',
+                    stardew: 'Stardew Valley',
+                    baldursgate3: 'Baldur\'s Gate 3',
+                    cities: 'Cities: Skylines',
+                    skyrim: 'Skyrim'
+                },
+                descs: {
+                    'minecraft-player': 'Beskytter din konto og dine mods under daglig gaming.',
+                    'minecraft-server': 'Beskytter servermiljøet mod skadelige uploads og ustabil drift.',
+                    'minecraft-creator': 'Hjælper dig med at udgive sikre mods til andre spillere.',
+                    sims: 'Holder tilpasset indhold sikkert og giver ro i hverdagen.',
+                    gta: 'Reducerer risiko fra uofficielle mod-tools og filer.',
+                    fallout: 'Hjælper med load-order stabilitet og sikre modpakker.',
+                    stardew: 'Holder modsetup stabilt efter game-updates.',
+                    baldursgate3: 'Reducerer load-order konflikter og modfejl.',
+                    cities: 'Mod- og assetkontrol for bedre performance og drift.',
+                    skyrim: 'Sikker modding af plugin chains og script extenders.'
+                },
+                tips: {
+                    prodPlayerHelp: '<strong>Minecraft</strong>Til private spillere. Fokuserer på sikker mod-download, malware-scanning og stabil spiloplevelse.',
+                    prodServerHelp: '<strong>Minecraft Server</strong>Til serverdrift. Hjælper med at opdage skadelige uploads og beskytte servermiljøet.',
+                    prodCreatorHelp: '<strong>Minecraft Creator</strong>Til mod-creators. Scanner projektfiler før deling, så udgivelser bliver mere sikre.',
+                    prodSimsHelp: '<strong>Sims</strong>Til Sims-mods og tilpasset indhold. Holder installationen ren og advarer ved usikre filer.',
+                    securityHelp: '<strong>Sikkerhed og vilkår</strong>Betaling håndteres krypteret via sikre betalingspartnere. Oplysninger bruges kun til at gennemføre køb og support.',
+                    refundHelp: '<strong>Tilbagebetaling ved fejl</strong>Skriv med ordrenummer, e-mail og kort beskrivelse. Vi gennemgår sagen hurtigt og hjælper videre.',
+                    subscriptionInfoHelp: '<strong>Abonnementsvilkår</strong><br>• Årligt delt op pr. måned (12 rater): bindende i 12 måneder<br>• Månedlig plan: kan opsiges løbende<br>• Årlig betaling: bindende i 12 måneder<br><br><strong>Indhold i alle planer</strong><br>• Malware-scanning og beskyttelse<br>• Trusselsovervågning i realtid<br>• Sikker filverifikation<br>• Løbende sikkerhedsopdateringer<br><br><strong>Support</strong><br>Kontakt support på skimo.sec@hotmail.com eller +45 61 31 41 53.'
+                }
+            },
+            en: {
+                summaryTitle: 'Contact details',
+                stepProduct: '1. Choose products',
+                stepCheckout: '2. Devices, billing & account',
+                summaryIntro: 'Contact us directly for quick help. Here you can see contact channels and opening hours in one place.',
+                deviceIntro: 'Choose devices and billing, then enter your email for checkout.',
+                deviceLabel: 'Number of devices',
+                d1: '1 device',
+                d2: '2 devices',
+                d4: '4 devices',
+                billingLabel: 'Payment plan',
+                installments: 'Monday - Friday, 09:00 - 17:00',
+                installmentsSub: '12 payments spread across the year',
+                monthly: 'Monthly plan',
+                monthlySub: 'More flexible and can be cancelled anytime',
+                annual: 'Yearly payment',
+                annualSub: 'Paid in one charge for 12 months',
+                quarterly: 'Quarterly billing',
+                quarterlySub: '4 payments per year (every 3 months)',
+                infoLink: 'Subscription details and terms',
+                labels: {
+                    'minecraft-player': 'Minecraft',
+                    'minecraft-server': 'Minecraft (Server)',
+                    'minecraft-creator': 'Minecraft (Creator)',
+                    sims: 'Sims',
+                    gta: 'GTA',
+                    fallout: 'Fallout',
+                    stardew: 'Stardew Valley',
+                    baldursgate3: 'Baldur\'s Gate 3',
+                    cities: 'Cities: Skylines',
+                    skyrim: 'Skyrim'
+                },
+                descs: {
+                    'minecraft-player': 'Protects your account and mods during everyday gameplay.',
+                    'minecraft-server': 'Protects server environments from unsafe uploads and instability.',
+                    'minecraft-creator': 'Helps you publish safer mods for other players.',
+                    sims: 'Keeps custom content clean and stable for Sims.',
+                    gta: 'Reduces risk from unofficial mod tools and file packs.',
+                    fallout: 'Improves load-order stability and safer Fallout modlists.',
+                    stardew: 'Keeps SMAPI setups stable after game updates.',
+                    baldursgate3: 'Reduces BG3 load-order conflicts and mod failures.',
+                    cities: 'Protects mods/assets with focus on compatibility and stability.',
+                    skyrim: 'Safer Skyrim modding for dependencies and script extenders.'
+                },
+                tips: {
+                    prodPlayerHelp: '<strong>Minecraft</strong>For private players. Focuses on safe mod downloads, malware scanning and stable gameplay.',
+                    prodServerHelp: '<strong>Minecraft Server</strong>For server operation. Helps detect harmful uploads and protect the server environment.',
+                    prodCreatorHelp: '<strong>Minecraft Creator</strong>For mod creators. Scans project files before sharing to keep releases safer.',
+                    prodSimsHelp: '<strong>Sims</strong>For Sims mods and custom content. Keeps installs clean and warns about unsafe files.',
+                    securityHelp: '<strong>Security and terms</strong>Payments are encrypted through secure payment partners. Information is only used to complete purchase and support.',
+                    refundHelp: '<strong>Refund in case of errors</strong>Send order number, email and a short description. We review quickly and help right away.',
+                    subscriptionInfoHelp: '<strong>Subscription terms</strong><br>• Yearly split monthly (12 installments): 12-month commitment<br>• Monthly plan: cancel anytime<br>• Yearly payment: 12-month commitment<br><br><strong>Included in all plans</strong><br>• Malware scanning and protection<br>• Real-time threat monitoring<br>• Secure file verification<br>• Ongoing security updates<br><br><strong>Support</strong><br>Contact support: skimo.sec@hotmail.com or +45 61 31 41 53.'
+                }
+            },
+            sv: {
+                summaryTitle: 'Prisöversikt',
+                stepProduct: '1. Välj produkter',
+                stepCheckout: '2. Enheter, plan och konto',
+                summaryIntro: 'Se ditt pris, din plan och vad du betalar idag.',
+                deviceIntro: 'Välj enheter och betalning och ange e-post för checkout.',
+                deviceLabel: 'Antal enheter',
+                d1: '1 enhet',
+                d2: '2 enheter',
+                d4: '4 enheter',
+                billingLabel: 'Betalningsplan',
+                installments: 'Årsavtal delat per månad',
+                installmentsSub: '12 delbetalningar över året',
+                monthly: 'Månadsplan',
+                monthlySub: 'Mer flexibel och kan sägas upp löpande',
+                annual: 'Årlig betalning',
+                annualSub: 'Betalas på en gång för 12 månader',
+                quarterly: 'Kvartalsbetalning',
+                quarterlySub: '4 betalningar per år (var tredje månad)',
+                infoLink: 'Abonnemangsinformation och villkor',
+                labels: {
+                    'minecraft-player': 'Minecraft',
+                    'minecraft-server': 'Minecraft (Server)',
+                    'minecraft-creator': 'Minecraft (Creator)',
+                    sims: 'Sims',
+                    gta: 'GTA',
+                    fallout: 'Fallout',
+                    stardew: 'Stardew Valley',
+                    baldursgate3: 'Baldur\'s Gate 3',
+                    cities: 'Cities: Skylines',
+                    skyrim: 'Skyrim'
+                },
+                descs: {
+                    'minecraft-player': 'Skyddar konto och mods under vardagligt spelande.',
+                    'minecraft-server': 'Skyddar servermiljön mot skadliga uppladdningar och instabilitet.',
+                    'minecraft-creator': 'Hjälper dig att publicera säkrare mods för andra spelare.',
+                    sims: 'Håller custom content rent och stabilt i Sims.',
+                    gta: 'Minskar risk från inofficiella mod-verktyg och filer.',
+                    fallout: 'Stärker load-order stabilitet i stora Fallout-modlistor.',
+                    stardew: 'Håller SMAPI-upplägg stabilt efter speluppdateringar.',
+                    baldursgate3: 'Minskar BG3-konflikter i load order och modstack.',
+                    cities: 'Skyddar mods och assets med fokus på kompatibilitet.',
+                    skyrim: 'Säkrare Skyrim-modding med dependency-kontroll.'
+                },
+                tips: {
+                    prodPlayerHelp: '<strong>Minecraft</strong>För privata spelare. Fokus på säkra modnedladdningar, malware-skanning och stabil spelupplevelse.',
+                    prodServerHelp: '<strong>Minecraft Server</strong>För serverdrift. Hjälper att upptäcka skadliga uppladdningar och skydda servermiljön.',
+                    prodCreatorHelp: '<strong>Minecraft Creator</strong>För creators. Skannar projektfiler före delning för säkrare publicering.',
+                    prodSimsHelp: '<strong>Sims</strong>För Sims-mods och custom content. Håller installationen ren och varnar för osäkra filer.',
+                    securityHelp: '<strong>Säkerhet och villkor</strong>Betalning hanteras krypterat via säkra betalningspartners. Uppgifter används endast för köp och support.',
+                    refundHelp: '<strong>Återbetalning vid fel</strong>Skicka ordernummer, e-post och en kort beskrivning. Vi granskar snabbt och hjälper direkt.',
+                    subscriptionInfoHelp: '<strong>Abonnemangsvillkor</strong><br>• Årsavtal delat per månad (12 delbetalningar): bindande i 12 månader<br>• Månadsplan: kan sägas upp löpande<br>• Årsbetalning: bindande i 12 månader<br><br><strong>Ingår i alla planer</strong><br>• Malware-skanning och skydd<br>• Hotövervakning i realtid<br>• Säker filverifiering<br>• Löpande säkerhetsuppdateringar<br><br><strong>Support</strong><br>Kontakta support: skimo.sec@hotmail.com eller +45 61 31 41 53.'
+                }
+            },
+            no: {
+                summaryTitle: 'Prisoversikt',
+                stepProduct: '1. Velg produkter',
+                stepCheckout: '2. Enheter, plan og konto',
+                summaryIntro: 'Se pris, plan og hva du betaler i dag.',
+                deviceIntro: 'Velg enheter og betaling, og oppgi e-post til checkout.',
+                deviceLabel: 'Antall enheter',
+                d1: '1 enhet',
+                d2: '2 enheter',
+                d4: '4 enheter',
+                billingLabel: 'Betalingsplan',
+                installments: 'Årlig delt per måned',
+                installmentsSub: '12 delbetalinger fordelt over året',
+                monthly: 'Månedsplan',
+                monthlySub: 'Mer fleksibel og kan sies opp løpende',
+                annual: 'Årlig betaling',
+                annualSub: 'Betales i én omgang for 12 måneder',
+                quarterly: 'Kvartalsvis betaling',
+                quarterlySub: '4 betalinger per år (hver tredje måned)',
+                infoLink: 'Abonnementsopplysninger og vilkår',
+                labels: {
+                    'minecraft-player': 'Minecraft',
+                    'minecraft-server': 'Minecraft (Server)',
+                    'minecraft-creator': 'Minecraft (Creator)',
+                    sims: 'Sims',
+                    gta: 'GTA',
+                    fallout: 'Fallout',
+                    stardew: 'Stardew Valley',
+                    baldursgate3: 'Baldur\'s Gate 3',
+                    cities: 'Cities: Skylines',
+                    skyrim: 'Skyrim'
+                },
+                descs: {
+                    'minecraft-player': 'Beskytter konto og mods under vanlig spilling.',
+                    'minecraft-server': 'Beskytter servermiljøet mot skadelige opplastinger og ustabil drift.',
+                    'minecraft-creator': 'Hjelper deg med å publisere tryggere mods for andre spillere.',
+                    sims: 'Holder custom content rent og stabilt i Sims.',
+                    gta: 'Reduserer risiko fra uoffisielle mod-verktøy og filer.',
+                    fallout: 'Bedrer load-order stabilitet i store Fallout-modlister.',
+                    stardew: 'Holder SMAPI-oppsett stabilt etter oppdateringer.',
+                    baldursgate3: 'Reduserer BG3-konflikter i load order og modstack.',
+                    cities: 'Beskytter mods og assets med fokus på kompatibilitet.',
+                    skyrim: 'Tryggere Skyrim-modding med dependency-kontroll.'
+                },
+                tips: {
+                    prodPlayerHelp: '<strong>Minecraft</strong>For private spillere. Fokus på trygg mod-nedlasting, malware-skanning og stabil spillopplevelse.',
+                    prodServerHelp: '<strong>Minecraft Server</strong>For serverdrift. Hjelper med å oppdage skadelige opplastinger og beskytte servermiljøet.',
+                    prodCreatorHelp: '<strong>Minecraft Creator</strong>For creators. Skanner prosjektfiler før deling for tryggere utgivelser.',
+                    prodSimsHelp: '<strong>Sims</strong>For Sims-mods og custom content. Holder installasjonen ren og varsler om usikre filer.',
+                    securityHelp: '<strong>Sikkerhet og vilkår</strong>Betaling håndteres kryptert via sikre betalingspartnere. Opplysninger brukes kun for kjøp og support.',
+                    refundHelp: '<strong>Tilbakebetaling ved feil</strong>Send ordrenummer, e-post og kort beskrivelse. Vi gjennomgår raskt og hjelper videre.',
+                    subscriptionInfoHelp: '<strong>Abonnementsvilkår</strong><br>• Årlig delt per måned (12 delbetalinger): bindende i 12 måneder<br>• Månedsplan: kan sies opp løpende<br>• Årlig betaling: bindende i 12 måneder<br><br><strong>Inkludert i alle planer</strong><br>• Malware-skanning og beskyttelse<br>• Trusselovervåking i sanntid<br>• Sikker filverifisering<br>• Løpende sikkerhetsoppdateringer<br><br><strong>Support</strong><br>Kontakt support: skimo.sec@hotmail.com eller +45 61 31 41 53.'
+                }
+            },
+            fr: {
+                summaryTitle: 'Aperçu des prix',
+                stepProduct: '1. Choisir les produits',
+                stepCheckout: '2. Appareils, plan et compte',
+                summaryIntro: 'Voyez votre prix, votre formule et ce que vous payez aujourd’hui.',
+                deviceIntro: 'Choisissez les appareils et le paiement, puis indiquez l’e-mail pour le paiement.',
+                deviceLabel: "Nombre d'appareils",
+                d1: '1 appareil',
+                d2: '2 appareils',
+                d4: '4 appareils',
+                billingLabel: 'Plan de paiement',
+                installments: 'Annuel réparti par mois',
+                installmentsSub: '12 paiements répartis sur l’année',
+                monthly: 'Formule mensuelle',
+                monthlySub: 'Plus flexible et résiliable à tout moment',
+                annual: 'Paiement annuel',
+                annualSub: 'Payé en une fois pour 12 mois',
+                quarterly: 'Paiement trimestriel',
+                quarterlySub: '4 paiements par an (tous les 3 mois)',
+                infoLink: "Informations d'abonnement et conditions",
+                labels: {
+                    'minecraft-player': 'Minecraft',
+                    'minecraft-server': 'Minecraft (Serveur)',
+                    'minecraft-creator': 'Minecraft (Créateur)',
+                    sims: 'Sims',
+                    gta: 'GTA',
+                    fallout: 'Fallout',
+                    stardew: 'Stardew Valley',
+                    baldursgate3: 'Baldur\'s Gate 3',
+                    cities: 'Cities: Skylines',
+                    skyrim: 'Skyrim'
+                },
+                descs: {
+                    'minecraft-player': 'Protège votre compte et vos mods pendant le jeu quotidien.',
+                    'minecraft-server': 'Protège les serveurs contre les uploads risqués et l’instabilité.',
+                    'minecraft-creator': 'Vous aide à publier des mods plus sûrs pour les joueurs.',
+                    sims: 'Garde les contenus personnalisés propres et stables dans Sims.',
+                    gta: 'Réduit les risques des outils de mods non officiels et packs douteux.',
+                    fallout: 'Renforce la stabilité du load order sur les grosses modlists Fallout.',
+                    stardew: 'Maintient les setups SMAPI stables après les mises à jour.',
+                    baldursgate3: 'Réduit les conflits BG3 de load order et de mod stack.',
+                    cities: 'Protège mods et assets avec focus compatibilité et stabilité.',
+                    skyrim: 'Modding Skyrim plus sûr avec contrôle des dépendances.'
+                },
+                tips: {
+                    prodPlayerHelp: '<strong>Minecraft</strong>Pour les joueurs privés. Se concentre sur le téléchargement sûr des mods, le scan malware et la stabilité.',
+                    prodServerHelp: '<strong>Minecraft Serveur</strong>Pour les serveurs. Aide à détecter les uploads dangereux et à protéger le serveur.',
+                    prodCreatorHelp: '<strong>Minecraft Créateur</strong>Pour les créateurs. Analyse les fichiers de projet avant partage pour des releases plus sûres.',
+                    prodSimsHelp: '<strong>Sims</strong>Pour les mods Sims et contenus personnalisés. Garde l’installation propre et alerte en cas de fichier risqué.',
+                    securityHelp: '<strong>Sécurité et conditions</strong>Le paiement est chiffré via des partenaires sécurisés. Les données sont utilisées uniquement pour achat et support.',
+                    refundHelp: '<strong>Remboursement en cas d’erreur</strong>Envoyez numéro de commande, e-mail et courte description. Nous traitons rapidement.',
+                    subscriptionInfoHelp: '<strong>Conditions d’abonnement</strong><br>• Annuel réparti par mois (12 versements) : engagement 12 mois<br>• Plan mensuel : résiliable à tout moment<br>• Paiement annuel : engagement 12 mois<br><br><strong>Inclus dans toutes les offres</strong><br>• Scan malware et protection<br>• Surveillance des menaces en temps réel<br>• Vérification sécurisée des fichiers<br>• Mises à jour de sécurité continues<br><br><strong>Support</strong><br>Contact : skimo.sec@hotmail.com ou +45 61 31 41 53.'
+                }
+            }
+        };
+
+        const uiStrings = {
+            da: {
+                payToday: 'Betal i dag',
+                firstPayment: 'Telefon',
+                firstQuarterly: 'Første kvartalsbetaling',
+                totalYear: 'E-mail',
+                selected: 'Kontaktkanaler',
+                device1: 'enhed',
+                deviceN: 'enheder',
+                installments: 'Åbningstid',
+                monthly: 'Månedlig betaling',
+                quarterly: 'Kvartalsbetaling á',
+                pricePending: 'Pris oplyses snart',
+                infoLink: 'Abonnementsoplysninger og vilkår',
+                refundLine: 'Ved fejl på ModGuard kan du kontakte <a href="mailto:skimo.sec@hotmail.com">skimo.sec@hotmail.com</a> for hjælp og vurdering af tilbagebetaling.',
+                policyInstallments: 'Skriv gerne kort hvad du har brug for hjælp til, så svarer vi hurtigere og mere præcist.',
+                policyMonthly: 'Månedlig plan: kan opsiges løbende.',
+                policyQuarterly: 'Kvartalsvis: 4 betalinger pr. år, bindende i 12 måneder (opsiges ved periodens slutning).',
+                policyAnnual: 'Årlig plan: bindende i 12 måneder (opsiges ved periodens slutning).'
+            },
+            en: {
+                payToday: 'Pay today',
+                firstPayment: 'Phone',
+                firstQuarterly: 'First quarterly payment',
+                totalYear: 'Email',
+                selected: 'Contact channels',
+                device1: 'device',
+                deviceN: 'devices',
+                installments: 'Opening hours',
+                monthly: 'Monthly payment',
+                quarterly: 'Quarterly payment of',
+                pricePending: 'Price coming soon',
+                infoLink: 'Subscription details and terms',
+                refundLine: 'If there is an error with ModGuard, contact <a href="mailto:skimo.sec@hotmail.com">skimo.sec@hotmail.com</a> for help and refund assessment.',
+                policyInstallments: 'Please include a short description of your issue, so we can help faster and more accurately.',
+                policyMonthly: 'Monthly plan: cancel anytime.',
+                policyQuarterly: 'Quarterly: 4 payments per year, 12-month commitment (cancel at period end).',
+                policyAnnual: 'Yearly plan: 12-month commitment (cancel at period end).'
+            },
+            sv: {
+                payToday: 'Betala idag',
+                firstPayment: 'Första betalning',
+                firstQuarterly: 'Första kvartalsbetalning',
+                totalYear: 'Totalt för 1 år',
+                selected: 'Valda produkter',
+                device1: 'enhet',
+                deviceN: 'enheter',
+                installments: '12 delbetalningar á',
+                monthly: 'Månadsbetalning',
+                quarterly: 'Kvartalsbetalning á',
+                pricePending: 'Pris meddelas snart',
+                infoLink: 'Abonnemangsinformation och villkor',
+                refundLine: 'Vid fel i ModGuard kan du kontakta <a href="mailto:skimo.sec@hotmail.com">skimo.sec@hotmail.com</a> för hjälp och bedömning av återbetalning.',
+                policyInstallments: 'Årsavtal delat per månad: bindande i 12 månader (sägs upp vid periodens slut).',
+                policyMonthly: 'Månadsplan: kan sägas upp löpande.',
+                policyQuarterly: 'Kvartalsvis: 4 betalningar per år, bindande i 12 månader (sägs upp vid periodens slut).',
+                policyAnnual: 'Årsplan: bindande i 12 månader (sägs upp vid periodens slut).'
+            },
+            no: {
+                payToday: 'Betal i dag',
+                firstPayment: 'Første betaling',
+                firstQuarterly: 'Første kvartalsbetaling',
+                totalYear: 'Total for 1 år',
+                selected: 'Valgte produkter',
+                device1: 'enhet',
+                deviceN: 'enheter',
+                installments: '12 delbetalinger á',
+                monthly: 'Månedlig betaling',
+                quarterly: 'Kvartalsbetaling á',
+                pricePending: 'Pris kommer snart',
+                infoLink: 'Abonnementsopplysninger og vilkår',
+                refundLine: 'Ved feil i ModGuard kan du kontakte <a href="mailto:skimo.sec@hotmail.com">skimo.sec@hotmail.com</a> for hjelp og vurdering av refusjon.',
+                policyInstallments: 'Årlig delt per måned: bindende i 12 måneder (sies opp ved periodens slutt).',
+                policyMonthly: 'Månedsplan: kan sies opp løpende.',
+                policyQuarterly: 'Kvartalsvis: 4 betalinger per år, bindende i 12 måneder (sies opp ved periodens slutt).',
+                policyAnnual: 'Årlig plan: bindende i 12 måneder (sies opp ved periodens slutt).'
+            },
+            fr: {
+                payToday: "Payer aujourd'hui",
+                firstPayment: 'Premier paiement',
+                firstQuarterly: 'Premier paiement trimestriel',
+                totalYear: 'Total sur 1 an',
+                selected: 'Produits sélectionnés',
+                device1: 'appareil',
+                deviceN: 'appareils',
+                installments: '12 versements de',
+                monthly: 'Paiement mensuel',
+                quarterly: 'Paiement trimestriel de',
+                pricePending: 'Prix à venir',
+                infoLink: "Informations d'abonnement et conditions",
+                refundLine: 'En cas d’erreur ModGuard, contactez <a href="mailto:skimo.sec@hotmail.com">skimo.sec@hotmail.com</a> pour assistance et évaluation de remboursement.',
+                policyInstallments: 'Annuel réparti par mois : engagement 12 mois (résiliation en fin de période).',
+                policyMonthly: 'Plan mensuel : résiliable à tout moment.',
+                policyQuarterly: 'Trimestriel : 4 paiements par an, engagement 12 mois (résiliation en fin de période).',
+                policyAnnual: 'Plan annuel : engagement 12 mois (résiliation en fin de période).'
+            }
+        };
+
+        function getLocale() {
+            const lang = (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') ? window.SkimoI18n.getLanguage() : 'da';
+            const map = { en: 'en-DK', da: 'da-DK', sv: 'sv-SE', no: 'nb-NO', fr: 'fr-FR' };
+            return map[lang] || 'da-DK';
+        }
+
+        function t(key, vars, fallback) {
+            try {
+                if (window.SkimoI18n && typeof window.SkimoI18n.t === 'function') {
+                    return window.SkimoI18n.t(key, vars);
+                }
+            } catch {}
+            return fallback ?? key;
+        }
+
+        function getLang() {
+            try {
+                const lang = (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function')
+                    ? window.SkimoI18n.getLanguage()
+                    : (document.documentElement.lang || 'da');
+                return String(lang || 'da').toLowerCase();
+            } catch {
+                return 'da';
+            }
+        }
+
+        function getLocaleCopy() {
+            const lang = getLang();
+            return localeCopy[lang] || localeCopy.da;
+        }
+
+        function getProductLabel(productId) {
+            const c = getLocaleCopy();
+            return (c.labels && c.labels[productId]) || localeCopy.da.labels[productId] || 'Minecraft';
+        }
+
+        function applyLocaleCopy() {
+            const c = getLocaleCopy();
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el && value) el.textContent = value;
+            };
+            const isGuide = document.body.classList.contains('guide-page');
+            if (!isGuide) {
+                setText('price-overview-title', c.summaryTitle);
+                setText('step-product-title', c.stepProduct);
+                setText('step-checkout-title', c.stepCheckout);
+                setText('summary-intro', c.summaryIntro);
+                setText('device-intro', c.deviceIntro);
+                setText('devices-label', c.deviceLabel);
+                setText('devices-opt-1', c.d1);
+                setText('devices-opt-2', c.d2);
+                setText('devices-opt-4', c.d4);
+                setText('billing-label', c.billingLabel);
+                setText('billing-installments', c.installments);
+                setText('billing-installments-sub', c.installmentsSub);
+                setText('billing-monthly', c.monthly);
+                setText('billing-monthly-sub', c.monthlySub);
+                setText('billing-quarterly', c.quarterly);
+                setText('billing-quarterly-sub', c.quarterlySub);
+                setText('billing-annual', c.annual);
+                setText('billing-annual-sub', c.annualSub);
+                const lang = getLang();
+                const s = (uiStrings[lang] || uiStrings.da);
+                const mini = document.getElementById('subscription-mini-text');
+                if (mini) {
+                    const href = `abonnement.html?lang=${encodeURIComponent(lang)}#subscription-terms`;
+                    mini.textContent = '';
+                    const a = document.createElement('a');
+                    a.id = 'subscription-info-link-anchor';
+                    a.href = href;
+                    a.textContent = s.infoLink;
+                    mini.appendChild(a);
+                }
+            }
+
+            document.querySelectorAll('.product-label[data-product-id]').forEach((el) => {
+                const productId = el.getAttribute('data-product-id');
+                if (productId) el.textContent = getProductLabel(productId);
+            });
+
+            document.querySelectorAll('.product-desc[data-product-id]').forEach((el) => {
+                const productId = el.getAttribute('data-product-id');
+                if (!productId) return;
+                const localized = (c.descs && c.descs[productId]) || (localeCopy.da.descs && localeCopy.da.descs[productId]) || '';
+                if (localized) el.textContent = localized;
+            });
+
+            if (!isGuide) {
+                Object.entries(c.tips || {}).forEach(([id, html]) => {
+                    const el = document.getElementById(id);
+                    if (!el || !html) return;
+                    const san = window.SkimoI18n && typeof window.SkimoI18n.sanitizeHtml === 'function'
+                        ? window.SkimoI18n.sanitizeHtml(String(html))
+                        : '';
+                    el.innerHTML = san;
+                });
+            }
+
+            document.querySelectorAll('.coming-soon-label').forEach((el) => {
+                el.textContent = t('comingSoon', null, 'Kommer snart');
+            });
+        }
+
+        function validEmail(email) {
+            const v = String(email || '').trim();
+            return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
+        }
+
+        function getSelectedBilling() {
+            const el = document.querySelector('input[name="billing"]:checked');
+            return el ? el.value : 'installments';
+        }
+
+        function getSelectedProducts() {
+            return Array.from(document.querySelectorAll('input[name="product"]:checked'))
+                .map((el) => String(el.value))
+                .filter((id) => productCatalog[id]);
+        }
+
+        function activateAllProductTabs() {
+            document.querySelectorAll('.product-tab[data-product]').forEach((tab) => {
+                const pid = tab.getAttribute('data-product');
+                if (!pid || !productCatalog[pid]) return;
+                tab.classList.remove('coming-soon');
+                tab.removeAttribute('aria-disabled');
+                const cs = tab.querySelector('.coming-soon-label');
+                if (cs) cs.remove();
+                const input = tab.querySelector('input[name="product"]');
+                if (input) input.disabled = false;
+                const video = tab.querySelector('.product-media video');
+                const src = PRODUCT_VIDEO_SRC[pid];
+                if (video && src) {
+                    video.src = src;
+                    video.loop = true;
+                    video.removeAttribute('data-sync-clip-start');
+                    video.style.opacity = '1';
+                }
+            });
+        }
+
+        function getSelectedDevices() {
+            return Number(document.getElementById('device-select')?.value || 1);
+        }
+
+        function syncProductTabs() {
+            document.querySelectorAll('.product-tab').forEach((tab) => {
+                const input = tab.querySelector('input[name="product"]');
+                if (!input) return;
+                if (!productCatalog[String(input.value || '')]) {
+                    input.checked = false;
+                }
+                tab.classList.toggle('selected', !!input.checked);
+            });
+        }
+
+        function setupProductTabs() {
+            document.querySelectorAll('.product-tab').forEach((tab) => {
+                const input = tab.querySelector('input[name="product"]');
+                if (!input) return;
+                const pid = String(input.value || '');
+                if (!productCatalog[pid]) {
+                    input.checked = false;
+                    input.disabled = true;
+                    return;
+                }
+
+                input.addEventListener('change', () => {
+                    if (getSelectedProducts().length === 0) {
+                        input.checked = true;
+                    }
+                    syncProductTabs();
+                    updatePriceBox();
+                    updateBuyEnabled();
+                });
+
+                tab.addEventListener('click', (e) => {
+                    if (e.target.closest('.product-help-btn')) return;
+                    setTimeout(() => {
+                        if (getSelectedProducts().length === 0) {
+                            input.checked = true;
+                        }
+                        syncProductTabs();
+                        updatePriceBox();
+                        updateBuyEnabled();
+                    }, 0);
+                });
+            });
+
+            syncProductTabs();
+        }
+
+        function setupHelpPopovers() {
+            const closeAll = () => {
+                document.querySelectorAll('.help-pop.show').forEach((el) => el.classList.remove('show'));
+            };
+            document.querySelectorAll('.help-btn[data-help-target], .product-help-btn[data-help-target]').forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const targetId = btn.getAttribute('data-help-target');
+                    const pop = targetId ? document.getElementById(targetId) : null;
+                    if (!pop) return;
+                    const open = !pop.classList.contains('show');
+                    closeAll();
+                    if (open) pop.classList.add('show');
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.help-inline')) closeAll();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeAll();
+            });
+        }
+
+        function updatePriceBox() {
+            if (document.body.classList.contains('guide-page')) {
+                if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+                    window.SkimoI18n.applyTranslations(document);
+                }
+                return;
+            }
+            const selectedProducts = getSelectedProducts();
+            const devices = getSelectedDevices();
+            const billing = getSelectedBilling();
+            const lang = getLang();
+            const s = uiStrings[lang] || uiStrings.da;
+            const { currency } = currencyByLang[lang] || currencyByLang.da;
+            const chosenProducts = selectedProducts.length ? selectedProducts : ['minecraft-player'];
+            const baseAnnualTotalDkk = chosenProducts.reduce((sum, id) => {
+                const product = productCatalog[id] || productCatalog['minecraft-player'];
+                return sum + Number(product.prices[devices] || product.prices[4]);
+            }, 0);
+            let annualTotalDkk = baseAnnualTotalDkk;
+            let dueDkk = annualTotalDkk;
+
+            if (billing === 'installments') {
+                dueDkk = Math.max(1, Math.round(baseAnnualTotalDkk / 12));
+            } else if (billing === 'monthly') {
+                dueDkk = Math.max(1, Math.round((baseAnnualTotalDkk * 1.15) / 12));
+                annualTotalDkk = dueDkk * 12;
+            } else if (billing === 'quarterly') {
+                dueDkk = Math.max(1, Math.round(annualTotalDkk / 4));
+            } else if (billing === 'annual') {
+                dueDkk = annualTotalDkk;
+            }
+
+            const annualDisplay = convertAnnualDkkToDisplay(annualTotalDkk, currency);
+            const dueDisplay = convertAnnualDkkToDisplay(dueDkk, currency);
+
+            const priceLabelToday = document.getElementById('price-label-today');
+            const priceLabelTotal = document.getElementById('price-label-total');
+            const productSelected = document.getElementById('product-selected');
+            const selectedLabelText = document.getElementById('selected-label-text');
+            const selectedValueText = document.getElementById('selected-value-text');
+            const selectedLabels = chosenProducts.map((id) => getProductLabel(id));
+            if (priceLabelToday) {
+                if (billing === 'annual') priceLabelToday.textContent = s.payToday;
+                else if (billing === 'quarterly') priceLabelToday.textContent = s.firstQuarterly;
+                else priceLabelToday.textContent = s.firstPayment;
+            }
+            if (priceLabelTotal) {
+                priceLabelTotal.textContent = s.totalYear;
+            }
+            if (selectedLabelText) {
+                selectedLabelText.textContent = s.selected;
+            }
+            if (productSelected) {
+                const deviceWord = devices === 1 ? s.device1 : s.deviceN;
+                const summaryText = `${selectedLabels.join(', ')} • ${devices} ${deviceWord}`;
+                if (selectedValueText) {
+                    selectedValueText.textContent = summaryText;
+                } else {
+                    productSelected.textContent = `${s.selected}: ${summaryText}`;
+                }
+            }
+
+            const elToday = document.getElementById('price-today');
+            const elTotal = document.getElementById('price-total');
+            if (SUBSCRIPTION_PRICES_PENDING) {
+                if (elToday) elToday.textContent = s.pricePending;
+                if (elTotal) elTotal.textContent = s.pricePending;
+            } else {
+                if (elToday) elToday.textContent = formatMoney(dueDisplay, lang);
+                if (elTotal) elTotal.textContent = formatMoney(annualDisplay, lang);
+            }
+
+            const note = document.getElementById('installments-note');
+            const policy = document.getElementById('billing-policy-note');
+            if (SUBSCRIPTION_PRICES_PENDING) {
+                if (note) note.style.display = 'none';
+                if (policy) policy.textContent = '';
+            } else if (billing === 'installments') {
+                if (note) {
+                    note.style.display = 'block';
+                    note.textContent = `${s.installments} ${formatMoney(dueDisplay, lang)}.`;
+                }
+                if (policy) policy.textContent = s.policyInstallments || '';
+            } else if (billing === 'monthly') {
+                if (note) {
+                    note.style.display = 'block';
+                    note.textContent = `${s.monthly}: ${formatMoney(dueDisplay, lang)}.`;
+                }
+                if (policy) policy.textContent = s.policyMonthly || '';
+            } else if (billing === 'quarterly') {
+                if (note) {
+                    note.style.display = 'block';
+                    note.textContent = `${s.quarterly} ${formatMoney(dueDisplay, lang)}.`;
+                }
+                if (policy) policy.textContent = s.policyQuarterly || '';
+            } else {
+                if (note) note.style.display = 'none';
+                if (policy) policy.textContent = s.policyAnnual || '';
+            }
+        }
+
+        function updateBuyEnabled() {
+            if (document.body.classList.contains('guide-page')) return;
+            const buy = document.getElementById('buy-now');
+            if (!buy) return;
+            const email = document.getElementById('buy-email').value;
+            const hasProducts = getSelectedProducts().length > 0;
+            buy.disabled = !validEmail(email) || !hasProducts;
+        }
+
+        function getSelectedPaymentMethod() {
+            const el = document.querySelector('input[name="payment-method"]:checked');
+            return el ? String(el.value) : 'mobilepay';
+        }
+
+        function updatePaymentDetailsPanel() {
+            const v = getSelectedPaymentMethod();
+            document.querySelectorAll('.payment-detail-panel').forEach((panel) => {
+                const match = panel.getAttribute('data-payment') === v;
+                panel.classList.toggle('is-active', match);
+            });
+        }
+
+        const syncedProductVideos = Array.from(document.querySelectorAll('.product-media video[data-sync-clip-start]'));
+        let syncedProductLoopArmed = false;
+        let syncedProductCycleInProgress = false;
+        let syncedProductEpochMs = 0;
+
+        function getSyncedProductClipWindow(video) {
+            const clipStart = Number(video.dataset.syncClipStart || 0);
+            const duration = Number(video.duration || 0);
+            if (!Number.isFinite(duration) || duration <= clipStart) return null;
+            const clipEnd = duration;
+            if (clipEnd <= clipStart) return null;
+            return { clipStart, clipEnd };
+        }
+
+        function resetSyncedProductVideos() {
+            syncedProductVideos.forEach((video) => {
+                try { video.pause(); } catch {}
+                video.style.opacity = '0';
+            });
+        }
+
+        function getReadySyncedProductTargets() {
+            return syncedProductVideos
+                .filter((video) => video.readyState >= 1)
+                .map((video) => ({ video, clip: getSyncedProductClipWindow(video) }))
+                .filter((entry) => entry.clip);
+        }
+
+        function getSyncedProductTargetTime(clip) {
+            const clipLength = clip.clipEnd - clip.clipStart;
+            if (!(clipLength > 0)) return clip.clipStart;
+            const elapsed = ((Date.now() - syncedProductEpochMs) / 1000) % clipLength;
+            return clip.clipStart + elapsed;
+        }
+
+        function startSyncedProductVideos(forceReset = false) {
+            const targets = getReadySyncedProductTargets();
+            if (targets.length === 0 || syncedProductCycleInProgress) return;
+            syncedProductCycleInProgress = true;
+            if (!syncedProductLoopArmed || forceReset || !syncedProductEpochMs) {
+                syncedProductLoopArmed = true;
+                syncedProductEpochMs = Date.now();
+                resetSyncedProductVideos();
+            }
+            let pending = targets.length;
+
+            const finalize = () => {
+                if (pending > 0) return;
+                targets.forEach(({ video }) => {
+                    video.style.opacity = '1';
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.preload = 'auto';
+                    const p = video.play();
+                    if (p && typeof p.catch === 'function') p.catch(() => {});
+                });
+                syncedProductCycleInProgress = false;
+            };
+
+            if (pending === 0) {
+                syncedProductCycleInProgress = false;
+                return;
+            }
+
+            targets.forEach(({ video, clip }) => {
+                const done = () => {
+                    pending -= 1;
+                    finalize();
+                };
+                const targetTime = forceReset || !syncedProductEpochMs
+                    ? clip.clipStart
+                    : getSyncedProductTargetTime(clip);
+                if (Math.abs((video.currentTime || 0) - targetTime) < 0.08) {
+                    done();
+                    return;
+                }
+                const onSeeked = () => {
+                    done();
+                };
+                video.addEventListener('seeked', onSeeked, { once: true });
+                try {
+                    video.currentTime = targetTime;
+                } catch {
+                    video.removeEventListener('seeked', onSeeked);
+                    done();
+                }
+            });
+        }
+
+        function monitorSyncedProductLoop() {
+            const targets = getReadySyncedProductTargets();
+            if (!document.hidden && targets.length > 0) {
+                const { video: masterVideo, clip } = targets[0];
+                if (clip && masterVideo.currentTime >= clip.clipEnd - 0.08) {
+                    startSyncedProductVideos(true);
+                }
+            }
+            requestAnimationFrame(monitorSyncedProductLoop);
+        }
+
+        function playAllProductVideos() {
+            document.querySelectorAll('.product-media video').forEach((video) => {
+                video.muted = true;
+                video.playsInline = true;
+                video.loop = !video.hasAttribute('data-sync-clip-start');
+                video.preload = video.hasAttribute('data-sync-clip-start') ? 'auto' : 'metadata';
+                if (video.hasAttribute('data-sync-clip-start')) {
+                    video.style.opacity = '0';
+                    return;
+                }
+                const p = video.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            activateAllProductTabs();
+            setupProductTabs();
+            setupHelpPopovers();
+            applyLocaleCopy();
+            updatePriceBox();
+            updateBuyEnabled();
+            playAllProductVideos();
+            syncedProductVideos.forEach((video) => {
+                video.addEventListener('loadedmetadata', () => {
+                    startSyncedProductVideos(!syncedProductEpochMs);
+                });
+            });
+            startSyncedProductVideos(!syncedProductEpochMs);
+            monitorSyncedProductLoop();
+
+            document.getElementById('buy-email').addEventListener('input', () => {
+                updateBuyEnabled();
+            });
+            document.getElementById('device-select').addEventListener('change', () => {
+                updatePriceBox();
+            });
+            document.querySelector('.language-selector select')?.addEventListener('change', () => {
+                setTimeout(() => {
+                    applyLocaleCopy();
+                    updatePriceBox();
+                    updateBuyEnabled();
+                }, 30);
+            });
+            document.querySelectorAll('input[name="billing"]').forEach((el) => {
+                el.addEventListener('change', () => {
+                    updatePriceBox();
+                });
+            });
+
+            document.querySelectorAll('input[name="payment-method"]').forEach((el) => {
+                el.addEventListener('change', () => updatePaymentDetailsPanel());
+            });
+            updatePaymentDetailsPanel();
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) return;
+                playAllProductVideos();
+                startSyncedProductVideos(true);
+            });
+
+            const buyNowGuide = document.getElementById('buy-now');
+            if (buyNowGuide && !document.body.classList.contains('guide-page')) buyNowGuide.addEventListener('click', () => {
+                const email = String(document.getElementById('buy-email').value || '').trim();
+                if (!validEmail(email)) {
+                    alert(t('subscriptions.buy.validation.email', null, 'Skriv en gyldig e-mail for at fortsætte.'));
+                    return;
+                }
+                const selectedProducts = getSelectedProducts();
+                if (selectedProducts.length === 0) {
+                    alert(t('subscriptions.buy.validation.product', null, 'Vælg mindst ét produkt for at fortsætte.'));
+                    return;
+                }
+                const productId = selectedProducts[0];
+                const devices = getSelectedDevices();
+                const planKey = planKeyByDevices[devices] || planKeyByDevices[4];
+                const billing = getSelectedBilling();
+
+                const params = new URLSearchParams({
+                    plan: planKey,
+                    billing,
+                    email,
+                    product: productId,
+                    products: selectedProducts.join(','),
+                    devices: String(devices),
+                    payment: getSelectedPaymentMethod()
+                });
+                const targetHref = `payment.html?${params.toString()}`;
+                if (window.SkimoI18n && typeof window.SkimoI18n.navigateWithReturn === 'function') {
+                    window.SkimoI18n.navigateWithReturn(targetHref);
+                    return;
+                }
+                window.location.href = targetHref;
+            });
+
+            const finePointer = window.matchMedia('(pointer: fine)').matches;
+            const nav = document.querySelector('.index-clone-nav');
+            if (finePointer && nav) {
+                let idleTimer = 0;
+                let hovering = false;
+                const delay = 900;
+                const showNav = () => document.body.classList.remove('nav-idle');
+                const hideNav = () => {
+                    if (hovering) return;
+                    document.body.classList.add('nav-idle');
+                };
+                const scheduleHide = () => {
+                    window.clearTimeout(idleTimer);
+                    if (hovering) return;
+                    idleTimer = window.setTimeout(hideNav, delay);
+                };
+                window.addEventListener('mousemove', () => {
+                    showNav();
+                    scheduleHide();
+                }, { passive: true });
+                window.addEventListener('mouseleave', hideNav, { passive: true });
+                nav.addEventListener('mouseenter', () => {
+                    hovering = true;
+                    window.clearTimeout(idleTimer);
+                    showNav();
+                });
+                nav.addEventListener('mouseleave', () => {
+                    hovering = false;
+                    scheduleHide();
+                });
+                scheduleHide();
+            }
+
+            const languageLabelMap = { da: 'DA', sv: 'SV', no: 'NO', en: 'EN', fr: 'FR' };
+            function getCurrentLanguage() {
+                if (window.SkimoI18n && typeof window.SkimoI18n.getLanguage === 'function') {
+                    return String(window.SkimoI18n.getLanguage() || 'da').toLowerCase();
+                }
+                return String(document.documentElement.lang || 'da').toLowerCase();
+            }
+            function closeLanguagePopovers() {
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    const popover = switcher.querySelector('.lang-popover');
+                    if (popover) popover.hidden = true;
+                    if (current) current.setAttribute('aria-expanded', 'false');
+                });
+            }
+            function syncLanguageSwitchers() {
+                const currentLang = getCurrentLanguage();
+                const currentLabel = languageLabelMap[currentLang] || languageLabelMap.da;
+                document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                    const current = switcher.querySelector('.lang-current');
+                    if (current) current.textContent = currentLabel;
+                    switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                        choice.classList.toggle('active', choice.getAttribute('data-lang') === currentLang);
+                    });
+                });
+            }
+            document.querySelectorAll('.lang-switcher').forEach((switcher) => {
+                const current = switcher.querySelector('.lang-current');
+                const popover = switcher.querySelector('.lang-popover');
+                if (!current || !popover) return;
+                current.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const shouldOpen = popover.hidden;
+                    closeLanguagePopovers();
+                    popover.hidden = !shouldOpen;
+                    current.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                });
+                switcher.querySelectorAll('.lang-choice[data-lang]').forEach((choice) => {
+                    choice.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const lang = choice.getAttribute('data-lang') || 'da';
+                        if (window.SkimoI18n && typeof window.SkimoI18n.setLanguage === 'function') {
+                            window.SkimoI18n.setLanguage(lang, { source: 'manual' });
+                            if (typeof window.SkimoI18n.applyTranslations === 'function') {
+                                window.SkimoI18n.applyTranslations(document);
+                            }
+                        } else {
+                            document.documentElement.lang = lang;
+                        }
+                        syncLanguageSwitchers();
+                        closeLanguagePopovers();
+                        applyLocaleCopy();
+                        updatePriceBox();
+                        updateBuyEnabled();
+                    });
+                });
+            });
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.lang-switcher')) closeLanguagePopovers();
+            });
+            syncLanguageSwitchers();
+            if (window.SkimoI18n && typeof window.SkimoI18n.applyTranslations === 'function') {
+                window.SkimoI18n.applyTranslations(document);
+            }
+        });
+    </script>
+    <script src="assets/hq-enhance.js?v=20260405-70" defer></script>
+    <script src="assets/skimo-mobile-video.js?v=20260405-70" defer></script>
+</body>
+</html>

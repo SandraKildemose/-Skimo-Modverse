@@ -1,0 +1,270 @@
+/* Theme picker (guide/subscription/contact) — layout stays unchanged */
+
+:root {
+  --skimo-pick-blue: #4a9fdf;
+  --skimo-pick-grey: #8d98a6;
+  --skimo-pick-black: #07090c;
+}
+
+/* Blå tema = lyseblå UI-accent; mørk tema bruger :root (uændret) */
+html.page-abonnement[data-theme="blue"] {
+  --skimo-pick-blue: #5eb6f5;
+  --skimo-pick-grey: #9eb0c4;
+}
+
+.skimo-theme-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 10px 0 -57px; /* ~1.5cm left */
+  z-index: 10100;
+  isolation: isolate;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.08);
+}
+
+.skimo-theme-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 159, 223, 0.42);
+  background: rgba(255, 255, 255, 0.02);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  color: var(--skimo-pick-blue);
+  box-shadow: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.skimo-theme-btn:hover {
+  color: var(--skimo-pick-grey);
+  border-color: rgba(141, 152, 166, 0.55);
+}
+
+.skimo-theme-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background:
+    conic-gradient(from 225deg,
+      #ff3b3b 0deg,
+      #ff8a00 60deg,
+      #ffd400 120deg,
+      #31d14b 180deg,
+      #2ea8ff 240deg,
+      #7b52ff 300deg,
+      #ff3b9a 360deg);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 6px 14px rgba(0, 0, 0, 0.28);
+  position: relative;
+}
+.skimo-theme-swatch::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(8, 12, 18, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.skimo-theme-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(191, 222, 235, 0.12);
+  background: rgba(8, 12, 18, 0.46);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10150;
+  max-width: min(100vw - 24px, 320px);
+  touch-action: manipulation;
+}
+
+.skimo-theme-popover[hidden] {
+  display: none;
+}
+
+.skimo-theme-choice {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 159, 223, 0.38);
+  background: rgba(74, 159, 223, 0.06);
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.skimo-theme-choice:hover {
+  border-color: rgba(141, 152, 166, 0.65);
+  background: rgba(141, 152, 166, 0.1);
+}
+
+.skimo-theme-choice.is-active {
+  border-color: var(--skimo-pick-black);
+  background: rgba(7, 9, 12, 0.72);
+  box-shadow: 0 0 0 2px rgba(7, 9, 12, 0.45);
+}
+
+.skimo-theme-choice > span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  margin: 0 auto;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 14px rgba(0, 0, 0, 0.28);
+}
+
+.skimo-theme-choice[data-theme="dark"] > span {
+  background: linear-gradient(135deg, rgba(6, 8, 10, 0.99), rgba(0, 0, 0, 0.99));
+}
+
+.skimo-theme-choice[data-theme="blue"] > span {
+  background: linear-gradient(135deg, rgba(72, 150, 215, 0.95), rgba(130, 195, 245, 0.92));
+}
+
+/* Theme overrides for these pages only (they all share html.page-abonnement) */
+html.page-abonnement[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 110% 75% at 14% -6%, rgba(56, 189, 248, 0.06) 0%, transparent 50%),
+    linear-gradient(165deg, rgb(3, 6, 12) 0%, rgb(5, 10, 18) 50%, rgb(4, 8, 14) 100%) !important;
+}
+
+html.page-abonnement[data-theme="blue"] body {
+  /* Kølig “gaming / security” blå: dyb base + svage cyan hotspots — ikke den gamle flade UI-blå */
+  background:
+    radial-gradient(ellipse 120% 85% at 14% -8%, rgba(56, 189, 248, 0.14) 0%, transparent 52%),
+    radial-gradient(ellipse 95% 70% at 92% 22%, rgba(14, 165, 233, 0.09) 0%, transparent 48%),
+    linear-gradient(165deg, rgb(4, 10, 22) 0%, rgb(6, 16, 34) 46%, rgb(5, 11, 22) 100%) !important;
+}
+
+/* Hero: gennemsigtig canvas så ModGuard-lag + overlays i inline CSS kan ses */
+html.page-abonnement[data-theme="dark"] .page-hero-wrap,
+html.page-abonnement[data-theme="dark"] .page-hero {
+  background: transparent !important;
+}
+
+html.page-abonnement[data-theme="blue"] .page-hero-wrap,
+html.page-abonnement[data-theme="blue"] .page-hero {
+  background: transparent !important;
+}
+
+/* Hero overlay — cyan/steel, mere gennemsigtigt end den gamle grå-blå */
+html.page-abonnement[data-theme="dark"] .page-hero::before {
+  background:
+    radial-gradient(95% 70% at 12% 12%, rgba(34, 211, 238, 0.07) 0%, transparent 58%),
+    linear-gradient(90deg, rgba(4, 8, 14, 0.62) 0%, rgba(4, 8, 14, 0.18) 54%, rgba(4, 8, 14, 0.09) 100%),
+    linear-gradient(180deg, rgba(2, 5, 10, 0.28) 0%, rgba(4, 10, 18, 0.62) 100%) !important;
+}
+
+html.page-abonnement[data-theme="blue"] .page-hero::before {
+  background:
+    radial-gradient(95% 70% at 10% 12%, rgba(34, 211, 238, 0.12) 0%, transparent 58%),
+    radial-gradient(75% 55% at 88% 18%, rgba(59, 130, 246, 0.08) 0%, transparent 52%),
+    linear-gradient(90deg, rgba(4, 14, 28, 0.52) 0%, rgba(3, 12, 24, 0.14) 54%, rgba(2, 8, 18, 0.07) 100%),
+    linear-gradient(180deg, rgba(2, 6, 14, 0.18) 0%, rgba(4, 14, 28, 0.56) 100%) !important;
+}
+
+/* Extra guarantee: hero copy area should never look gray in theme */
+html.page-abonnement[data-theme="dark"] .page-hero-copy,
+html.page-abonnement[data-theme="blue"] .page-hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+html.page-abonnement[data-theme="dark"] .sub-integrated,
+html.page-abonnement[data-theme="blue"] .sub-integrated {
+  border-top-color: rgba(154, 202, 202, 0.14) !important;
+}
+
+/* Nederste del: samme overlay som hero (matcher pr. tema) */
+html.page-abonnement[data-theme="dark"] .sub-integrated::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(95% 70% at 12% 12%, rgba(34, 211, 238, 0.07) 0%, transparent 58%),
+    linear-gradient(90deg, rgba(4, 8, 14, 0.62) 0%, rgba(4, 8, 14, 0.18) 54%, rgba(4, 8, 14, 0.09) 100%),
+    linear-gradient(180deg, rgba(2, 5, 10, 0.28) 0%, rgba(4, 10, 18, 0.62) 100%) !important;
+}
+
+html.page-abonnement[data-theme="blue"] .sub-integrated::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(95% 70% at 10% 12%, rgba(34, 211, 238, 0.12) 0%, transparent 58%),
+    radial-gradient(75% 55% at 88% 18%, rgba(59, 130, 246, 0.08) 0%, transparent 52%),
+    linear-gradient(90deg, rgba(4, 14, 28, 0.52) 0%, rgba(3, 12, 24, 0.14) 54%, rgba(2, 8, 18, 0.07) 100%),
+    linear-gradient(180deg, rgba(2, 6, 14, 0.18) 0%, rgba(4, 14, 28, 0.56) 100%) !important;
+}
+
+/* Top/nav must match theme too */
+html.page-abonnement[data-theme="dark"] #skimoHeroNav,
+html.page-abonnement[data-theme="dark"] nav.index-clone-nav {
+  /* Samme “gennemsigtig” command bar som grå: ingen flad baggrund */
+  background: transparent !important;
+  box-shadow: none !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+html.page-abonnement[data-theme="blue"] #skimoHeroNav,
+html.page-abonnement[data-theme="blue"] nav.index-clone-nav {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+html.page-abonnement[data-theme="dark"] #skimoHeroNav a,
+html.page-abonnement[data-theme="blue"] #skimoHeroNav a,
+html.page-abonnement[data-theme="dark"] #skimoHeroNav .hero-search,
+html.page-abonnement[data-theme="blue"] #skimoHeroNav .hero-search,
+html.page-abonnement[data-theme="dark"] #skimoHeroNav .lang-current,
+html.page-abonnement[data-theme="blue"] #skimoHeroNav .lang-current {
+  color: rgba(232, 245, 252, 0.96) !important;
+}
+
+html.page-abonnement[data-theme="dark"] #skimoHeroNav .lang-popover,
+html.page-abonnement[data-theme="dark"] .skimo-theme-popover {
+  background: rgba(6, 9, 13, 0.70) !important;
+  border-color: rgba(191, 222, 235, 0.12) !important;
+}
+
+html.page-abonnement[data-theme="blue"] #skimoHeroNav .lang-popover,
+html.page-abonnement[data-theme="blue"] .skimo-theme-popover {
+  background: rgba(22, 52, 78, 0.55) !important;
+  border-color: rgba(170, 210, 245, 0.35) !important;
+}
+
+/* guide.html: lys baggrund kommer fra egne pseudo-lag — ikke tema-body */
+html.guide-surface.page-abonnement[data-theme="blue"] body {
+  background: transparent !important;
+}

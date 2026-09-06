@@ -1,0 +1,7 @@
+# Valgfri fuld Minecraft-klient probe:
+# 1. Installer Prism Launcher.
+# 2. Opret en ren test-instans med samme Minecraft/loader som dine mods.
+# 3. Skriv instansens mappe-id i filen modguard_prism_client_probe.txt.
+#
+# Eksempel:
+# ModGuard-Probe-1.20.1-Fabric

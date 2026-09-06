@@ -1,0 +1,29 @@
+Sådan sikrer du at internettet viser den NYE version (ikke gammel cache)
+=======================================================================
+
+1) Før du uploader til modguard.dk (eller andet host)
+   - Redigér evt. kode
+   - Øg nummeret i filen:  deploy/VERSION
+     (fx 20260327-1 → 20260327-2)
+
+2) Kør i Terminal (i Dashboard-mappen):
+   bash deploy/apply-asset-version.sh
+
+   Det opdaterer automatisk ?v=... i alle .html så browsere og CDN får nye
+   adresser til i18n.js, chatbot, CSS og hq-enhance.js.
+
+3) Upload ALT til webroden
+   - index.html, abonnement.html, install.html, osv.
+   - mappen assets/ (hele mappen — især i18n.js og skimo-ai-assistant.js)
+   - _headers (Netlify) eller tilsvarende cache-regler på dit host
+   - video-mapper: NoCopyrightVid/, Videoer/, Guide/ hvis du har ændret dem
+
+4) Hvis du bruger Cloudflare eller anden CDN
+   - Kør "Purge cache" / "Ryd cache" for dit domæne én gang efter upload.
+
+5) Tjek i browser
+   - Hård genindlæsning: Cmd+Shift+R (Mac) eller Ctrl+Shift+R (Windows)
+   - Eller åbn siden i et privat vindue.
+
+Filen _headers sætter nu "no-cache" på /assets/* så serveren altid må
+afgøre om filen er ny — sammen med nyt ?v= er du dækket ind.

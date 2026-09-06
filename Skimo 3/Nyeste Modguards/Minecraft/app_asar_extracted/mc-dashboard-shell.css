@@ -1,0 +1,609 @@
+/* Dashboard shell — Sims layout, Minecraft green theme */
+.card.dashboard-mode .mc-app-header,
+.card.dashboard-mode > .sub {
+  display: none;
+}
+
+#dashboardView.dashboard-shell.active {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--chrome-deep);
+  min-height: 520px;
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 10px;
+  background:
+    repeating-conic-gradient(rgba(255, 255, 255, 0.02) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px,
+    linear-gradient(180deg, rgba(90, 163, 32, 0.08) 0%, transparent 42%),
+    var(--surface);
+  border-right: 2px solid var(--mc-border-dim);
+  min-height: 0;
+  overflow: auto;
+}
+
+.dashboard-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 900;
+  font-family: "VT323", monospace;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-nav-brand .nav-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #7dcc2a, #3a7214);
+  border: 2px solid var(--mc-border);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.dashboard-nav-item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.dashboard-nav-item:hover {
+  background: rgba(90, 163, 32, 0.12);
+  color: var(--text);
+  border-color: var(--mc-border-dim);
+}
+
+.dashboard-nav-item.active {
+  background: linear-gradient(180deg, rgba(125, 204, 42, 0.35), rgba(58, 114, 20, 0.5));
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.dashboard-nav-item .nav-badge {
+  margin-left: auto;
+  min-width: 20px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0a1206;
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.dashboard-nav-scanner {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(92, 216, 122, 0.1);
+  border: 2px solid rgba(92, 216, 122, 0.28);
+  font-size: 11px;
+  color: var(--ok);
+}
+
+.dashboard-nav-scanner strong {
+  display: block;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.dashboard-nav-scanner small {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.scanner-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--ok);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.dashboard-workspace {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--chrome-deep);
+}
+
+.hub-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--mc-border-dim);
+  flex: 0 0 auto;
+}
+
+.hub-toolbar.downloads-only,
+.hub-toolbar.outdated-only,
+.hub-message {
+  display: none;
+}
+
+#dashboardView[data-active-tab="downloads"] .hub-toolbar.downloads-only,
+#dashboardView[data-active-tab="outdated"] .hub-toolbar.outdated-only {
+  display: flex;
+}
+
+#dashboardView[data-active-tab="search"] .hub-toolbar,
+#dashboardView[data-active-tab="search"] .hub-message,
+#dashboardView[data-active-tab="forum"] .hub-toolbar,
+#dashboardView[data-active-tab="favorites"] .hub-toolbar,
+#dashboardView[data-active-tab="profile"] .hub-toolbar {
+  display: none !important;
+}
+
+.hub-page {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+}
+
+#dashboardView[data-active-tab="antivirus"] .antivirus-only,
+#dashboardView[data-active-tab="search"] .search-only,
+#dashboardView[data-active-tab="downloads"] .downloads-only,
+#dashboardView[data-active-tab="favorites"] .favorites-only,
+#dashboardView[data-active-tab="forum"] .forum-only,
+#dashboardView[data-active-tab="outdated"] .outdated-only,
+#dashboardView[data-active-tab="profile"] .profile-only {
+  display: flex;
+  flex-direction: column;
+}
+
+#dashboardView[data-active-tab="search"] .hub-page.search-only {
+  padding: 0;
+  overflow: hidden;
+}
+
+.hub-title {
+  margin: 0 0 4px;
+  font-family: "VT323", monospace;
+  font-size: 28px;
+  color: var(--accent-bright);
+  letter-spacing: 0.5px;
+}
+
+.hub-sub {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Onboarding */
+.onboarding-view.active {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  min-height: min(660px, calc(100vh - 78px));
+  border-radius: 4px;
+  background:
+    repeating-conic-gradient(rgba(255, 255, 255, 0.02) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px,
+    linear-gradient(135deg, rgba(90, 163, 32, 0.2), transparent 42%),
+    var(--bg);
+  overflow: hidden;
+}
+
+.onboard-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboard-slide {
+  display: none;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  animation: mcSoftIn 420ms ease both;
+}
+
+.onboard-slide.active {
+  display: grid;
+}
+
+@keyframes mcSoftIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.onboard-slide img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid var(--mc-border-dim);
+}
+
+.onboard-slide h2 {
+  margin: 0;
+  font-family: "VT323", monospace;
+  font-size: 26px;
+  color: var(--accent-bright);
+}
+
+.onboard-slide p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.onboard-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.onboard-dots {
+  display: inline-flex;
+  gap: 7px;
+}
+
+.onboard-dots button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.26);
+  cursor: pointer;
+}
+
+.onboard-dots button.active {
+  background: var(--accent-bright);
+}
+
+/* ModSearch — grid cards */
+.modsearch-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modsearch-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-bottom: 2px solid var(--mc-border-dim);
+}
+
+.modsearch-header .search-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.modsearch-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 248px;
+  overflow: hidden;
+}
+
+.modsearch-center {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+}
+
+.modsearch-filters {
+  border-left: 2px solid var(--mc-border-dim);
+  padding: 12px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modsearch-filters label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.search-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mode-toggle {
+  padding: 6px 12px;
+  border-radius: 3px;
+  border: 2px solid var(--mc-border-dim);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.mode-toggle.active {
+  border-color: var(--accent);
+  background: rgba(90, 163, 32, 0.25);
+  color: var(--accent-bright);
+}
+
+.browser-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 280px;
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+}
+
+.browser-empty strong {
+  font-family: "VT323", monospace;
+  font-size: 22px;
+  color: var(--accent-bright);
+}
+
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mod-card {
+  position: relative;
+  border-radius: 4px;
+  border: 2px solid var(--mc-border-dim);
+  background: var(--surface);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.mod-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.mod-card-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #0d1408 center/cover no-repeat;
+}
+
+.mod-card-fav {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mod-card-fav.is-fav {
+  background: rgba(224, 80, 80, 0.85);
+  border-color: #ff6b6b;
+}
+
+.mod-card-body {
+  padding: 10px 12px 12px;
+}
+
+.mod-card-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mod-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.mod-card-tag {
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgba(90, 163, 32, 0.18);
+  border: 1px solid rgba(90, 163, 32, 0.35);
+  color: var(--accent-bright);
+}
+
+.mod-grid-skeleton {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mod-card-skeleton {
+  height: 220px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--surface) 0%, var(--surface-soft) 50%, var(--surface) 100%);
+  background-size: 200% 100%;
+  animation: mcShimmer 1.2s infinite;
+}
+
+@keyframes mcShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* Favorites */
+.favorites-header h1 {
+  margin: 0;
+  font-family: "VT323", monospace;
+  font-size: 26px;
+  color: var(--accent-bright);
+}
+
+.favorites-search {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 2px solid var(--mc-border-dim);
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Forum */
+.forum-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.forum-filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.forum-filter-row button {
+  padding: 7px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--surface);
+  color: var(--muted);
+  border: 2px solid var(--mc-border-dim);
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.forum-filter-row button.active {
+  background: rgba(90, 163, 32, 0.3);
+  border-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+.forum-feed {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.forum-origin-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.forum-origin-btn {
+  padding: 7px 12px;
+  border-radius: 3px;
+  border: 2px solid var(--mc-border-dim);
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.forum-origin-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+/* Profile / settings compact */
+.settings-header h1 {
+  margin: 0;
+  font-family: "VT323", monospace;
+  font-size: 26px;
+  color: var(--accent-bright);
+}
+
+@media (max-width: 960px) {
+  #dashboardView.dashboard-shell.active {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-nav {
+    display: none;
+  }
+  .modsearch-body {
+    grid-template-columns: 1fr;
+  }
+  .modsearch-filters {
+    display: none;
+  }
+}

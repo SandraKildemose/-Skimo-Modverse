@@ -1,0 +1,81 @@
+{
+  "_comment": "ModGuard update manifest — host this at https://modguard.dk/api/updates/manifest",
+  "_howto": "Bump version, upload new .dmg/.exe, update sha256 and fileName, re-host this file.",
+  "updatedAt": "2026-05-23T10:00:00Z",
+  "products": {
+    "modguards": {
+      "_name": "Sims ModGuard",
+      "version": "1.1.0",
+      "releaseNotes": "Wicked Whims support, 13 nye kategori-knapper, bedre quiz med 3 resultater og billeder, voksen-indhold gating, 80+ seed-items.",
+      "download": {
+        "darwin-arm64": {
+          "url": "https://modguard.dk/downloads/sims-modguard-1.1.0-arm64.dmg",
+          "fileName": "sims-modguard-1.1.0-arm64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "darwin-x64": {
+          "url": "https://modguard.dk/downloads/sims-modguard-1.1.0-x64.dmg",
+          "fileName": "sims-modguard-1.1.0-x64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "mac": {
+          "url": "https://modguard.dk/downloads/sims-modguard-1.1.0-arm64.dmg",
+          "fileName": "sims-modguard-1.1.0-arm64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "win32": {
+          "url": "https://modguard.dk/downloads/sims-modguard-1.1.0-setup.exe",
+          "fileName": "sims-modguard-1.1.0-setup.exe",
+          "sha256": "",
+          "size": 0
+        },
+        "windows": {
+          "url": "https://modguard.dk/downloads/sims-modguard-1.1.0-setup.exe",
+          "fileName": "sims-modguard-1.1.0-setup.exe",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    },
+    "modguard": {
+      "_name": "Minecraft ModGuard",
+      "version": "1.1.0",
+      "releaseNotes": "Ny quiz med 5 spørgsmål og scenarier, 3 resultater med billeder, bedre kategorier og performance.",
+      "download": {
+        "darwin-arm64": {
+          "url": "https://modguard.dk/downloads/mc-modguard-1.1.0-arm64.dmg",
+          "fileName": "mc-modguard-1.1.0-arm64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "darwin-x64": {
+          "url": "https://modguard.dk/downloads/mc-modguard-1.1.0-x64.dmg",
+          "fileName": "mc-modguard-1.1.0-x64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "mac": {
+          "url": "https://modguard.dk/downloads/mc-modguard-1.1.0-arm64.dmg",
+          "fileName": "mc-modguard-1.1.0-arm64.dmg",
+          "sha256": "",
+          "size": 0
+        },
+        "win32": {
+          "url": "https://modguard.dk/downloads/mc-modguard-1.1.0-setup.exe",
+          "fileName": "mc-modguard-1.1.0-setup.exe",
+          "sha256": "",
+          "size": 0
+        },
+        "windows": {
+          "url": "https://modguard.dk/downloads/mc-modguard-1.1.0-setup.exe",
+          "fileName": "mc-modguard-1.1.0-setup.exe",
+          "sha256": "",
+          "size": 0
+        }
+      }
+    }
+  }
+}

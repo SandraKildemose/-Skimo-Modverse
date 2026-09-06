@@ -1,0 +1,738 @@
+/* ModGuard FAQ hub + per-game pages (shared with modguard-faq*.html) */
+
+html.page-abonnement body.faq-game-page {
+    background: #05080d !important;
+}
+
+/* —— Nav (samme som tidligere inline på modguard-faq) —— */
+.index-clone-header {
+    display: none !important;
+}
+.index-clone-nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: rgba(31, 44, 52, 0.94) !important;
+    padding: 16.5px 20px !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24) !important;
+    border-top: 1px solid rgba(143, 180, 192, 0.14) !important;
+    border-bottom: 1px solid rgba(143, 180, 192, 0.14) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+.index-clone-nav .nav-left,
+.index-clone-nav .nav-right {
+    display: flex !important;
+    align-items: center !important;
+}
+.index-clone-nav .nav-left {
+    gap: 20px !important;
+}
+.index-clone-nav .nav-right {
+    flex-wrap: wrap !important;
+}
+.index-clone-nav a {
+    text-decoration: none !important;
+    color: rgba(245, 248, 251, 0.84) !important;
+    font-size: 16px !important;
+    margin: 0 10px !important;
+    padding: 10px !important;
+    transition: all 0.15s ease !important;
+    position: relative !important;
+    text-shadow: none !important;
+}
+.index-clone-nav a:hover {
+    color: #8fb4c0 !important;
+    text-shadow: 0 0 10px rgba(143, 180, 192, 0.4) !important;
+}
+.index-clone-nav a::before {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -5px !important;
+    left: 0 !important;
+    width: 0 !important;
+    height: 2px !important;
+    background: #8fb4c0 !important;
+    transition: width 0.09s ease !important;
+}
+.index-clone-nav a:hover::before {
+    width: 100% !important;
+}
+#skimoHeroNav {
+    background: transparent !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    min-height: 74px;
+    gap: 18px;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1001 !important;
+    box-shadow: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+#skimoHeroNav .nav-left,
+#skimoHeroNav .nav-right {
+    min-width: 160px;
+}
+#skimoHeroNav .nav-left {
+    position: relative;
+    isolation: isolate;
+}
+#skimoHeroNav .hero-logo-shine {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+#skimoHeroNav .hero-logo-shine::after {
+    content: none;
+}
+#skimoHeroNav .nav-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+#skimoHeroNav .hero-brand-logo {
+    display: inline-block;
+    width: 72px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.35));
+    position: relative;
+    z-index: 2;
+}
+#skimoHeroNav .hero-brand-logo.shine-pass {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    filter: brightness(3.1) saturate(1.45);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+    animation: skimoLogoShinePass 3.1s ease-in-out infinite;
+    z-index: 3;
+}
+@keyframes skimoLogoShinePass {
+    0%, 18% {
+        opacity: 0;
+        clip-path: polygon(-34% 0, -6% 0, 16% 100%, -12% 100%);
+    }
+    24% {
+        opacity: 1;
+    }
+    38% {
+        opacity: 0;
+        clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+    }
+    100% {
+        opacity: 0;
+        clip-path: polygon(90% 0, 118% 0, 140% 100%, 112% 100%);
+    }
+}
+#skimoHeroNav .nav-center a {
+    font-size: 17px !important;
+    letter-spacing: 0.01em;
+    color: var(--skimo-pick-blue, #4a9fdf) !important;
+    padding: 10px 12px !important;
+    text-transform: none;
+    font-weight: 600;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
+}
+#skimoHeroNav .nav-center a:hover {
+    color: var(--skimo-pick-grey, #8d98a6) !important;
+    text-shadow: none !important;
+}
+#skimoHeroNav .nav-center a[aria-current="page"] {
+    color: var(--skimo-pick-black, #07090c) !important;
+    font-weight: 800 !important;
+}
+#skimoHeroNav .nav-center a:hover::before {
+    background: var(--skimo-pick-grey, #8d98a6) !important;
+}
+#skimoHeroNav .nav-center a[aria-current="page"]::before {
+    background: var(--skimo-pick-black, #07090c) !important;
+    width: 100% !important;
+}
+#skimoHeroNav .hero-search {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--skimo-pick-blue, #4a9fdf);
+    font-size: 16px;
+    background: transparent;
+    transition: color 0.15s ease;
+    cursor: pointer;
+}
+#skimoHeroNav .hero-search:hover {
+    color: var(--skimo-pick-grey, #8d98a6);
+}
+#skimoHeroNav .hero-search::before {
+    content: none !important;
+}
+#skimoHeroNav a.nav-logo-link {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none;
+    text-decoration: none;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+}
+#skimoHeroNav a.nav-logo-link::before {
+    display: none !important;
+}
+.lang-switcher {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: -18px;
+}
+.lang-current {
+    border: none !important;
+    background: transparent !important;
+    color: var(--skimo-pick-blue, #4a9fdf) !important;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0 !important;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+.lang-current:hover {
+    color: var(--skimo-pick-grey, #8d98a6) !important;
+}
+.lang-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px solid rgba(191, 222, 235, 0.1);
+    background: rgba(8, 12, 18, 0.34);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(8px);
+    z-index: 8;
+}
+.lang-popover[hidden] {
+    display: none;
+}
+.lang-choice {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(74, 159, 223, 0.45);
+    background: rgba(74, 159, 223, 0.08);
+    color: var(--skimo-pick-blue, #4a9fdf);
+    cursor: pointer;
+    font-weight: 700;
+    transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.lang-choice:hover {
+    color: var(--skimo-pick-grey, #8d98a6);
+    border-color: rgba(141, 152, 166, 0.55);
+    background: rgba(141, 152, 166, 0.1);
+}
+.lang-choice.active {
+    border-color: var(--skimo-pick-black, #07090c);
+    background: var(--skimo-pick-black, #07090c);
+    color: #f4f8fc;
+}
+body.nav-idle .index-clone-nav {
+    opacity: 0 !important;
+    transform: translateY(-120%) !important;
+    pointer-events: none !important;
+}
+@media (max-width: 1100px) {
+    #skimoHeroNav {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 12px !important;
+    }
+    #skimoHeroNav .nav-left,
+    #skimoHeroNav .nav-right,
+    #skimoHeroNav .nav-center {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* FAQ grå side: ingen tema-blå i topbaren — altid lys tekst (alle temaer) */
+body.guide-page.faq-hub-page #skimoHeroNav .nav-center a {
+    color: rgba(255, 255, 255, 0.92) !important;
+    text-shadow: none !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .nav-center a:hover {
+    color: #ffffff !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .nav-center a:hover::before {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .nav-center a[aria-current="page"] {
+    color: #ffffff !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .nav-center a[aria-current="page"]::before {
+    background: rgba(255, 255, 255, 0.75) !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .hero-search {
+    color: rgba(255, 255, 255, 0.88) !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .hero-search:hover {
+    color: #ffffff !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .lang-current {
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+body.guide-page.faq-hub-page #skimoHeroNav .lang-current:hover {
+    color: #ffffff !important;
+}
+
+/* —— FAQ-hub (under guide-story): søg + 4×4 + dialog —— */
+body.guide-page.faq-hub-page .faq-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+body.guide-page.faq-hub-page .faq-hub-lower {
+    /* Samme grundton som guide/FAQ-body (#404244) */
+    background: #404244;
+    padding: 36px 0 72px;
+    box-sizing: border-box;
+}
+body.guide-page.faq-hub-page .faq-hub-lower-inner {
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+body.guide-page.faq-hub-page .faq-hub-search-wrap {
+    max-width: 640px;
+    margin: 0 auto 28px;
+}
+body.guide-page.faq-hub-page .faq-rstar-search {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 22px;
+    height: 54px;
+    border-radius: 9999px;
+    background: #4a4d52;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+body.guide-page.faq-hub-page .faq-rstar-search-mag {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid rgba(230, 236, 242, 0.45);
+    border-radius: 999px;
+    box-sizing: border-box;
+    position: relative;
+    opacity: 0.85;
+}
+body.guide-page.faq-hub-page .faq-rstar-search-mag::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background: rgba(230, 236, 242, 0.45);
+    border-radius: 1px;
+    right: -4px;
+    bottom: -2px;
+    transform: rotate(45deg);
+}
+body.guide-page.faq-hub-page .faq-rstar-search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-size: 1.02rem;
+    color: #f0f4f8;
+    outline: none;
+    cursor: text;
+}
+body.guide-page.faq-hub-page .faq-rstar-search-input::placeholder {
+    color: rgba(240, 244, 248, 0.42);
+}
+body.guide-page.faq-hub-page .faq-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+body.guide-page.faq-hub-page .faq-tile-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-height: 104px;
+    padding: 14px 12px;
+    box-sizing: border-box;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    color: #fff;
+    background: #3a3d41;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+body.guide-page.faq-hub-page .faq-tile-btn:hover {
+    background: #45484d;
+    border-color: rgba(110, 196, 232, 0.95);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(110, 196, 232, 0.35);
+    transform: translateY(-2px);
+}
+body.guide-page.faq-hub-page .faq-tile-btn:focus-visible {
+    outline: 2px solid rgba(110, 196, 232, 0.95);
+    outline-offset: 2px;
+}
+body.guide-page.faq-hub-page .faq-tile-num {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: rgba(143, 180, 192, 0.88);
+}
+body.guide-page.faq-hub-page .faq-tile-title {
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #f6fbfd;
+}
+body.guide-page.faq-hub-page .faq-tile-sub {
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: rgba(235, 242, 248, 0.55);
+}
+body.guide-page.faq-hub-page .faq-hub-dialog {
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100dvh;
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+body.guide-page.faq-hub-page .faq-hub-dialog::backdrop {
+    background: rgba(32, 33, 35, 0.82);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-panel {
+    position: relative;
+    width: min(520px, calc(100vw - 32px));
+    max-height: min(78vh, 640px);
+    overflow: auto;
+    padding: 28px 24px 24px;
+    box-sizing: border-box;
+    background: #3d4044;
+    color: rgba(244, 248, 252, 0.92);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-title {
+    margin: 0 44px 14px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #fff;
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-body {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(240, 240, 240, 0.88);
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-body p {
+    margin: 0 0 12px;
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-body p:last-child {
+    margin-bottom: 0;
+}
+body.guide-page.faq-hub-page .faq-hub-dialog-body strong {
+    color: #fff;
+    font-weight: 700;
+}
+@media (max-width: 900px) {
+    body.guide-page.faq-hub-page .faq-tile-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 520px) {
+    body.guide-page.faq-hub-page .faq-tile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* —— Spil-FAQ: accordion —— */
+body.faq-game-page .faq-accordions {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+body.faq-game-page .faq-details {
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.22);
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: outline-color 0.15s ease, box-shadow 0.15s ease;
+}
+body.faq-game-page .faq-details[open] {
+    outline-color: rgba(143, 180, 192, 0.28);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+body.faq-game-page .faq-details summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: rgba(245, 248, 251, 0.96);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+}
+body.faq-game-page .faq-details summary::-webkit-details-marker {
+    display: none;
+}
+body.faq-game-page .faq-details summary::after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid rgba(255, 255, 255, 0.45);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.45);
+    transform: rotate(45deg);
+    transition: transform 0.22s ease;
+    flex-shrink: 0;
+    margin-top: -4px;
+}
+body.faq-game-page .faq-details[open] summary::after {
+    transform: rotate(225deg);
+    margin-top: 2px;
+}
+body.faq-game-page .faq-details-body {
+    padding: 0 18px 18px;
+    color: rgba(245, 248, 251, 0.86);
+    font-size: 14px;
+    line-height: 1.55;
+}
+body.faq-game-page .faq-details-body ul {
+    margin: 0;
+    padding-left: 1.15em;
+}
+body.faq-game-page .faq-details-body li + li {
+    margin-top: 6px;
+}
+body.faq-game-page .faq-tap-hint {
+    margin: 10px 0 0;
+    font-size: 0.88rem;
+    color: rgba(237, 243, 246, 0.72);
+    max-width: 42ch;
+}
+
+/* —— Per-spil helside —— */
+body.faq-game-page .faq-game-hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding: 100px 20px 48px;
+}
+body.faq-game-page .faq-game-hero--static {
+    background: radial-gradient(ellipse 80% 70% at 30% 30%, rgba(74, 159, 223, 0.18), transparent 55%), #0a1018;
+}
+body.faq-game-page .faq-game-hero--morebg {
+    background: #05080d;
+}
+body.faq-game-page .faq-game-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(1.1) contrast(1.06) brightness(0.82);
+}
+body.faq-game-page .faq-game-hero-moreimg {
+    position: absolute;
+    inset: 0;
+    background-image: url('../Billeder/Guide/8.png');
+    background-size: cover;
+    background-position: center;
+    filter: saturate(1.05) brightness(0.42);
+}
+body.faq-game-page .faq-game-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(2, 4, 8, 0.25) 0%, rgba(2, 4, 8, 0.55) 55%, rgba(2, 4, 8, 0.82) 100%),
+        linear-gradient(90deg, rgba(2, 6, 12, 0.55) 0%, rgba(2, 6, 12, 0.2) 50%, rgba(2, 6, 12, 0.08) 100%);
+}
+body.faq-game-page .faq-game-hero-inner {
+    position: relative;
+    z-index: 2;
+    width: min(1040px, 100%);
+    margin: 0 auto;
+}
+body.faq-game-page .faq-back {
+    display: inline-block;
+    margin-bottom: 14px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #9fd4ea;
+    text-decoration: none;
+}
+body.faq-game-page .faq-back:hover {
+    text-decoration: underline;
+}
+body.faq-game-page .faq-game-hero h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    color: #f7fbfd;
+    text-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    max-width: 12ch;
+}
+body.faq-game-page .faq-game-deck {
+    margin: 0;
+    max-width: 48ch;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 1.55;
+    color: rgba(237, 243, 246, 0.9);
+}
+body.faq-game-page .faq-game-ground {
+    background: #404244;
+    padding: 20px 0 56px;
+}
+body.faq-game-page .faq-game-ground .guide-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: min(1240px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+body.faq-game-page .faq-game-ground .guide-step-card {
+    margin: 0;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.18);
+    outline: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+}
+body.faq-game-page .faq-game-ground .guide-step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 10px;
+}
+body.faq-game-page .faq-game-ground .guide-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(143, 180, 192, 0.14);
+    outline: 1px solid rgba(143, 180, 192, 0.22);
+    color: #ffffff;
+    font-weight: 800;
+}
+body.faq-game-page .faq-game-ground .guide-step-title {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    color: rgba(245, 248, 251, 0.96);
+}
+body.faq-game-page .faq-game-ground .guide-step-desc,
+body.faq-game-page .faq-game-ground .guide-step-body {
+    margin: 0;
+    color: rgba(245, 248, 251, 0.84);
+    line-height: 1.5;
+    font-size: 14px;
+}
+body.faq-game-page .faq-game-ground .guide-step-card ul {
+    margin: 0;
+    padding-left: 1.15em;
+    color: rgba(245, 248, 251, 0.86);
+    line-height: 1.5;
+    font-size: 14px;
+}
+body.faq-game-page .faq-game-ground .guide-step-card li + li {
+    margin-top: 6px;
+}
+body.faq-game-page .faq-game-ground a {
+    color: #9fd4ea;
+}
+body.faq-game-page .faq-game-ground a:hover {
+    text-decoration: underline;
+}
+@media (max-width: 980px) {
+    body.faq-game-page .faq-game-ground .guide-steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

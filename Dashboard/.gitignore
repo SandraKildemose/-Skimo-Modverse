@@ -1,0 +1,10 @@
+# Do not version or publish app bundles / scratch build dirs with ModGuard or API-related code.
+Modguards/
+.tmp_*/
+.tmp_verify_*/
+.tmp_asar_*/
+.tmp_verify_sims*/
+.tmp_verify_minecraft*/
+.DS_Store
+*.log
+node_modules/

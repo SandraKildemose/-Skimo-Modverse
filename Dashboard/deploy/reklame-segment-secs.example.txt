@@ -1,0 +1,15 @@
+# Kopiér til reklame-segment-secs.txt og justér (12 linjer, sum ≈ MP3-længde).
+# Rækkefølge: titel1, titel2, dashboard, guide, spil1 … spil8
+# Hvert spil-tal er ÉN blok: kort matrix-intro (ca. SKIMO_GAME_INTRO_SEC) + gameplay.
+4
+3
+15
+8
+6
+6
+6
+6
+6
+6
+6
+6
