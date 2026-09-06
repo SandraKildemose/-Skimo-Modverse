@@ -22,6 +22,8 @@ Projektet har ogsaa vaeret en del af arbejde med funding, pitch og videreudvikli
 
 Dette repository viser en blandet proces: Jeg har promptet til sparring, arbejdet videre selv, kodet, debugget og gennemset koden. Det er derfor lagt op som et lokalt udviklet projekt med det faerdige produkt, relevante kildefiler og forklarende dokumentation.
 
+Projektet er bygget lokalt og har undervejs vaeret gemt paa en ekstern harddisk. Derfor afspejler GitHub-repository'et ikke hele den lokale udviklingshistorik med mange commits, men fungerer som en samlet upload af den faerdige version.
+
 ## Note om build-filer
 
 Store app-builds, zip-filer, midlertidige videofiler og tredjeparts mod-pakker er ikke lagt i Git, fordi de enten er build-output, meget store filer eller eksternt materiale. Repository'et fokuserer paa kildekoden, hjemmesiden, dokumentationen og egne assets.
