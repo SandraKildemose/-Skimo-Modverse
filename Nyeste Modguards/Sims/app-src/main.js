@@ -6308,3 +6308,5 @@ ipcMain.handle("vt-test-key", async () => {
     return { ok: false, error: `Forbindelsesfejl: ${msg}` };
   }
 });
+
+// . codex-test-skimo-01
